@@ -1,0 +1,1128 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sổ thực tập FRT – Gia Khôi</title>
+<meta name="description" content="Sổ thực tập bán hàng tại FRT: case, câu hỏi B1–B4, thuật ngữ, nhật ký và theo dõi của mentor.">
+<meta name="theme-color" content="#1f6f5c">
+<meta name="robots" content="noindex, nofollow">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sổ thực tập">
+<style>
+:root{
+  --bg:#f6f4ef; --panel:#ffffff; --ink:#1f2328; --muted:#646b73; --line:#e3ded4;
+  --accent:#1f6f5c; --accent-soft:#e3f0ec; --warn:#b5541b; --warn-soft:#fbeee4;
+  --ok:#2e7d32; --chip:#efece6; --input:#fffdf9; --shadow:0 1px 2px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#15181b; --panel:#1d2125; --ink:#e6e3dc; --muted:#9aa0a6; --line:#30353b;
+    --accent:#5cc2a6; --accent-soft:#1f3a33; --warn:#f0a26b; --warn-soft:#3a2a1f;
+    --ok:#7bc67e; --chip:#2a2f34; --input:#181c20; --shadow:none;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+a{color:var(--accent)}
+.app{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}
+aside{background:var(--panel);border-right:1px solid var(--line);padding:18px 14px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{font-weight:700;font-size:16px;margin:0 0 2px}
+.brand-sub{color:var(--muted);font-size:13px;margin-bottom:16px}
+nav a{display:block;padding:8px 10px;border-radius:8px;text-decoration:none;color:var(--ink);margin-bottom:2px}
+nav a small{display:block;color:var(--muted);font-size:12px}
+nav a.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
+nav .sep{height:1px;background:var(--line);margin:10px 4px}
+main{padding:0 28px 80px;max-width:1000px;width:100%;min-width:0}
+.topbar{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;gap:8px;align-items:center;justify-content:flex-end;padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:18px;flex-wrap:wrap}
+.topbar .status{margin-right:auto;color:var(--muted);font-size:13px}
+.menu-btn{display:none}
+button,.btn{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button.ghost{background:transparent}
+button.small{padding:3px 8px;font-size:13px}
+button:disabled{opacity:.5;cursor:default}
+h1{font-size:24px;margin:6px 0 4px}
+h2{font-size:19px;margin:28px 0 8px;padding-top:6px}
+h3{font-size:16px;margin:20px 0 6px}
+.lead{color:var(--muted);margin-top:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0;box-shadow:var(--shadow)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.stat{font-size:26px;font-weight:700}
+.muted{color:var(--muted)}
+.chip{display:inline-block;background:var(--chip);border-radius:999px;padding:1px 9px;font-size:12px;margin-right:4px;color:var(--muted)}
+.chip.due{background:var(--warn-soft);color:var(--warn)}
+.chip.done{background:var(--accent-soft);color:var(--accent)}
+.bar{height:8px;background:var(--chip);border-radius:99px;overflow:hidden;margin-top:6px}
+.bar > i{display:block;height:100%;background:var(--accent)}
+.q{margin:14px 0 18px}
+.q label{display:block;font-weight:500;margin-bottom:6px}
+.tag{display:inline-block;font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:4px;padding:0 5px;margin-right:3px;vertical-align:1px}
+textarea,input[type=text],input[type=date],input[type=password],select{width:100%;font:inherit;font-size:14px;color:var(--ink);background:var(--input);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+textarea{min-height:76px;resize:vertical;line-height:1.55}
+textarea:focus,input:focus,select:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+.reading{border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;padding:10px 14px;margin:8px 0 14px}
+.reading p{margin:4px 0}
+.part-title{font-weight:700;margin:18px 0 4px}
+table.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl-wrap{overflow-x:auto;margin:8px 0}
+table.tbl th,table.tbl td{border:1px solid var(--line);padding:6px 8px;vertical-align:top;text-align:left}
+table.tbl th{background:var(--chip);font-weight:600}
+table.tbl td textarea,table.tbl td input,table.tbl td select{min-height:38px;border:none;background:transparent;padding:4px;border-radius:4px}
+table.tbl td textarea{min-height:44px}
+table.tbl td.static{background:var(--bg);min-width:140px}
+.row-actions{display:flex;gap:6px;margin-top:6px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:50;max-width:90vw}
+.toast.show{opacity:1}
+.search-hit{border-bottom:1px solid var(--line);padding:10px 0}
+.search-hit:last-child{border-bottom:none}
+mark{background:var(--warn-soft);color:inherit;padding:0 2px;border-radius:3px}
+.daily-entry{border-bottom:1px solid var(--line);padding:10px 0}
+.daily-entry:last-child{border-bottom:none}
+.weeks{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 16px}
+.weeks button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.weeks button.filled{border-color:var(--accent)}
+.checklist label{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)}
+.checklist input{margin-top:5px;width:auto}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.prose ul{padding-left:20px}
+.mgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.mgrid .card{margin:0}
+.stat+.mlabel,.mlabel{color:var(--muted);font-size:13px}
+.heat{display:grid;grid-template-columns:repeat(28,1fr);gap:4px;margin-top:6px}
+.heat i{aspect-ratio:1;border-radius:3px;background:var(--chip);display:block}
+.heat i.l1{background:var(--accent-soft)}.heat i.l2{background:color-mix(in srgb,var(--accent) 55%,var(--accent-soft))}.heat i.l3{background:var(--accent)}
+.heat-legend{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:4px}
+.day-title{font-weight:700;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px}
+.entry{display:grid;grid-template-columns:58px 1fr;gap:10px;padding:12px 0;border-top:1px solid var(--line)}
+.day-title+.entry{border-top:none}
+.etime{font-variant-numeric:tabular-nums;color:var(--muted);font-size:14px}
+.mchips{display:flex;flex-wrap:wrap;gap:6px}
+.mchip{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:1px 10px;font-size:13px}
+.mchip.edit{background:var(--chip);color:var(--ink)}.mchip.none{background:var(--chip);color:var(--muted)}
+.eactions{display:flex;gap:14px;margin-top:6px;font-size:13px}
+.linkbtn{border:none;background:none;color:var(--accent);padding:0;font-size:13px}
+.mdetail{display:none;margin-top:8px;font-size:14px}.mdetail.open{display:block}
+.mdetail h4{margin:10px 0 4px;font-size:13px;color:var(--muted);font-weight:600}
+.mdetail blockquote{margin:4px 0 8px;padding:6px 10px;border-left:3px solid var(--line);background:var(--bg);border-radius:0 6px 6px 0;white-space:pre-wrap}
+.merr{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:10px 12px;margin:10px 0}
+@media (max-width:820px){.mgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.entry{grid-template-columns:48px 1fr}.heat{gap:2px}}
+@media (max-width:820px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .topbar button{padding:6px 9px;font-size:13px}
+  aside{position:fixed;inset:0 30% 0 0;z-index:40;transform:translateX(-105%);transition:transform .2s;height:100vh;box-shadow:0 0 30px rgba(0,0,0,.25)}
+  aside.open{transform:none}
+  main{padding:0 16px 80px}
+  .menu-btn{display:inline-block}
+  .field-row{grid-template-columns:1fr}
+}
+.gate{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;background:var(--bg);z-index:100}
+.gate-card{width:100%;max-width:360px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px 24px;text-align:center;box-shadow:var(--shadow)}
+.gate-card h1{margin:12px 0 4px}
+.gate-card input[type=password]{margin:14px 0 10px;text-align:center;font-size:16px}
+.gate-remember{display:flex;gap:8px;align-items:center;justify-content:center;font-size:13px;color:var(--muted);margin-bottom:14px}
+.gate-remember input{width:auto}
+.gate-msg{color:var(--warn);font-size:14px;min-height:20px;margin-top:10px}
+@media print{aside,.topbar,.row-actions,button{display:none!important}.app{display:block}textarea{border:none}}
+</style>
+</head>
+<body>
+<div class="gate" id="gate" style="display:none">
+  <div class="gate-card">
+    <img src="icon-192.png" alt="" width="64" height="64" style="border-radius:14px">
+    <h1>Sổ thực tập FRT</h1>
+    <p class="muted" style="margin-top:0">Nhập mật khẩu để vào</p>
+    <input type="password" id="gatePass" autocomplete="current-password" placeholder="Mật khẩu">
+    <label class="gate-remember"><input type="checkbox" id="gateRemember"> Ghi nhớ trên thiết bị này</label>
+    <button class="primary" id="gateBtn" style="width:100%">Vào</button>
+    <div id="gateMsg" class="gate-msg"></div>
+  </div>
+</div>
+<div class="app" style="display:none">
+  <aside id="sidebar">
+    <p class="brand">Sổ thực tập FRT</p>
+    <div class="brand-sub" id="brandSub">Gia Khôi · 12 tuần</div>
+    <nav id="nav"></nav>
+  </aside>
+  <main>
+    <div class="topbar">
+      <button class="menu-btn ghost" id="menuBtn" aria-label="Mở menu">☰</button>
+      <span class="status" id="saveStatus">Chưa có thay đổi</span>
+      <button id="btnExport">Tải file .md</button>
+      <button class="primary" id="btnPush">Lưu lên GitHub</button>
+      <button class="ghost" id="btnLogout">Đăng xuất</button>
+    </div>
+    <div id="view"></div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<input type="file" id="fileImport" accept=".md,.markdown,.txt" hidden>
+
+<script>
+/* =========================================================
+   NỘI DUNG CASE (giáo viên chỉnh sửa tại đây)
+   ========================================================= */
+const READ = {
+  b1:{book:'Christensen, C. M., Hall, T., Dillon, K. & Duncan, D. S. (2016). <i>Competing Against Luck</i>. HarperBusiness.',
+      art:{t:'The "Jobs to Be Done" Theory of Innovation – strategy+business',u:'https://www.strategy-business.com/article/The-Jobs-to-Be-Done-Theory-of-Innovation'}},
+  b2:{book:'Rackham, N. (1988). <i>SPIN Selling</i>. McGraw-Hill.',
+      art:{t:'Why Training Your Employees Will Increase Sales – Knowledge at Wharton',u:'https://knowledge.wharton.upenn.edu/article/why-training-your-employees-will-increase-sales'}},
+  b3:{book:'Osterwalder, A. & Pigneur, Y. (2010). <i>Business Model Generation</i>. Wiley. Tập trung vào các khối Kênh, Đối tác chính, Dòng doanh thu và Cấu trúc chi phí.',
+      art:{t:'12.2 Typical Marketing Channels – giáo trình mở Sales Leadership and Management (eCampusOntario)',u:'https://ecampusontario.pressbooks.pub/salesleadershipmgmt/chapter/12-2-typical-marketing-channels/'}},
+  b4:{book:'Zook, C. (2001). <i>Profit from the Core</i>. Harvard Business School Press.',
+      art:{t:'How to reignite growth through adjacencies – McKinsey & Company',u:'https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/how-to-reignite-growth-through-adjacencies'}}
+};
+const B_META = {
+  b1:{title:'B1 – Hành trình khách hàng',due:4},
+  b2:{title:'B2 – Phễu bán hàng và bán hàng cá nhân B2C',due:8},
+  b3:{title:'B3 – Mô hình kinh doanh và mô hình phân phối',due:10},
+  b4:{title:'B4 – Kiểm định và chuyển giao năng lực',due:12}
+};
+const LEGEND_ACTUAL = '<b>Nhãn câu hỏi:</b> <span class="tag">Q</span> Quan sát · <span class="tag">Đ</span> Đối chiếu với lý thuyết · <span class="tag">A</span> Áp dụng · <span class="tag">P</span> Phản biện';
+const LEGEND_ASSUMED = '<b>Nhãn câu hỏi:</b> <span class="tag">Q</span> Quan sát · <span class="tag">Gđ</span> Giả định · <span class="tag">Đ</span> Đối chiếu với lý thuyết · <span class="tag">A</span> Áp dụng · <span class="tag">P</span> Phản biện';
+
+const CASES = [
+{
+  id:'c1', code:'Case 1', title:'FPT Shop', sub:'Thực tiễn tại nơi thực tập', termTarget:12,
+  intro:`<p>Đây là case chính của đợt thực tập 12 tuần, gắn với nơi em đang làm việc thực tế. Câu trả lời của em là nguyên liệu trực tiếp cho các bài học thuật B1–B4. Hai case còn lại, Long Châu và Thế Giới Di Động, là <b>quan sát giả định</b> để em đối chiếu với thực tiễn ở FPT Shop.</p>
+<p><b>Triết lý:</b> thực tiễn sinh hiểu biết, hiểu biết sinh lý luận, lý luận mở rộng thực tiễn. Em làm và quan sát trước, tự rút ra quy luật, rồi mới đối chiếu với lý thuyết, sau đó áp dụng thử.</p>`,
+  legend:LEGEND_ACTUAL,
+  business:`<p><b>Giới thiệu doanh nghiệp.</b> Công ty Cổ phần Bán lẻ Kỹ thuật số FPT (FRT, niêm yết HOSE) là một trong những doanh nghiệp đầu ngành bán lẻ ICT; công ty mẹ là Tập đoàn FPT (sở hữu 46,5%). FRT có hai chuỗi ICT là FPT Shop và F.Studio với hơn 600 cửa hàng, và từ năm 2018 mở rộng sang dược phẩm với chuỗi FPT Long Châu. FPT Shop bán điện thoại, laptop, máy tính bảng, phụ kiện, điện máy, gia dụng, kèm dịch vụ trả góp, bảo hành mở rộng, thu cũ đổi mới, sửa chữa. F.Studio chuyên sản phẩm Apple.</p>
+<p><b>Tình huống: tinh gọn mạng lưới để tăng hiệu quả.</b></p>
+<ul>
+<li>Số cửa hàng FPT Shop giảm từ 755 (2023) xuống 623 (cuối 2025), còn 621 vào tháng 6/2026.</li>
+<li>Doanh thu bình quân mỗi cửa hàng đạt kỷ lục 2,8 tỷ đồng/tháng trong quý IV/2025, tăng 26% so với cùng kỳ.</li>
+<li>130 cửa hàng đã chuyển sang mô hình 2-in-1, kết hợp ICT với điện máy.</li>
+<li>Mục tiêu 2026: doanh thu 18.500 tỷ đồng (+10%), tối ưu shop hiện có thay vì mở thêm.</li>
+<li>Trong cùng công ty, chuỗi Long Châu đang là nguồn lợi nhuận chính (xem Case 2).</li>
+</ul>
+<p class="muted">Số liệu tính đến tháng 6/2026. Em tự cập nhật số mới nhất từ báo cáo của FRT vào Nhật ký cập nhật.</p>`,
+  schedule:[[1,'Đọc phần doanh nghiệp và tình huống; bắt đầu Sổ thuật ngữ và Nhật ký cập nhật'],[4,'Câu hỏi B1 + Tự soi (bản ngắn)'],[8,'Câu hỏi B2 + Tự soi (bản ngắn)'],[10,'Câu hỏi B3'],[12,'Câu hỏi B4 + Tự soi (bản đầy đủ); hoàn thiện trước Buổi tổng kết']],
+  bs:[
+    {b:'b1', readNote:'Đọc tuần 3. Tóm tắt 1 trang: 3 thuật ngữ chính, giải thích bằng lời của em, 1 ví dụ từ shop.', readSummary:true, parts:[
+      {qs:[
+        ['Q','Ba nhóm khách phổ biến nhất ở shop em là ai? Mỗi nhóm đến để giải quyết "việc" gì?'],
+        ['Q Đ','Hành trình của họ kéo dài bao lâu, qua những điểm chạm nào trước, trong và sau mua? Điểm đau lớn nhất nằm ở đâu?'],
+        ['A','Em đã thử thay đổi gì ở một điểm chạm, và kết quả ra sao?']]}]},
+    {b:'b2', readNote:'Đọc tuần 7. Tóm tắt 1 trang: 3 thuật ngữ chính, giải thích bằng lời của em, 1 ví dụ từ shop.', readSummary:true, parts:[
+      {title:'2a. Phễu bán hàng của em', qs:[
+        ['Q','Phễu bán hàng của em rơi rụng nhiều nhất ở bước nào? Vì sao?'],
+        ['Q Đ','So với một nhân viên bán giỏi ở shop, chênh lệch lớn nhất nằm ở bước nào? Họ hỏi khách những câu gì mà em chưa hỏi? Khi tư vấn điện thoại và laptop, loại câu hỏi SPIN nào hiệu quả nhất?'],
+        ['Q','Doanh thu mỗi shop tăng có thể đến từ nhiều khách hơn, tỷ lệ chốt cao hơn hoặc đơn lớn hơn. Ở shop em, nguồn nào đóng góp nhiều nhất?']]},
+      {title:'2b. Bán hàng cá nhân B2C trong chuỗi bán lẻ', qs:[
+        ['Q','Khi khách đã tìm hiểu kỹ trên mạng trước khi đến shop, vai trò của người bán tại cửa hàng còn là gì? Em đã tạo thêm giá trị gì mà khách không tự tìm được online?'],
+        ['Q P','Trong shop có cả nhân viên của chuỗi và nhân viên do hãng cử đến không? Mỗi người đại diện cho lợi ích của ai: hãng, chuỗi hay khách hàng? Khi các lợi ích này mâu thuẫn, em xử lý thế nào?'],
+        ['Đ','Chuỗi chuẩn hóa quy trình bán (kịch bản, chính sách, KPI). Phần nào của việc bán hàng chuẩn hóa được, phần nào phải dựa vào cá nhân người bán? Vì sao một chuỗi cần cả hai?'],
+        ['Đ P','KPI và thưởng của nhân viên ảnh hưởng thế nào đến cách tư vấn? Có lúc nào KPI kéo người bán đi ngược lợi ích của khách không?'],
+        ['Đ','Bán hàng cá nhân B2C trong một chuỗi lớn khác gì bán hàng ở một cửa hàng nhỏ độc lập, và khác gì bán hàng B2B?']]}]},
+    {b:'b3', readNote:'Đọc tuần 10. Tóm tắt 1 trang: 3 thuật ngữ chính, giải thích bằng lời của em, 1 ví dụ từ shop.', readSummary:true, parts:[
+      {title:'3a. P&L cửa hàng', qs:[
+        ['Q','Trong chi phí của shop, khoản nào cố định, khoản nào thay đổi theo doanh số? Shop cần doanh thu bao nhiêu mỗi tháng để hòa vốn?'],
+        ['Đ','Vì sao đóng bớt cửa hàng lại làm tăng doanh thu bình quân mỗi cửa hàng và hiệu quả toàn chuỗi?'],
+        ['A','Đề xuất một cách tăng lợi nhuận cho shop mà không cần thêm khách, kèm ước tính tác động.']]},
+      {title:'3b. Mô hình phân phối sản phẩm',
+       intro:'Khung gợi ý: một chiếc điện thoại đến tay khách thường đi qua chuỗi Hãng sản xuất → Nhà nhập khẩu hoặc phân phối → Nhà bán lẻ → Khách hàng, kèm các bên hỗ trợ như công ty tài chính (trả góp) và trung tâm bảo hành.',
+       table:{id:'c1.b3.channel', title:'Chức năng của kênh phân phối', staticCols:['Chức năng','Câu hỏi gợi ý'], cols:[{k:'a',l:'Câu trả lời của em'}],
+         rows:[['Độ phủ: có mặt gần khách','Nếu không có chuỗi bán lẻ, hãng phải tốn gì để có mặt khắp cả nước?'],
+               ['Gom nhiều thương hiệu để khách so sánh','Khách được lợi gì khi so sánh nhiều hãng ở cùng một nơi?'],
+               ['Tồn kho, chia nhỏ lô hàng','Ai chịu rủi ro khi hàng tồn hoặc mẫu cũ mất giá?'],
+               ['Tài chính cho khách (trả góp)','Trả góp giúp bán thêm được bao nhiêu? Ai hưởng lợi?'],
+               ['Tư vấn, trải nghiệm sản phẩm','Phần nào thương mại điện tử làm được, phần nào không?'],
+               ['Hậu mãi: bảo hành, sửa chữa, thu cũ','Vì sao dịch vụ sau bán giữ chân khách?'],
+               ['Thông tin thị trường cho hãng','Nhà bán lẻ biết gì về khách mà hãng không biết?']]},
+       qs:[
+        ['Đ','Vì sao các hãng điện thoại lớn không tự mở cửa hàng ở mọi nơi mà bán qua FPT Shop và các chuỗi khác? Hãng được gì, mất gì khi bán qua bên thứ ba?'],
+        ['Q Đ','Trong bảng chức năng trên, FPT Shop làm tốt nhất chức năng nào? Chức năng nào dễ bị thương mại điện tử hoặc kênh bán trực tiếp của hãng thay thế nhất?'],
+        ['Q','Lợi nhuận của nhà bán lẻ đến từ đâu: chênh lệch giá máy, thưởng doanh số từ hãng, phụ kiện, dịch vụ, hoa hồng trả góp, bảo hành mở rộng? Vì sao phụ kiện và dịch vụ quan trọng với P&L dù doanh thu nhỏ hơn máy?'],
+        ['A P','Khi hãng mở kênh bán trực tiếp (website chính hãng, cửa hàng riêng), nhà bán lẻ phải làm gì để không bị "cắt bỏ trung gian"?'],
+        ['Đ','Trong tập đoàn có đơn vị chuyên phân phối (FTG). Theo em, nhà phân phối khác nhà bán lẻ thế nào về khách hàng, biên lợi nhuận và rủi ro? (Chuẩn bị cho các đợt thực tập sau.)']]}]},
+    {b:'b4', readNote:'Đọc tuần 11–12. Tóm tắt 1 trang: 3 thuật ngữ chính, giải thích bằng lời của em, 1 ví dụ từ 3 shop.', readSummary:true, parts:[
+      {qs:[
+        ['A','Liệt kê 5 quy luật quan trọng nhất em rút ra ở shop chính. Quy luật nào đúng ở cả 2 shop đối chiếu, quy luật nào chỉ đúng ở shop chính? Vì sao?'],
+        ['P','Chiến lược "tối ưu thay vì mở rộng" có lợi cho shop nào nhất trong 3 shop, shop nào bị ảnh hưởng?'],
+        ['A P','Đề xuất cải tiến của em có giúp shop cạnh tranh tốt hơn không? Đối thủ có dễ sao chép không?']]}]}
+  ],
+  extras:[
+    {type:'heading', title:'Tự soi: người bán hàng là em', html:'<p>Đúc kết về <b>chính mình</b> như một người bán hàng. Làm bản ngắn cuối tuần 4 và 8, bản đầy đủ cuối tuần 12. Mỗi điểm cần <b>tình huống thật làm bằng chứng</b>, nên nhờ cửa hàng trưởng hoặc đồng nghiệp xác nhận.</p>'},
+    {type:'fixed', id:'c1.self.strengths', title:'1. Ba điểm mạnh khiến khách hàng mua của em', rows:3,
+      cols:[{k:'p',l:'Điểm mạnh'},{k:'e',l:'Tình huống làm bằng chứng'},{k:'w',l:'Tại sao khách mua vì điểm này?'},{k:'o',l:'Điểm này đến từ đâu?'},{k:'r',l:'Lặp lại được ở shop khác không?'}],
+      qs:['Tại sao khách chọn mua từ em mà không phải từ nhân viên khác đang đứng cạnh?','Tại sao có những khách em chốt rất nhanh? Họ có điểm gì chung, và em đã làm gì khác với họ?','Điểm mạnh nào em mang theo từ bóng đá (kỷ luật luyện tập, tinh thần đồng đội, chịu áp lực, đọc tình huống)? Tại sao nó có tác dụng trong bán hàng?','Nếu một người mới học theo em, điểm mạnh nào dạy lại được, điểm nào thuộc về cá tính riêng của em?']},
+    {type:'fixed', id:'c1.self.learned', title:'2. Ba điểm mới em học được để hiểu khách hàng hơn', rows:3,
+      cols:[{k:'l',l:'Điều em học được'},{k:'b',l:'Trước đây em nghĩ thế nào?'},{k:'c',l:'Điều gì làm em thay đổi suy nghĩ?'},{k:'r',l:'Em đã đổi cách bán ra sao, kết quả?'}],
+      qs:['Tại sao điều khách nói muốn mua đôi khi khác điều họ thực sự mua?','Tại sao cùng một sản phẩm, có khách quyết định trong 5 phút, có khách cần quay lại 2–3 lần?','Tại sao có khách tin em ngay, có khách nghi ngờ suốt cuộc tư vấn? Dấu hiệu nào giúp em nhận ra sớm?']},
+    {type:'fixed', id:'c1.self.lost', title:'3. Ba lần em mất khách và điều rút ra', rows:3,
+      cols:[{k:'s',l:'Tình huống mất khách'},{k:'w',l:'Tại sao? (hỏi "tại sao" ít nhất 3 lần)'},{k:'c',l:'Do em, sản phẩm hay hoàn cảnh?'},{k:'n',l:'Lần sau em làm gì khác?'}],
+      qs:['Tại sao em thấy khó bán cho một nhóm khách cụ thể?','Tại sao có ngày em bán rất tốt, có ngày rất kém? Yếu tố nào của bản thân (năng lượng, tâm trạng, sự chuẩn bị) ảnh hưởng nhiều nhất?']},
+    {type:'qs', id:'c1.self.far', title:'4. Nhìn xa hơn', qs:['Tại sao em thấy có ý nghĩa (hoặc không) khi giúp một khách chọn đúng sản phẩm?','Khả năng hiểu khách hàng và bán hàng của em sẽ có ích thế nào khi em tự khởi nghiệp?','Nếu chọn một điểm mạnh để phát triển tiếp ở đợt thực tập sau, em chọn điểm nào, tại sao?']}
+  ],
+  termCols:[{k:'d',l:'Ngày',t:'date'},{k:'term',l:'Thuật ngữ'},{k:'def',l:'Giải thích bằng lời của em'},{k:'ex',l:'Ví dụ thực tế ở shop'},{k:'src',l:'Nguồn'},{k:'b',l:'Gắn với',t:'select',o:['','B1','B2','B3','B4']}],
+  logCols:[{k:'d',l:'Ngày',t:'date'},{k:'info',l:'Thông tin mới'},{k:'src',l:'Nguồn'},{k:'chg',l:'Thay đổi gì trong câu trả lời hoặc quy luật của em?'}],
+  logIntro:'Ghi lại thông tin mới về FPT Shop và FRT (số liệu quý mới, chương trình bán hàng, thay đổi chính sách, quan sát quan trọng ở shop), và điều đó thay đổi câu trả lời của em ra sao.',
+  sources:[['Shinhan Securities – FRT Update Q2/2026','https://shinhansec.com.vn/uploads/report/FRT_Update_Q2_2026_VN.pdf'],['Báo Pháp luật – Long Châu chiếm 20% thị phần, gánh 96% lợi nhuận FPT Retail','https://doanhnhan.baophapluat.vn/chuoi-nha-thuoc-long-chau-chiem-20-thi-phan-ganh-96-loi-nhuan-fpt-retail.html'],['VNDirect – Điểm chính ĐHĐCĐ FRT 2026','https://www.vndirect.com.vn/cmsupload/beta/FRT_Bao-cao-DHCD_2026_20260417.pdf']]
+},
+{
+  id:'c2', code:'Case 2', title:'Long Châu', sub:'Quan sát giả định – cùng công ty, khác ngành', termTarget:8,
+  intro:`<p>Đây là case <b>quan sát giả định</b>: em không thực tập tại Long Châu. Em dùng số liệu công khai, kiến thức lý thuyết và trải nghiệm thực tế ở FPT Shop để suy luận về một doanh nghiệp cùng công ty mẹ nhưng <b>khác ngành</b>. Mục tiêu là hiểu cùng một lý thuyết áp dụng khác đi thế nào khi bối cảnh thay đổi.</p>
+<p><b>Cách làm một case giả định:</b></p>
+<ol><li>Bắt đầu từ điều em <b>đã biết chắc</b> ở FPT Shop.</li><li>Nêu rõ <b>giả định</b> khi chuyển sang nhà thuốc, và vì sao em giả định như vậy.</li><li>Dùng <b>số liệu công khai</b> và <b>lý thuyết</b> để kiểm tra giả định.</li><li>Ghi <b>mức tin cậy</b> của từng giả định vào Bảng giả định.</li></ol>`,
+  legend:LEGEND_ASSUMED,
+  business:`<p><b>Giới thiệu doanh nghiệp.</b> FPT Long Châu là chuỗi nhà thuốc thuộc FRT, được mở rộng từ năm 2018. Chuỗi bán thuốc kê đơn và không kê đơn, thực phẩm chức năng, dược mỹ phẩm, thiết bị y tế, và có mảng trung tâm tiêm chủng.</p>
+<p><b>Tình huống: cùng năng lực, khác ngành.</b></p>
+<ul>
+<li>Quý I/2026: 2.517 nhà thuốc, khoảng 20% thị phần bán lẻ dược; số điểm bán gấp khoảng 6 lần An Khang (417) và vượt xa Pharmacity (hơn 1.000).</li>
+<li>6 tháng đầu 2026: doanh thu 21.448 tỷ đồng (+33%), 2.639 nhà thuốc.</li>
+<li>Chuỗi tiêm chủng đã hòa vốn cấp cửa hàng, dự kiến có lãi cấp công ty năm 2027.</li>
+<li>Theo báo chí, Long Châu đóng góp khoảng 96% lợi nhuận của FRT.</li>
+<li>FRT đã dùng năng lực vận hành chuỗi xây từ FPT Shop để vào một ngành khác hẳn.</li>
+</ul>
+<p class="muted">Số liệu tính đến tháng 6/2026. Em tự cập nhật số mới nhất vào Nhật ký cập nhật.</p>`,
+  schedule:[[1,'Đọc phần doanh nghiệp và tình huống; bắt đầu Sổ thuật ngữ và Nhật ký cập nhật'],[4,'Câu hỏi B1'],[8,'Câu hỏi B2'],[10,'Câu hỏi B3'],[12,'Câu hỏi B4, Bảng giả định; hoàn thiện trước Buổi tổng kết']],
+  bs:[
+    {b:'b1', readNote:'Dùng chung với Case 1; ở case này, tập trung vào "việc" khác nhau của khách mua thuốc và khách mua điện thoại.', parts:[{qs:[
+      ['Q Gđ','Từ hành trình khách hàng em đã vẽ ở FPT Shop, hãy giả định hành trình của một khách mua thuốc. Khác nhau ở đâu về mức độ khẩn cấp, tần suất mua, giá trị đơn và mức độ cần tin người bán?'],
+      ['Đ','Khách đến nhà thuốc để giải quyết những "việc" gì (Jobs-to-be-Done)? Việc nào giống, việc nào khác hẳn khách mua điện thoại?'],
+      ['Gđ','Trong hành trình giả định, điểm nào em tin chắc nhất, điểm nào chỉ là đoán? Nếu được phỏng vấn một khách nhà thuốc, em sẽ hỏi 3 câu gì để kiểm chứng (theo nguyên tắc The Mom Test)?']]}]},
+    {b:'b2', readNote:'Dùng chung với Case 1; ở case này, tập trung vào việc kiến thức chuyên môn của người bán tạo ra niềm tin như thế nào.', parts:[
+      {title:'2a. Phễu bán hàng ở nhà thuốc', qs:[
+        ['Gđ Đ','Giả sử em là nhân viên tư vấn ở nhà thuốc: những kỹ thuật khai thác nhu cầu (SPIN) và bán kèm em dùng ở FPT Shop, kỹ thuật nào vẫn dùng được, kỹ thuật nào không nên dùng? Vì sao?'],
+        ['Gđ','Theo em, phễu bán hàng ở nhà thuốc ngắn hơn hay dài hơn FPT Shop? Bước nào dễ rơi rụng nhất?']]},
+      {title:'2b. Bán hàng cá nhân B2C trong chuỗi nhà thuốc', qs:[
+        ['Gđ Đ','Ở nhà thuốc, khách tin người bán (dược sĩ) hay tin thương hiệu chuỗi? So với FPT Shop, niềm tin vào cá nhân người bán quan trọng hơn hay kém hơn? Vì sao?'],
+        ['Đ P','Người tư vấn ở nhà thuốc là dược sĩ. Quy định ngành dược và đạo đức nghề nghiệp đặt ra giới hạn gì mà bán điện thoại không có? Phần nào của quy trình tư vấn được chuẩn hóa, phần nào vẫn cần kỹ năng cá nhân?'],
+        ['Đ P','Nếu một chuỗi nhà thuốc đặt KPI bán kèm quá cao cho dược sĩ, rủi ro với khách hàng và với thương hiệu là gì? Bài học này áp dụng thế nào cho KPI bán kèm ở FPT Shop?']]}]},
+    {b:'b3', readNote:'Dùng chung với Case 1; ở case này, vẽ Business Model Canvas giả định cho một nhà thuốc và so với FPT Shop.', parts:[
+      {title:'3a. P&L nhà thuốc', qs:[
+        ['Q','Từ số liệu 6 tháng đầu 2026, tự tính doanh thu bình quân mỗi nhà thuốc mỗi tháng và so với 2,8 tỷ đồng/tháng của một shop FPT Shop.'],
+        ['Gđ Đ','Vì sao doanh thu mỗi điểm thấp hơn mà Long Châu vẫn lãi nhiều hơn? Lập một P&L giả định cho một nhà thuốc, ghi rõ từng giả định (biên lợi nhuận, diện tích, mặt bằng, nhân sự, tần suất mua).'],
+        ['Đ','So P&L giả định này với P&L shop FPT Shop em đã phân tích: khác biệt lớn nhất nằm ở dòng nào?']]},
+      {title:'3b. Mô hình phân phối ngành dược', intro:'Khung gợi ý: thuốc thường đi qua chuỗi Nhà sản xuất hoặc nhập khẩu → Công ty phân phối dược → Nhà thuốc, bệnh viện → Khách hàng. Ngành dược có quy định chặt chẽ về bảo quản, nguồn gốc và người bán.', qs:[
+        ['Gđ Đ','Vì sao các hãng dược bán qua chuỗi nhà thuốc và nhà phân phối thay vì tự bán đến tay người dùng? So với ngành điện thoại, lý do nào giống, lý do nào khác?'],
+        ['Gđ','Một chuỗi lớn như Long Châu có sức mạnh đàm phán gì với nhà sản xuất mà một nhà thuốc độc lập không có? Điều này ảnh hưởng thế nào đến giá bán và biên lợi nhuận?'],
+        ['Đ','Chuỗi nhà thuốc mang lại giá trị gì cho nhà sản xuất (độ phủ, dữ liệu bán hàng, bảo quản đúng chuẩn) và cho khách hàng (hàng chính hãng, giá minh bạch, sẵn hàng, tư vấn)? Giá trị nào khó bị thương mại điện tử thay thế nhất?'],
+        ['Gđ P','Năm 2026, Long Châu dự kiến đưa về thêm khoảng 30 loại thuốc hiếm và đặc trị. Vì sao một chuỗi bán lẻ lại tham gia sâu hơn vào khâu nguồn hàng? Lợi ích và rủi ro của việc lấn sang vai trò của nhà phân phối là gì?']]}]},
+    {b:'b4', readNote:'Dùng chung với Case 1; ở case này, xếp Long Châu vào một trong bốn cách tăng trưởng lân cận mà bài McKinsey mô tả và giải thích vì sao.', parts:[{qs:[
+      ['Đ','Năng lực nào FRT chuyển được từ FPT Shop sang Long Châu (vận hành chuỗi, chọn mặt bằng, công nghệ, đào tạo, chuỗi cung ứng…), năng lực nào phải xây mới?'],
+      ['Đ','Long Châu giúp em hiểu gì khi mang quy luật từ shop chính sang 2 shop đối chiếu: quy luật nào "chuyển được", quy luật nào phải điều chỉnh?'],
+      ['P','Đa dạng hóa sang ngành mới có rủi ro gì? Khi nào nên tập trung thay vì mở rộng?']]}]}
+  ],
+  extras:[
+    {type:'dyn', id:'c2.assume', title:'Bảng giả định và mức tin cậy', html:'<p>Ghi lại mọi giả định quan trọng đã dùng trong câu trả lời. Đây là thói quen bắt buộc của founder: biết rõ điều mình <b>biết</b> và điều mình <b>đang đoán</b>.</p>', minRows:3,
+      cols:[{k:'a',l:'Giả định'},{k:'base',l:'Dựa trên'},{k:'lvl',l:'Mức tin cậy',t:'select',o:['','Cao','Trung bình','Thấp']},{k:'need',l:'Cần gì để kiểm chứng?'}]},
+    {type:'qs', id:'c2.close', title:'Câu hỏi đúc kết của case', qs:['Điều quan trọng nhất em học được từ Long Châu mà em không thể học được nếu chỉ làm ở FPT Shop là gì? (nửa trang)']}
+  ],
+  termCols:[{k:'d',l:'Ngày',t:'date'},{k:'term',l:'Thuật ngữ'},{k:'def',l:'Giải thích bằng lời của em'},{k:'ex',l:'Ví dụ ở Long Châu'},{k:'cmp',l:'So với FPT Shop'},{k:'src',l:'Nguồn'}],
+  logCols:[{k:'d',l:'Ngày',t:'date'},{k:'info',l:'Thông tin mới'},{k:'src',l:'Nguồn'},{k:'chg',l:'Giả định nào được xác nhận hoặc phải sửa?'}],
+  logIntro:'Ghi lại thông tin mới về Long Châu (số liệu quý mới, mở cửa hàng, sản phẩm, quy định ngành dược), và điều đó thay đổi giả định hoặc câu trả lời của em ra sao.',
+  sources:[['Báo Pháp luật – Long Châu chiếm 20% thị phần, gánh 96% lợi nhuận FPT Retail','https://doanhnhan.baophapluat.vn/chuoi-nha-thuoc-long-chau-chiem-20-thi-phan-ganh-96-loi-nhuan-fpt-retail.html'],['Vietstock – Báo cáo FRT 6 tháng 2026','https://finance.vietstock.vn/downloadedoc/22091'],['Shinhan Securities – FRT Update Q2/2026','https://shinhansec.com.vn/uploads/report/FRT_Update_Q2_2026_VN.pdf'],['VNDirect – Điểm chính ĐHĐCĐ FRT 2026','https://www.vndirect.com.vn/cmsupload/beta/FRT_Bao-cao-DHCD_2026_20260417.pdf']]
+},
+{
+  id:'c3', code:'Case 3', title:'Thế Giới Di Động', sub:'Quan sát giả định – cùng ngành, khác công ty', termTarget:8,
+  intro:`<p>Đây là case <b>quan sát giả định</b>: em không thực tập tại Thế Giới Di Động. Em dùng số liệu công khai, thông tin trên website và kênh chính thức của MWG, lý thuyết, và trải nghiệm ở FPT Shop để suy luận về một đối thủ <b>cùng ngành, khác công ty</b>.</p>
+<p><b>Nguồn quan sát em có thể dùng ngay tại FPT Shop:</b> khách hàng hay so sánh giá và dịch vụ với Thế Giới Di Động. Khi phù hợp, hãy hỏi khách đã từng mua ở đó: <i>Lần trước anh/chị mua ở đâu, vì sao, trải nghiệm thế nào?</i> Ghi lời kể vào Nhật ký cập nhật.</p>
+<p><b>Cách làm:</b> bắt đầu từ điều đã biết chắc ở FPT Shop → nêu rõ giả định → kiểm tra bằng số liệu, lời kể của khách và lý thuyết → ghi mức tin cậy vào Bảng giả định.</p>`,
+  legend:LEGEND_ASSUMED,
+  business:`<p><b>Giới thiệu doanh nghiệp.</b> Công ty CP Đầu tư Thế Giới Di Động (MWG) là tập đoàn bán lẻ lớn nhất Việt Nam, doanh thu năm 2025 đạt 156.166 tỷ đồng (+16,2%). Công ty con Điện Máy Xanh vận hành các chuỗi Thế Giới Di Động, Điện Máy Xanh, TopZone (chuyên Apple), EraBlue và dịch vụ Thợ Điện Máy Xanh. MWG còn có Bách Hóa Xanh, nhà thuốc An Khang và AVAKids.</p>
+<p><b>Tình huống: cùng ngành, khác lựa chọn.</b></p>
+<div class="tbl-wrap"><table class="tbl"><tr><th>Chuỗi (cuối tháng 6/2026)</th><th>Số cửa hàng</th><th>Lĩnh vực</th></tr>
+<tr><td>Bách Hóa Xanh</td><td>3.191</td><td>Thực phẩm, hàng tiêu dùng</td></tr>
+<tr><td>Điện Máy Xanh</td><td>2.005</td><td>Điện máy, gia dụng, ICT</td></tr>
+<tr><td>Thế Giới Di Động</td><td>924</td><td>Điện thoại, laptop, phụ kiện</td></tr>
+<tr><td>An Khang</td><td>415</td><td>Nhà thuốc</td></tr>
+<tr><td>EraBlue</td><td>261</td><td>Điện máy tại Indonesia</td></tr>
+<tr><td>AVAKids</td><td>95</td><td>Mẹ và bé</td></tr>
+<tr><td>TopZone</td><td>84</td><td>Sản phẩm Apple</td></tr></table></div>
+<ul>
+<li>Giống FPT Shop, chuỗi điện thoại của MWG không mở thêm; tăng trưởng chủ yếu từ cửa hàng hiện hữu, với SSSG nhóm Điện Máy Xanh đạt 33% trong 5 tháng đầu 2026.</li>
+<li>Cửa hàng chiếm 89% doanh thu, online chiếm 11% (6 tháng đầu 2026).</li>
+<li>MWG tìm tăng trưởng mới ở bách hóa, thị trường Indonesia và nhà thuốc.</li>
+</ul>
+<p class="muted">Số liệu tính đến tháng 6/2026. Em tự cập nhật số mới nhất vào Nhật ký cập nhật.</p>`,
+  schedule:[[1,'Đọc phần doanh nghiệp và tình huống; bắt đầu Sổ thuật ngữ và Nhật ký cập nhật'],[4,'Câu hỏi B1'],[8,'Câu hỏi B2'],[10,'Câu hỏi B3'],[12,'Câu hỏi B4, Bảng giả định; hoàn thiện trước Buổi tổng kết']],
+  bs:[
+    {b:'b1', readNote:'Dùng chung với Case 1; ở case này, so "việc" mà khách thuê FPT Shop và Thế Giới Di Động để làm.', parts:[{qs:[
+      ['Q Gđ','Từ website, quảng cáo, chính sách bán hàng công khai và lời kể của khách tại FPT Shop, hãy giả định hành trình khách hàng ở Thế Giới Di Động. Khác FPT Shop ở điểm chạm nào?'],
+      ['Gđ','Mỗi chuỗi đang nhắm vào nhóm khách nào? Dấu hiệu nào giúp em nhận ra điều đó?'],
+      ['Q Đ','Khách của em hay nhắc đến Thế Giới Di Động khi so sánh điều gì: giá, khuyến mãi, dịch vụ, vị trí? Điều đó nói gì về "việc" khách muốn hoàn thành?']]}]},
+    {b:'b2', readNote:'Dùng chung với Case 1; ở case này, suy nghĩ về việc đào tạo nhân viên ở quy mô hàng nghìn cửa hàng.', parts:[
+      {title:'2a. Phễu bán hàng của đối thủ', qs:[
+        ['Q Gđ','Từ lời kể của khách và thông tin công khai, giả định cách nhân viên Thế Giới Di Động tiếp cận, tư vấn và chốt đơn. Khác gì cách em đang làm?'],
+        ['Q','Với những khách đã ghé Thế Giới Di Động rồi mới đến FPT Shop, họ đang ở bước nào của phễu? Em cần tư vấn họ khác gì so với khách mới?']]},
+      {title:'2b. Bán hàng cá nhân B2C ở quy mô rất lớn', qs:[
+        ['Gđ Đ','Với hàng nghìn cửa hàng, MWG phải chuẩn hóa cách bán rất mạnh. Chuẩn hóa ở quy mô lớn giúp gì và làm mất gì trong bán hàng cá nhân?'],
+        ['Q Gđ','Khách của em từng mua ở Thế Giới Di Động nhớ nhất điều gì về người bán: sự nhiệt tình, tốc độ, kiến thức hay sự chân thành? Điều đó nói gì về điều khách đánh giá cao ở người bán B2C?'],
+        ['P','Nếu hai chuỗi bán cùng sản phẩm, cùng mức giá, thì cá nhân người bán còn tạo khác biệt được đến đâu? Điều gì ở đối thủ em muốn học, điều gì em không đồng ý?']]}]},
+    {b:'b3', readNote:'Dùng chung với Case 1; ở case này, đặt Business Model Canvas của FPT Shop và Thế Giới Di Động cạnh nhau, tập trung vào Kênh và Đối tác chính.', parts:[
+      {title:'3a. Mô hình kinh doanh', qs:[
+        ['Đ','Cả hai chuỗi đều không mở thêm cửa hàng điện thoại mà tập trung tăng doanh thu mỗi cửa hàng. Vì sao hai đối thủ đi đến cùng một lựa chọn? Điều này nói gì về giai đoạn của thị trường điện thoại?'],
+        ['Q Đ','SSSG là gì, và vì sao nhà đầu tư theo dõi chỉ số này? Shop em đang làm có doanh thu tăng hay giảm so với cùng kỳ, vì sao?']]},
+      {title:'3b. Quan hệ giữa hãng và nhà bán lẻ', qs:[
+        ['Đ','Khi một nhà bán lẻ có hàng nghìn cửa hàng, quan hệ quyền lực giữa hãng và nhà bán lẻ thay đổi thế nào? Nhà bán lẻ lớn đàm phán được gì mà nhà bán lẻ nhỏ không có?'],
+        ['Gđ Đ','TopZone và F.Studio là chuỗi chuyên bán sản phẩm Apple. Vì sao Apple chọn bán qua các đại lý ủy quyền này thay vì chỉ tự bán? Em tự tìm hiểu Apple đã mở kênh bán trực tuyến chính hãng tại Việt Nam chưa và từ khi nào, rồi đánh giá ảnh hưởng đến các chuỗi.'],
+        ['Đ','Online chỉ chiếm 11% doanh thu của MWG. Vì sao các hãng vẫn cần cửa hàng vật lý của nhà bán lẻ, dù có thể bán online trực tiếp? Ở shop em, vai trò của kênh online là gì?'],
+        ['Gđ A','MWG phát triển dịch vụ Thợ Điện Máy Xanh, phục vụ cả khách ngoài hệ thống. Vì sao một nhà bán lẻ mở rộng sang dịch vụ? FPT Shop có thể học gì để tăng giá trị cho khách ngoài việc bán máy?']]}]},
+    {b:'b4', readNote:'Dùng chung với Case 1; ở case này, dùng khung của bài McKinsey để so hướng mở rộng của FRT và MWG.', parts:[{qs:[
+      ['Đ P','Cả FRT và MWG đều đem năng lực bán lẻ sang ngành dược, nhưng Long Châu có số điểm bán gấp khoảng 6 lần An Khang. Vì sao cùng một chiến lược mà kết quả khác nhau? (Gợi ý: thời điểm, tốc độ, năng lực cốt lõi, mức độ tập trung nguồn lực.)'],
+      ['Đ','FRT tìm tăng trưởng ở nhà thuốc, còn MWG tìm ở bách hóa và Indonesia. Em đánh giá hai hướng đi này thế nào?'],
+      ['A','Bài học này áp dụng thế nào cho đề xuất cải tiến của em ở shop?']]}]}
+  ],
+  extras:[
+    {type:'dyn', id:'c3.assume', title:'Bảng giả định và mức tin cậy', html:'<p>Ghi lại mọi giả định quan trọng về Thế Giới Di Động đã dùng trong câu trả lời, và nguồn của từng giả định.</p>', minRows:3,
+      cols:[{k:'a',l:'Giả định'},{k:'base',l:'Dựa trên (số liệu, lời kể khách, website, suy luận)'},{k:'lvl',l:'Mức tin cậy',t:'select',o:['','Cao','Trung bình','Thấp']},{k:'need',l:'Cần gì để kiểm chứng?'}]},
+    {type:'qs', id:'c3.close', title:'Câu hỏi đúc kết của case', qs:['Nếu em là quản lý shop FPT Shop cạnh một cửa hàng Thế Giới Di Động, em sẽ cạnh tranh bằng điều gì mà đối thủ khó sao chép? (nửa trang)']}
+  ],
+  termCols:[{k:'d',l:'Ngày',t:'date'},{k:'term',l:'Thuật ngữ'},{k:'def',l:'Giải thích bằng lời của em'},{k:'ex',l:'Ví dụ ở Thế Giới Di Động'},{k:'cmp',l:'So với FPT Shop'},{k:'src',l:'Nguồn'}],
+  logCols:[{k:'d',l:'Ngày',t:'date'},{k:'info',l:'Thông tin mới hoặc lời kể của khách'},{k:'src',l:'Nguồn'},{k:'chg',l:'Giả định nào được xác nhận hoặc phải sửa?'}],
+  logIntro:'Ghi lại thông tin mới về MWG (số liệu tháng hoặc quý mới, khuyến mãi, mở hoặc đóng cửa hàng) và lời kể của khách hàng tại FPT Shop về trải nghiệm ở Thế Giới Di Động.',
+  sources:[['Thị trường Tài chính Tiền tệ – MWG 6 tháng 2026','https://thitruongtaichinhtiente.vn/mwg-thu-gan-530-ty-dong-moi-ngay-tang-toc-mo-moi-cua-hang-bach-hoa-xanh-84256.html'],['Thị trường Tài chính Tiền tệ – MWG 5 tháng 2026','https://thitruongtaichinhtiente.vn/print/83645.html'],['Báo Pháp luật – Kế hoạch kinh doanh MWG 2026','https://doanhnhan.baophapluat.vn/the-gioi-di-dong-mwg-muc-tieu-lai-rong-9-200-ty-dong-don-luc-mo-1-000-cua-hang-bach-hoa-xanh.html'],['Báo Pháp luật – Long Châu và An Khang','https://doanhnhan.baophapluat.vn/chuoi-nha-thuoc-long-chau-chiem-20-thi-phan-ganh-96-loi-nhuan-fpt-retail.html']]
+}
+];
+
+const WEEKLY_QS = [
+  ['plan','Kế hoạch tuần này là gì?'],['real','Thực tế diễn ra thế nào?'],['why','Vì sao khác với kế hoạch?'],
+  ['next','Tuần sau em làm gì khác?'],['rule','Tuần này em rút ra quy luật gì?'],['meaning','Điều gì khiến em thấy có ý nghĩa?']
+];
+
+const SUMMARY = {
+  matrixRows:['B1 – Hành trình khách hàng, JTBD','B2 – Phễu bán hàng, bán hàng cá nhân B2C','B3 – Mô hình kinh doanh, kênh phân phối','B4 – Chuyển giao năng lực'],
+  matrixCols:[{k:'c1',l:'FPT Shop (thực tiễn)'},{k:'c2',l:'Long Châu (giả định)'},{k:'c3',l:'Thế Giới Di Động (giả định)'},{k:'same',l:'Điểm giống'},{k:'diff',l:'Điểm khác và lý do'},{k:'rule',l:'Quy luật em rút ra'},{k:'ok',l:'Còn đúng ở 3 shop?'}],
+  finalQs:['Cùng một lý thuyết, vì sao áp dụng ở ba doanh nghiệp lại cho kết quả khác nhau?','Điều gì em biết chắc vì đã trải nghiệm, điều gì em chỉ đang giả định?','Ba điểm mạnh của em với tư cách người bán hàng là gì, và em sẽ phát triển điểm nào tiếp?','Khi tự khởi nghiệp, em sẽ dùng những gì đã học trong đợt này như thế nào?'],
+  myQs:['Câu hỏi 1 em muốn hỏi mentor','Câu hỏi 2 em muốn hỏi mentor','Câu hỏi 3 em muốn hỏi mentor'],
+  afterQs:['Bài phản tư 1 trang: quan điểm nào của em đã thay đổi sau phản biện, và vì sao?','1 quy luật cần kiểm định tiếp ở đợt sau','1 kỹ năng cần phát triển ở đợt sau','1 câu hỏi em còn chưa trả lời được','Em muốn thử mảng nào trong danh sách vị trí của tập đoàn ở đợt tiếp theo, và vì sao?']
+};
+
+/* =========================================================
+   TRẠNG THÁI & LƯU TRỮ
+   ========================================================= */
+const STORE_KEY='khoi-frt-v1';
+function defaultState(){return {meta:{student:'Gia Khôi',startDate:'',updatedAt:null},answers:{},tables:{},checks:{},weekly:{},daily:[]};}
+function loadState(){try{const s=JSON.parse(localStorage.getItem(STORE_KEY));if(s&&s.meta)return Object.assign(defaultState(),s);}catch(e){}return defaultState();}
+let state=loadState();
+let gh={auto:true};
+const APP={role:null};
+const LASTPUSH_KEY='khoi-frt-lastpush';
+const PENDING_KEY='khoi-frt-pending',HASH_KEY='khoi-frt-lasthash';let ghSha=null;
+function hashStr(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return String(h)+':'+s.length;}
+let saveTimer=null, pushTimer=null;
+
+function persist(){
+  state.meta.updatedAt=new Date().toISOString();
+  try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){}
+  setStatus('Đã lưu trên máy lúc '+fmtTime(new Date()));
+  localStorage.setItem(PENDING_KEY,'1');
+  if(gh.auto&&ghReady()){clearTimeout(pushTimer);pushTimer=setTimeout(()=>pushGitHub(true),15000);setStatus('Đã lưu trên máy · sẽ lên GitHub sau vài giây');}
+}
+function touch(){clearTimeout(saveTimer);setStatus('Đang lưu…');saveTimer=setTimeout(()=>{saveTimer=null;persist();},500);}
+function setStatus(t){document.getElementById('saveStatus').textContent=t;}
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2600);}
+function fmtTime(d){return d.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});}
+function fmtDateTime(iso){if(!iso)return '—';const d=new Date(iso);return d.toLocaleDateString('vi-VN')+' '+fmtTime(d);}
+function todayStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function stripTags(s){return String(s).replace(/<[^>]+>/g,'');}
+
+/* ===== Danh sách câu hỏi để tính tiến độ & xuất .md ===== */
+function caseQuestions(c){
+  const list=[];
+  c.bs.forEach(bs=>{
+    if(bs.readSummary) list.push({id:`${c.id}.${bs.b}.read`,text:`Tóm tắt tài liệu đọc thêm ${bs.b.toUpperCase()}`,b:bs.b,reading:true});
+    bs.parts.forEach((p,pi)=>p.qs.forEach((q,qi)=>list.push({id:`${c.id}.${bs.b}.p${pi}.q${qi}`,text:q[1],tags:q[0],b:bs.b,part:p.title})));
+  });
+  return list;
+}
+function answered(id){return !!(state.answers[id]&&state.answers[id].trim());}
+function rowsFilled(id){return (state.tables[id]||[]).filter(r=>Object.values(r).some(v=>String(v||'').trim())).length;}
+function caseProgress(c){const qs=caseQuestions(c).filter(q=>!q.reading);const done=qs.filter(q=>answered(q.id)).length;return {done,total:qs.length};}
+function currentWeek(){
+  if(!state.meta.startDate)return null;
+  const s=new Date(state.meta.startDate+'T00:00:00'),n=new Date();
+  const w=Math.floor((n-s)/(7*864e5))+1;return w;
+}
+
+/* =========================================================
+   GIAO DIỆN
+   ========================================================= */
+const ROUTES=[
+  {id:'home',label:'Hôm nay',small:'Tổng quan và việc cần làm'},
+  {id:'daily',label:'Ghi chép hằng ngày',small:'Ghi nhanh sau mỗi ca'},
+  {id:'weekly',label:'Nhật ký tuần',small:'6 câu hỏi mỗi tuần'},
+  {sep:true},
+  ...CASES.map(c=>({id:c.id,label:`${c.code} – ${c.title}`,small:c.sub})),
+  {sep:true},
+  {id:'terms',label:'Tra cứu',small:'Thuật ngữ và toàn bộ ghi chép'},
+  {id:'summary',label:'Buổi tổng kết đúc kết',small:'Hồ sơ, ma trận, câu hỏi cuối'},
+  {sep:true},
+  {id:'settings',label:'Cài đặt và lưu trữ',small:'File .md, đồng bộ'}
+];
+const ROUTES_M=[
+  {id:'mentor',label:'Theo dõi Khôi',small:'Tổng quan và dòng thời gian'},
+  {id:'setup',label:'Kết nối GitHub',small:'Thiết lập một lần'}
+];
+function renderNav(active){
+  document.getElementById('nav').innerHTML=(APP.role==='mentor'?ROUTES_M:ROUTES).map(r=>r.sep?'<div class="sep"></div>':`<a href="#/${r.id}" class="${r.id===active?'active':''}">${esc(r.label)}<small>${esc(r.small)}</small></a>`).join('');
+  document.getElementById('brandSub').textContent=APP.role==='mentor'?'Mentor · chỉ xem':`${state.meta.student||'Gia Khôi'} · ${currentWeek()?('Tuần '+currentWeek()+'/12'):'12 tuần'}`;
+}
+function route(){
+  if(!APP.role)return;
+  let id=(location.hash.replace('#/','')||'home').split('?')[0];
+  if(APP.role==='mentor'&&id!=='mentor'&&id!=='setup')id='mentor';
+  if(APP.role==='khoi'&&(id==='mentor'||id==='setup'))id='home';
+  renderNav(id);
+  const v=document.getElementById('view');
+  const c=CASES.find(x=>x.id===id);
+  if(c) v.innerHTML=viewCase(c);
+  else if(id==='daily') v.innerHTML=viewDaily();
+  else if(id==='weekly') v.innerHTML=viewWeekly();
+  else if(id==='terms') v.innerHTML=viewSearch();
+  else if(id==='summary') v.innerHTML=viewSummary();
+  else if(id==='settings') v.innerHTML=viewSettings();
+  else if(id==='mentor') v.innerHTML=Mentor.render();
+  else if(id==='setup') v.innerHTML=Auth.viewSetup();
+  else v.innerHTML=viewHome();
+  document.getElementById('sidebar').classList.remove('open');
+  autoGrowAll(); window.scrollTo(0,0);
+  if(id==='terms') runSearch();
+}
+
+/* ---------- Các khối dựng giao diện ---------- */
+function tagsHtml(t){return (t||'').split(' ').filter(Boolean).map(x=>`<span class="tag">${esc(x)}</span>`).join('');}
+function qBlock(id,label,tags,placeholder){
+  return `<div class="q"><label>${tagsHtml(tags)}${label}</label><textarea data-a="${id}" placeholder="${esc(placeholder||'Viết câu trả lời của em…')}">${esc(state.answers[id]||'')}</textarea></div>`;
+}
+function inputCell(tid,ri,col,val){
+  const a=`data-t="${tid}" data-r="${ri}" data-c="${col.k}"`;
+  if(col.t==='date') return `<input type="date" ${a} value="${esc(val)}">`;
+  if(col.t==='select') return `<select ${a}>${col.o.map(o=>`<option ${o===val?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
+  return `<textarea ${a}>${esc(val)}</textarea>`;
+}
+function ensureRows(id,n){if(!state.tables[id])state.tables[id]=[];while(state.tables[id].length<n)state.tables[id].push({});return state.tables[id];}
+function tableHtml(id,cols,opts={}){
+  const rows=ensureRows(id,opts.fixed||opts.min||1);
+  const statics=opts.staticCols||[];
+  let h=`<div class="tbl-wrap"><table class="tbl"><tr>${statics.map(s=>`<th>${esc(s)}</th>`).join('')}${cols.map(c=>`<th>${esc(c.l)}</th>`).join('')}${opts.fixed?'':'<th style="width:36px"></th>'}</tr>`;
+  rows.forEach((r,ri)=>{
+    const st=(opts.staticRows&&opts.staticRows[ri])||[];
+    h+=`<tr>${st.map(s=>`<td class="static">${esc(s)}</td>`).join('')}${cols.map(c=>`<td style="min-width:${c.t==='date'?'130px':c.t==='select'?'110px':'160px'}">${inputCell(id,ri,c,r[c.k]||'')}</td>`).join('')}${opts.fixed?'':`<td><button class="small ghost" data-del="${id}" data-r="${ri}" title="Xóa dòng">✕</button></td>`}</tr>`;
+  });
+  h+='</table></div>';
+  if(!opts.fixed) h+=`<div class="row-actions"><button class="small" data-add="${id}">+ Thêm dòng</button>${opts.target?`<span class="muted" style="font-size:13px;align-self:center">Đã có <span data-count="${id}">${rowsFilled(id)}</span>/${opts.target} (mục tiêu)</span>`:''}</div>`;
+  return h;
+}
+function readingHtml(c,bs){
+  const r=READ[bs.b];
+  let h=`<div class="reading"><p><b>Đọc thêm cho ${bs.b.toUpperCase()}</b> <span class="muted">(${esc(bs.readNote)})</span></p>
+  <p>Tham khảo thêm sách: ${r.book}</p>
+  <p>Bài đọc nhanh thêm: <a href="${r.art.u}" target="_blank" rel="noopener">${esc(r.art.t)}</a></p></div>`;
+  if(bs.readSummary) h+=qBlock(`${c.id}.${bs.b}.read`,'Tóm tắt tài liệu đọc thêm (3 thuật ngữ chính, giải thích bằng lời của em, 1 ví dụ thực tế)','','Thuật ngữ 1: …\nThuật ngữ 2: …\nThuật ngữ 3: …\nVí dụ ở shop: …');
+  return h;
+}
+function viewCase(c){
+  const wk=currentWeek();
+  let h=`<h1>${esc(c.code)} – ${esc(c.title)}</h1><p class="lead">${esc(c.sub)}</p>`;
+  h+=`<div class="card prose">${c.intro}<p>${c.legend}</p></div>`;
+  h+=`<h2>Lịch cập nhật</h2><div class="tbl-wrap"><table class="tbl"><tr><th>Tuần</th><th>Việc cần làm</th><th>Trạng thái</th></tr>${c.schedule.map(s=>`<tr><td>Tuần ${s[0]}</td><td>${esc(s[1])}</td><td>${wk==null?'':wk>s[0]?'<span class="chip">đã qua</span>':wk===s[0]?'<span class="chip due">tuần này</span>':''}</td></tr>`).join('')}<tr><td>Mỗi 2 tuần</td><td>Thêm thuật ngữ mới và ít nhất 1 dòng nhật ký</td><td></td></tr></table></div>`;
+  h+=`<h2>Doanh nghiệp và tình huống</h2><div class="card prose">${c.business}</div>`;
+  h+=`<h2>Câu hỏi B1–B4</h2><p class="muted">Viết quy luật em tự rút ra trước, rồi mới đối chiếu với lý thuyết. Mọi thay đổi được tự động lưu.</p>`;
+  c.bs.forEach(bs=>{
+    const m=B_META[bs.b];
+    h+=`<h3 id="${c.id}-${bs.b}">${esc(m.title)} <span class="chip ${wk&&wk>=m.due-1&&wk<=m.due?'due':''}">hạn cuối tuần ${m.due}</span></h3>`;
+    h+=readingHtml(c,bs);
+    bs.parts.forEach((p,pi)=>{
+      if(p.title) h+=`<p class="part-title">${esc(p.title)}</p>`;
+      if(p.intro) h+=`<p class="muted">${esc(p.intro)}</p>`;
+      if(p.table){h+=`<p style="margin-bottom:0"><b>${esc(p.table.title)}</b></p>`+tableHtml(p.table.id,p.table.cols,{fixed:p.table.rows.length,staticCols:p.table.staticCols,staticRows:p.table.rows});}
+      p.qs.forEach((q,qi)=>{h+=qBlock(`${c.id}.${bs.b}.p${pi}.q${qi}`,`${qi+1}. ${esc(q[1])}`,q[0]);});
+    });
+  });
+  c.extras.forEach(x=>{
+    if(x.type==='heading'){h+=`<h2>${esc(x.title)}</h2>${x.html||''}`;}
+    if(x.type==='fixed'){h+=`<h3>${esc(x.title)}</h3>`+tableHtml(x.id,x.cols,{fixed:x.rows});(x.qs||[]).forEach((q,i)=>h+=qBlock(`${x.id}.q${i}`,`${i+1}. ${esc(q)}`,''));}
+    if(x.type==='qs'){h+=`<h3>${esc(x.title)}</h3>`;x.qs.forEach((q,i)=>h+=qBlock(`${x.id}.q${i}`,`${i+1}. ${esc(q)}`,''));}
+    if(x.type==='dyn'){h+=`<h2>${esc(x.title)}</h2>${x.html||''}`+tableHtml(x.id,x.cols,{min:x.minRows});}
+  });
+  h+=`<h2>Sổ thuật ngữ của em</h2><p>Mỗi khi gặp thuật ngữ mới, ghi vào đây và giải thích <b>bằng lời của chính mình</b>. Mục tiêu: ít nhất ${c.termTarget} thuật ngữ trong đợt thực tập.</p>`+tableHtml(`${c.id}.terms`,c.termCols,{min:1,target:c.termTarget});
+  h+=`<h2>Nhật ký cập nhật thông tin</h2><p>${esc(c.logIntro)}</p>`+tableHtml(`${c.id}.log`,c.logCols,{min:1});
+  h+=`<h2>Nguồn số liệu</h2><ul>${c.sources.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a></li>`).join('')}</ul>`;
+  return h;
+}
+function viewHome(){
+  const wk=currentWeek();
+  let h=`<h1>Chào ${esc(state.meta.student||'Khôi')}!</h1><p class="lead">${wk?`Hôm nay là tuần <b>${wk}</b> của đợt thực tập 12 tuần.`:'Hãy đặt ngày bắt đầu thực tập ở mục Cài đặt để xem lịch theo tuần.'}</p>`;
+  if(!wk) h+=`<div class="card"><label>Ngày bắt đầu thực tập</label><input type="date" data-meta="startDate" value="${esc(state.meta.startDate)}"></div>`;
+  // việc tuần này
+  const tasks=[];
+  if(wk){CASES.forEach(c=>c.schedule.forEach(s=>{if(s[0]===wk||s[0]===wk+1)tasks.push(`<li><span class="chip ${s[0]===wk?'due':''}">${s[0]===wk?'tuần này':'tuần sau'}</span><a href="#/${c.id}">${esc(c.code)}</a>: ${esc(s[1])}</li>`);}));
+    if(wk===3||wk===7||wk===10||wk===11) tasks.push(`<li><span class="chip due">đọc thêm</span>Tuần này đọc tài liệu cho ${wk===3?'B1':wk===7?'B2':wk===10?'B3':'B4'} và viết tóm tắt trong <a href="#/c1">Case 1</a></li>`);
+  }
+  tasks.push(`<li><span class="chip">hằng ngày</span><a href="#/daily">Ghi chép nhanh</a> sau ca làm: 1 khách, 1 bài học</li>`);
+  tasks.push(`<li><span class="chip">cuối tuần</span><a href="#/weekly">Nhật ký tuần</a>, nộp trước tối Chủ nhật</li>`);
+  h+=`<h2>Việc cần làm</h2><div class="card"><ul style="margin:0;padding-left:18px">${tasks.join('')}</ul></div>`;
+  h+=`<h2>Tiến độ</h2><div class="grid">`;
+  CASES.forEach(c=>{const p=caseProgress(c),t=rowsFilled(`${c.id}.terms`),pct=Math.round(100*p.done/p.total);
+    h+=`<a class="card" href="#/${c.id}" style="text-decoration:none;color:inherit;margin:0"><div class="muted">${esc(c.code)} – ${esc(c.title)}</div><div class="stat">${p.done}/${p.total}</div><div class="muted" style="font-size:13px">câu hỏi đã trả lời · ${t}/${c.termTarget} thuật ngữ</div><div class="bar"><i style="width:${pct}%"></i></div></a>`;});
+  const wDone=Object.keys(state.weekly).filter(k=>Object.values(state.weekly[k]||{}).some(v=>String(v).trim())).length;
+  h+=`<a class="card" href="#/weekly" style="text-decoration:none;color:inherit;margin:0"><div class="muted">Nhật ký tuần</div><div class="stat">${wDone}/12</div><div class="muted" style="font-size:13px">tuần đã viết · ${state.daily.length} ghi chép hằng ngày</div><div class="bar"><i style="width:${Math.round(100*wDone/12)}%"></i></div></a></div>`;
+  const last=[...state.daily].sort((a,b)=>(b.d||'').localeCompare(a.d||'')).slice(0,3);
+  h+=`<h2>Ghi chép gần nhất</h2><div class="card">${last.length?last.map(e=>`<div class="daily-entry"><b>${esc(e.d)}</b> ${e.tag?`<span class="chip">${esc(e.tag)}</span>`:''}<div>${esc(e.note).replace(/\n/g,'<br>')}</div></div>`).join(''):'<span class="muted">Chưa có ghi chép nào.</span> <a href="#/daily">Viết ghi chép đầu tiên</a>'}</div>`;
+  h+=`<p class="muted" style="font-size:13px">Cập nhật lần cuối: ${fmtDateTime(state.meta.updatedAt)}${localStorage.getItem(LASTPUSH_KEY)?` · Lưu lên GitHub: ${fmtDateTime(localStorage.getItem(LASTPUSH_KEY))}`:''}</p>`;
+  return h;
+}
+function viewDaily(){
+  let h=`<h1>Ghi chép hằng ngày</h1><p class="lead">Mỗi ca làm, ghi nhanh 1 khách đáng nhớ, 1 điều học được hoặc 1 thuật ngữ mới. Cuối tuần dùng các ghi chép này để viết Nhật ký tuần.</p>`;
+  h+=`<div class="card"><div class="field-row"><div><label>Ngày</label><input type="date" id="dDate" value="${todayStr()}"></div><div><label>Chủ đề</label><select id="dTag"><option value="">Chung</option><option>Khách hàng</option><option>Bán hàng</option><option>Mô hình kinh doanh</option><option>Thuật ngữ</option><option>Long Châu</option><option>Thế Giới Di Động</option><option>Bản thân</option></select></div></div>
+  <div style="margin-top:10px"><label>Ghi chép</label><textarea id="dNote" placeholder="Hôm nay em gặp một khách…"></textarea></div>
+  <div class="row-actions"><button class="primary" id="dAdd">Thêm ghi chép</button></div></div>`;
+  const list=[...state.daily].map((e,i)=>({...e,i})).sort((a,b)=>(b.d||'').localeCompare(a.d||'')||b.i-a.i);
+  h+=`<h2>Tất cả ghi chép (${list.length})</h2><div class="card">${list.length?list.map(e=>`<div class="daily-entry"><b>${esc(e.d)}</b> ${e.tag?`<span class="chip">${esc(e.tag)}</span>`:''} <button class="small ghost" data-ddel="${e.i}" title="Xóa">✕</button><div>${esc(e.note).replace(/\n/g,'<br>')}</div></div>`).join(''):'<span class="muted">Chưa có ghi chép.</span>'}</div>`;
+  return h;
+}
+let weekSel=null;
+function viewWeekly(){
+  const wk=currentWeek();if(weekSel==null)weekSel=Math.min(Math.max(wk||1,1),12);
+  let h=`<h1>Nhật ký tuần</h1><p class="lead">Theo mẫu after-action review, nộp trước tối Chủ nhật mỗi tuần.</p><div class="weeks">`;
+  for(let i=1;i<=12;i++){const f=Object.values(state.weekly[i]||{}).some(v=>String(v).trim());h+=`<button data-week="${i}" class="${i===weekSel?'on':''} ${f?'filled':''}">Tuần ${i}</button>`;}
+  h+=`</div><h2 style="margin-top:4px">Tuần ${weekSel}${wk===weekSel?' <span class="chip due">tuần này</span>':''}</h2>`;
+  WEEKLY_QS.forEach(([k,l],i)=>{h+=`<div class="q"><label>${i+1}. ${esc(l)}</label><textarea data-w="${weekSel}" data-wk="${k}">${esc((state.weekly[weekSel]||{})[k]||'')}</textarea></div>`;});
+  return h;
+}
+function viewSearch(){
+  return `<h1>Tra cứu</h1><p class="lead">Tìm trong thuật ngữ, câu trả lời, nhật ký và ghi chép hằng ngày.</p>
+  <input type="text" id="searchBox" placeholder="Gõ từ khóa, ví dụ: SSSG, phễu, trả góp…" autofocus>
+  <h2>Sổ thuật ngữ tổng hợp</h2><div id="termList" class="card"></div>
+  <h2>Kết quả trong ghi chép</h2><div id="searchResults" class="card"></div>`;
+}
+function allTerms(){const out=[];CASES.forEach(c=>(state.tables[`${c.id}.terms`]||[]).forEach(r=>{if((r.term||'').trim())out.push({...r,case:c});}));return out.sort((a,b)=>a.term.localeCompare(b.term,'vi'));}
+function hl(text,q){const t=esc(text);if(!q)return t;const re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');return t.replace(re,'<mark>$1</mark>');}
+function runSearch(){
+  const box=document.getElementById('searchBox');if(!box)return;const q=box.value.trim();const ql=q.toLowerCase();
+  const terms=allTerms().filter(t=>!ql||[t.term,t.def,t.ex,t.cmp,t.src].join(' ').toLowerCase().includes(ql));
+  document.getElementById('termList').innerHTML=terms.length?`<div class="tbl-wrap"><table class="tbl"><tr><th>Thuật ngữ</th><th>Giải thích</th><th>Ví dụ</th><th>Case</th></tr>${terms.map(t=>`<tr><td><b>${hl(t.term,q)}</b></td><td>${hl(t.def,q)}</td><td>${hl(t.ex,q)}</td><td><a href="#/${t.case.id}">${esc(t.case.code)}</a></td></tr>`).join('')}</table></div>`:'<span class="muted">Chưa có thuật ngữ phù hợp.</span>';
+  const res=document.getElementById('searchResults');
+  if(!ql){res.innerHTML='<span class="muted">Gõ từ khóa để tìm trong toàn bộ câu trả lời và ghi chép.</span>';return;}
+  const hits=[];
+  CASES.forEach(c=>caseQuestions(c).forEach(qq=>{const a=state.answers[qq.id]||'';if(a.toLowerCase().includes(ql)||qq.text.toLowerCase().includes(ql))hits.push({where:`${c.code} · ${qq.b.toUpperCase()}`,link:`#/${c.id}`,title:qq.text,body:a});}));
+  Object.entries(state.answers).forEach(([k,v])=>{if((k.includes('.self.')||k.includes('.close')||k.startsWith('sum.'))&&v.toLowerCase().includes(ql))hits.push({where:k.startsWith('sum.')?'Buổi tổng kết':'Tự soi / đúc kết case',link:k.startsWith('sum.')?'#/summary':'#/'+k.split('.')[0],title:'',body:v});});
+  CASES.forEach(c=>(state.tables[`${c.id}.log`]||[]).forEach(r=>{const s=[r.info,r.src,r.chg].join(' ');if(s.toLowerCase().includes(ql))hits.push({where:`${c.code} · Nhật ký cập nhật ${r.d||''}`,link:`#/${c.id}`,title:'',body:s});}));
+  Object.entries(state.weekly).forEach(([w,o])=>{const s=Object.values(o||{}).join('\n');if(s.toLowerCase().includes(ql))hits.push({where:`Nhật ký tuần ${w}`,link:'#/weekly',title:'',body:s});});
+  state.daily.forEach(e=>{if((e.note||'').toLowerCase().includes(ql))hits.push({where:`Ghi chép ${e.d}`,link:'#/daily',title:'',body:e.note});});
+  res.innerHTML=hits.length?hits.map(x=>`<div class="search-hit"><a href="${x.link}">${esc(x.where)}</a>${x.title?`<div class="muted" style="font-size:13px">${hl(x.title,q)}</div>`:''}<div>${hl(x.body,q).replace(/\n/g,'<br>')}</div></div>`).join(''):'<span class="muted">Không tìm thấy.</span>';
+}
+function checklistItems(){
+  const c=CASES.map(x=>({p:caseProgress(x),t:rowsFilled(`${x.id}.terms`),x}));
+  const reads=['b1','b2','b3','b4'].filter(b=>answered(`c1.${b}.read`)).length;
+  const mFilled=(state.tables['sum.matrix']||[]).filter(r=>(r.rule||'').trim()).length;
+  const fq=SUMMARY.finalQs.filter((_,i)=>answered(`sum.final.q${i}`)).length;
+  return [
+    ['case1',`Case 1 – FPT Shop hoàn chỉnh: ${c[0].p.done}/${c[0].p.total} câu, ${c[0].t}/12 thuật ngữ, Tự soi đầy đủ`,c[0].p.done===c[0].p.total&&c[0].t>=12],
+    ['case2',`Case 2 – Long Châu hoàn chỉnh: ${c[1].p.done}/${c[1].p.total} câu, ${c[1].t}/8 thuật ngữ, Bảng giả định`,c[1].p.done===c[1].p.total&&c[1].t>=8],
+    ['case3',`Case 3 – Thế Giới Di Động hoàn chỉnh: ${c[2].p.done}/${c[2].p.total} câu, ${c[2].t}/8 thuật ngữ, Bảng giả định`,c[2].p.done===c[2].p.total&&c[2].t>=8],
+    ['matrix',`Ma trận đúc kết: ${mFilled}/4 dòng có quy luật`,mFilled===4],
+    ['final',`Bài viết đúc kết cuối cùng: ${fq}/4 câu`,fq===4],
+    ['slides','Slide trình bày (tối đa 10 slide, tập trung vào quy luật và đề xuất)',null],
+    ['reads',`4 bản tóm tắt tài liệu đọc thêm: ${reads}/4`,reads===4]
+  ];
+}
+function viewSummary(){
+  let h=`<h1>Buổi tổng kết đúc kết</h1><p class="lead">Khép lại đợt thực tập 12 tuần: gộp thực tiễn ở FPT Shop với hai case giả định để rút ra quy luật của riêng em, bảo vệ quan điểm trước phản biện, và xác định điều mang sang đợt sau.</p>`;
+  h+=`<div class="tbl-wrap"><table class="tbl"><tr><th>Thời điểm</th><td>Cuối tuần 12 hoặc trong tuần 13</td></tr><tr><th>Thời lượng</th><td>Khoảng 2,5 giờ</td></tr><tr><th>Thành phần</th><td>Khôi (trình bày); hai mentor (phản biện, đánh giá); cửa hàng trưởng shop chính (khách mời)</td></tr><tr><th>Ngày dự kiến</th><td><input type="date" data-meta="summaryDate" value="${esc(state.meta.summaryDate||'')}"></td></tr></table></div>`;
+  h+=`<h2>Hồ sơ nộp trước buổi (ít nhất 3 ngày)</h2><div class="card checklist">`;
+  checklistItems().forEach(([k,label,auto])=>{const v=state.checks[k];h+=`<label><input type="checkbox" data-check="${k}" ${v?'checked':''}><span>${esc(label)} ${auto===true?'<span class="chip done">đủ</span>':auto===false?'<span class="chip due">chưa đủ</span>':''}</span></label>`;});
+  h+=`</div><p class="muted" style="font-size:13px">Trạng thái "đủ / chưa đủ" được tính tự động từ dữ liệu; ô tích là xác nhận của em khi đã kiểm tra xong.</p>`;
+  h+=`<h2>Ma trận đúc kết 3 case</h2><p>Điền từ câu trả lời trong 3 case. Cột "Quy luật em rút ra" sẽ được mang sang đợt thực tập sau.</p>`+tableHtml('sum.matrix',SUMMARY.matrixCols,{fixed:4,staticCols:['Khung học thuật'],staticRows:SUMMARY.matrixRows.map(x=>[x])});
+  h+=`<h2>Câu hỏi đúc kết cuối cùng</h2>`;SUMMARY.finalQs.forEach((q,i)=>h+=qBlock(`sum.final.q${i}`,`${i+1}. ${esc(q)}`,''));
+  h+=`<h2>3 câu hỏi em muốn hỏi lại mentor</h2>`;SUMMARY.myQs.forEach((q,i)=>h+=qBlock(`sum.ask.q${i}`,esc(q),''));
+  h+=`<h2>Chương trình buổi</h2><div class="tbl-wrap"><table class="tbl"><tr><th>Thời lượng</th><th>Phần</th><th>Người dẫn</th></tr>
+  <tr><td>10 phút</td><td>Mở đầu: mục tiêu đợt thực tập, cách đánh giá</td><td>Mentor</td></tr>
+  <tr><td>20 phút</td><td>Thực tiễn ở FPT Shop: kết quả KPI, 3 điểm mạnh, 3 bài học</td><td>Khôi</td></tr>
+  <tr><td>10 phút</td><td>Nhận xét thực tiễn</td><td>Cửa hàng trưởng</td></tr>
+  <tr><td>25 phút</td><td>Ma trận đúc kết 3 case</td><td>Khôi</td></tr>
+  <tr><td>15 phút</td><td>Đề xuất cải tiến (B4)</td><td>Khôi</td></tr>
+  <tr><td>40 phút</td><td>Phản biện</td><td>Hai mentor</td></tr>
+  <tr><td>15 phút</td><td>Câu hỏi của Khôi</td><td>Khôi</td></tr>
+  <tr><td>15 phút</td><td>Kết luận và định hướng đợt sau</td><td>Hai mentor</td></tr></table></div>`;
+  h+=`<h2>Tiêu chí đánh giá</h2><div class="tbl-wrap"><table class="tbl"><tr><th>Tiêu chí</th><th>Cần cải thiện</th><th>Đạt</th><th>Xuất sắc</th></tr>
+  <tr><td>Chất lượng hồ sơ 3 case</td><td>Thiếu câu trả lời hoặc chỉ mô tả</td><td>Đủ B1–B4, có đối chiếu lý thuyết và nguồn</td><td>Có quy luật tự rút ra, cập nhật đều qua nhật ký</td></tr>
+  <tr><td>Hiểu thuật ngữ</td><td>Dùng sai hoặc chép định nghĩa</td><td>Giải thích đúng bằng lời của mình</td><td>Dùng đúng chỗ khi phản biện, có ví dụ thực tế</td></tr>
+  <tr><td>Phân biệt biết chắc và giả định</td><td>Không phân biệt</td><td>Có bảng giả định, ghi mức tin cậy</td><td>Nêu được cách kiểm chứng và đã kiểm chứng một phần</td></tr>
+  <tr><td>Quy luật và kiểm định</td><td>Chưa có quy luật riêng</td><td>Có quy luật, đối chiếu với case</td><td>Có ít nhất 1 quy luật được kiểm định ở cả 3 shop</td></tr>
+  <tr><td>Phản biện</td><td>Bảo vệ cứng nhắc hoặc đổi ý ngay</td><td>Lập luận có dẫn chứng</td><td>Biết khi nào bảo vệ, khi nào điều chỉnh, và giải thích vì sao</td></tr>
+  <tr><td>Tự soi</td><td>Chung chung, thiếu bằng chứng</td><td>Có tình huống thật cho từng điểm</td><td>Có xác nhận từ đồng nghiệp, hướng phát triển rõ</td></tr></table></div>`;
+  h+=`<h2>Sau buổi tổng kết (nộp trong 3 ngày)</h2>`;SUMMARY.afterQs.forEach((q,i)=>h+=qBlock(`sum.after.q${i}`,`${i+1}. ${esc(q)}`,''));
+  return h;
+}
+function viewSettings(){
+  return `<h1>Cài đặt và lưu trữ</h1>
+  <h2>Thông tin chung</h2><div class="card"><div class="field-row"><div><label>Tên học viên</label><input type="text" data-meta="student" value="${esc(state.meta.student)}"></div><div><label>Ngày bắt đầu thực tập</label><input type="date" data-meta="startDate" value="${esc(state.meta.startDate)}"></div></div></div>
+  <h2>File .md tổng hợp</h2><div class="card"><p style="margin-top:0">Toàn bộ nội dung em đã nhập được gộp thành <b>một file .md</b> để đọc, tra cứu và lưu trữ. File này cũng chứa bản sao dữ liệu, nên có thể dùng để khôi phục trên máy khác.</p>
+  <div class="row-actions"><button class="primary" data-act="export">Tải file .md</button><button data-act="import">Nhập lại từ file .md</button><button data-act="preview">Xem trước file .md</button></div>
+  <pre id="mdPreview" style="display:none;white-space:pre-wrap;max-height:420px;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12.5px;margin-top:10px"></pre></div>
+  <h2>Đồng bộ GitHub</h2><div class="card">${ghReady()?`<p style="margin-top:0">Đã kết nối. Mọi thay đổi tự lưu lên GitHub sau 15 giây, khi rời tab hoặc đóng app, và khi mở lại app nếu còn thay đổi chưa lên. Mentor xem được mọi lần lưu.</p>
+  <div class="row-actions"><button class="primary" data-act="push">Đồng bộ ngay</button><button data-act="pull">Tải bản mới nhất từ GitHub</button></div>
+  <p class="muted" style="font-size:13px">Lần lưu GitHub gần nhất: ${fmtDateTime(localStorage.getItem(LASTPUSH_KEY))} · <a href="https://github.com/${encodeURIComponent(gh.owner)}/${encodeURIComponent(gh.repo)}/blob/${encodeURIComponent(gh.branch)}/${gh.path}" target="_blank" rel="noopener">Xem file hồ sơ trên GitHub</a></p>`:`<p style="margin:0">Chưa kết nối GitHub nên dữ liệu chỉ lưu trên máy này. Nhờ mentor vào mục <b>Kết nối GitHub</b> để thiết lập, sau đó đăng xuất và đăng nhập lại.</p>`}</div>
+  <h2>Dữ liệu trên máy</h2><div class="card"><p style="margin-top:0">Dữ liệu tự lưu trong trình duyệt của máy này. Nếu xóa dữ liệu trình duyệt hoặc đổi máy, hãy dùng file .md hoặc GitHub để khôi phục.</p><div class="row-actions"><button data-act="reset" style="color:var(--warn)">Xóa toàn bộ dữ liệu trên máy</button></div></div>`;
+}
+
+/* =========================================================
+   XUẤT / NHẬP FILE .MD
+   ========================================================= */
+function mdCell(s){return String(s||'').replace(/\|/g,'\\|').replace(/\r?\n/g,'<br>').trim()||' ';}
+function mdTable(headers,rows){return `| ${headers.map(mdCell).join(' | ')} |\n| ${headers.map(()=> '---').join(' | ')} |\n`+rows.map(r=>`| ${r.map(mdCell).join(' | ')} |`).join('\n')+'\n';}
+function mdAnswer(id){const a=(state.answers[id]||'').trim();return a?a:'_(chưa trả lời)_';}
+function b64enc(str){const bytes=new TextEncoder().encode(str);let bin='';for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(bin);}
+function b64dec(b64){const bin=atob(b64.replace(/\s+/g,''));const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder().decode(bytes);}
+function buildMarkdown(){
+  const L=[];const wk=currentWeek();
+  L.push(`# Hồ sơ thực tập FRT – ${state.meta.student||'Gia Khôi'}`,'');
+  L.push(`- Cập nhật lần cuối: ${fmtDateTime(state.meta.updatedAt||new Date().toISOString())}`);
+  L.push(`- Ngày bắt đầu thực tập: ${state.meta.startDate||'chưa đặt'}${wk?` (đang ở tuần ${wk}/12)`:''}`);
+  CASES.forEach(c=>{const p=caseProgress(c);L.push(`- ${c.code} – ${c.title}: ${p.done}/${p.total} câu hỏi · ${rowsFilled(c.id+'.terms')}/${c.termTarget} thuật ngữ`);});
+  L.push('','## Mục lục','','1. Ghi chép hằng ngày','2. Nhật ký tuần',...CASES.map((c,i)=>`${i+3}. ${c.code} – ${c.title}`),'6. Sổ thuật ngữ tổng hợp','7. Buổi tổng kết đúc kết','');
+  // daily
+  L.push('## 1. Ghi chép hằng ngày','');
+  const daily=[...state.daily].sort((a,b)=>(b.d||'').localeCompare(a.d||''));
+  L.push(daily.length?mdTable(['Ngày','Chủ đề','Ghi chép'],daily.map(e=>[e.d,e.tag,e.note])):'_(chưa có)_','');
+  // weekly
+  L.push('## 2. Nhật ký tuần','');
+  let anyW=false;
+  for(let w=1;w<=12;w++){const o=state.weekly[w]||{};if(!Object.values(o).some(v=>String(v).trim()))continue;anyW=true;L.push(`### Tuần ${w}`,'');WEEKLY_QS.forEach(([k,l])=>{L.push(`**${l}**`,'',(o[k]||'').trim()||'_(trống)_','');});}
+  if(!anyW)L.push('_(chưa có)_','');
+  // cases
+  CASES.forEach((c,ci)=>{
+    L.push(`## ${ci+3}. ${c.code} – ${c.title}`,'',`_${c.sub}_`,'');
+    c.bs.forEach(bs=>{
+      L.push(`### ${B_META[bs.b].title}`,'');
+      if(bs.readSummary)L.push('**Tóm tắt tài liệu đọc thêm**','',mdAnswer(`${c.id}.${bs.b}.read`),'');
+      bs.parts.forEach((p,pi)=>{
+        if(p.title)L.push(`#### ${p.title}`,'');
+        if(p.table){const rows=ensureRows(p.table.id,p.table.rows.length);L.push(`**${p.table.title}**`,'',mdTable([...p.table.staticCols,...p.table.cols.map(x=>x.l)],p.table.rows.map((sr,ri)=>[...sr,...p.table.cols.map(x=>rows[ri][x.k])])),'');}
+        p.qs.forEach((q,qi)=>{L.push(`**${qi+1}. [${q[0]}] ${q[1]}**`,'',mdAnswer(`${c.id}.${bs.b}.p${pi}.q${qi}`),'');});
+      });
+    });
+    c.extras.forEach(x=>{
+      if(x.type==='heading')L.push(`### ${x.title}`,'');
+      if(x.type==='fixed'){const rows=ensureRows(x.id,x.rows);L.push(`#### ${x.title}`,'',mdTable(['#',...x.cols.map(k=>k.l)],rows.map((r,i)=>[i+1,...x.cols.map(k=>r[k.k])])),'');(x.qs||[]).forEach((q,i)=>L.push(`**${i+1}. ${q}**`,'',mdAnswer(`${x.id}.q${i}`),''));}
+      if(x.type==='qs'){L.push(`#### ${x.title}`,'');x.qs.forEach((q,i)=>L.push(`**${i+1}. ${q}**`,'',mdAnswer(`${x.id}.q${i}`),''));}
+      if(x.type==='dyn'){const rows=(state.tables[x.id]||[]).filter(r=>Object.values(r).some(v=>String(v||'').trim()));L.push(`### ${x.title}`,'',rows.length?mdTable(x.cols.map(k=>k.l),rows.map(r=>x.cols.map(k=>r[k.k]))):'_(chưa có)_','');}
+    });
+    const terms=(state.tables[c.id+'.terms']||[]).filter(r=>(r.term||'').trim());
+    L.push('### Sổ thuật ngữ','',terms.length?mdTable(c.termCols.map(k=>k.l),terms.map(r=>c.termCols.map(k=>r[k.k]))):'_(chưa có)_','');
+    const logs=(state.tables[c.id+'.log']||[]).filter(r=>Object.values(r).some(v=>String(v||'').trim()));
+    L.push('### Nhật ký cập nhật thông tin','',logs.length?mdTable(c.logCols.map(k=>k.l),logs.map(r=>c.logCols.map(k=>r[k.k]))):'_(chưa có)_','');
+  });
+  // glossary
+  const at=allTerms();
+  L.push('## 6. Sổ thuật ngữ tổng hợp','',at.length?mdTable(['Thuật ngữ','Giải thích','Ví dụ','Case'],at.map(t=>[t.term,t.def,t.ex,t.case.code])):'_(chưa có)_','');
+  // summary
+  L.push('## 7. Buổi tổng kết đúc kết','',`- Ngày dự kiến: ${state.meta.summaryDate||'chưa đặt'}`,'');
+  L.push('### Hồ sơ nộp trước buổi','');checklistItems().forEach(([k,label])=>L.push(`- [${state.checks[k]?'x':' '}] ${label}`));L.push('');
+  const mrows=ensureRows('sum.matrix',4);
+  L.push('### Ma trận đúc kết 3 case','',mdTable(['Khung học thuật',...SUMMARY.matrixCols.map(k=>k.l)],SUMMARY.matrixRows.map((r,i)=>[r,...SUMMARY.matrixCols.map(k=>mrows[i][k.k])])),'');
+  L.push('### Câu hỏi đúc kết cuối cùng','');SUMMARY.finalQs.forEach((q,i)=>L.push(`**${i+1}. ${q}**`,'',mdAnswer(`sum.final.q${i}`),''));
+  L.push('### Câu hỏi hỏi lại mentor','');SUMMARY.myQs.forEach((q,i)=>L.push(`- ${(state.answers['sum.ask.q'+i]||'').trim()||'_(trống)_'}`));L.push('');
+  L.push('### Sau buổi tổng kết','');SUMMARY.afterQs.forEach((q,i)=>L.push(`**${i+1}. ${q}**`,'',mdAnswer(`sum.after.q${i}`),''));
+  L.push('---','','_File được tạo tự động từ Sổ thực tập FRT. Đoạn dữ liệu ẩn bên dưới dùng để khôi phục, vui lòng không sửa._','');
+  L.push(`<!-- KHOI-DATA ${b64enc(JSON.stringify(state))} -->`,'');
+  return L.join('\n');
+}
+function parseMarkdown(md){const m=md.match(/<!--\s*KHOI-DATA\s+([A-Za-z0-9+/=\s]+?)\s*-->/);if(!m)throw new Error('Không tìm thấy dữ liệu trong file');const s=JSON.parse(b64dec(m[1]));if(!s.meta)throw new Error('Dữ liệu không hợp lệ');return Object.assign(defaultState(),s);}
+function fileName(){return `ho-so-thuc-tap-frt-${todayStr()}.md`;}
+function exportMd(){const blob=new Blob([buildMarkdown()],{type:'text/markdown;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fileName();document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);toast('Đã tải file .md');}
+function importMd(file){const r=new FileReader();r.onload=()=>{try{const s=parseMarkdown(r.result);if(!confirm('Thay dữ liệu trên máy bằng dữ liệu trong file (cập nhật lúc '+fmtDateTime(s.meta.updatedAt)+')?'))return;state=s;localStorage.setItem(STORE_KEY,JSON.stringify(state));route();toast('Đã nhập dữ liệu từ file');}catch(e){alert('Không đọc được file: '+e.message);}};r.readAsText(file);}
+
+/* =========================================================
+   GITHUB
+   ========================================================= */
+function ghReady(){return gh.owner&&gh.repo&&gh.token&&gh.path;}
+function ghUrl(){return `https://api.github.com/repos/${encodeURIComponent(gh.owner)}/${encodeURIComponent(gh.repo)}/contents/${gh.path.split('/').map(encodeURIComponent).join('/')}`;}
+function ghHeaders(){return {'Authorization':'Bearer '+gh.token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};}
+async function ghGet(){const r=await fetch(ghUrl()+'?ref='+encodeURIComponent(gh.branch||'main')+'&t='+Date.now(),{headers:ghHeaders(),cache:'no-store'});if(r.status===404){ghSha=null;return null;}if(!r.ok)throw new Error(ghErr(r.status));const j=await r.json();ghSha=j.sha||null;return j;}
+function ghErr(s){return s===401?'Token không hợp lệ hoặc đã hết hạn':s===403?'Token không có quyền ghi vào kho này':s===404?'Không tìm thấy kho hoặc nhánh':'Lỗi GitHub ('+s+')';}
+let pushing=null, pushAgain=false;
+function hasPending(){return localStorage.getItem(PENDING_KEY)==='1';}
+async function pushGitHub(silent,opts={}){
+  if(!ghReady()){if(!silent){toast('Chưa cấu hình GitHub. Mở Cài đặt để thiết lập.');location.hash='#/settings';}return;}
+  if(saveTimer){clearTimeout(saveTimer);saveTimer=null;persist();}
+  clearTimeout(pushTimer);
+  if(pushing){pushAgain=true;return pushing;}
+  const btn=document.getElementById('btnPush');btn.disabled=true;btn.textContent='Đang lưu…';
+  pushing=(async()=>{
+    try{
+      const md=buildMarkdown();
+      const h=hashStr(md);
+      if(silent&&localStorage.getItem(HASH_KEY)===h){localStorage.removeItem(PENDING_KEY);setStatus('Đã lưu lên GitHub');return;}
+      const body={message:`Cập nhật hồ sơ thực tập ${new Date().toLocaleString('vi-VN')}`,content:b64enc(md),branch:gh.branch||'main'};
+      const put=async(sha,keepalive)=>{const b={...body};if(sha)b.sha=sha;const raw=JSON.stringify(b);
+        return fetch(ghUrl(),{method:'PUT',headers:{...ghHeaders(),'Content-Type':'application/json'},body:raw,keepalive:!!keepalive&&raw.length<60000});};
+      let r;
+      if(opts.fast&&ghSha){r=await put(ghSha,true);}
+      if(!r||r.status===409||r.status===422){const cur=await ghGet();r=await put(cur&&cur.sha,opts.fast);}
+      if(!r.ok)throw new Error(ghErr(r.status));
+      try{const j=await r.json();ghSha=j.content&&j.content.sha||null;}catch(e){}
+      localStorage.setItem(LASTPUSH_KEY,new Date().toISOString());
+      localStorage.removeItem(PENDING_KEY);localStorage.setItem(HASH_KEY,h);
+      if(!silent)toast('Đã lưu lên GitHub');
+      setStatus('Đã lưu lên GitHub lúc '+fmtTime(new Date()));
+    }catch(e){
+      setStatus('Đã lưu trên máy · chưa lên được GitHub');
+      if(!silent)toast('Không lưu được lên GitHub: '+e.message);
+    }finally{btn.disabled=false;btn.textContent='Lưu lên GitHub';}
+  })();
+  await pushing;pushing=null;
+  if(pushAgain){pushAgain=false;return pushGitHub(true);}
+}
+async function pullGitHub(auto){
+  if(!ghReady()){if(!auto)toast('Chưa cấu hình GitHub');return;}
+  try{
+    const cur=await ghGet();if(!cur){if(!auto)toast('Chưa có file trên GitHub. Hãy bấm Lưu lên GitHub trước.');return;}
+    const s=parseMarkdown(b64dec(cur.content));
+    const remoteNewer=(s.meta.updatedAt||'')>(state.meta.updatedAt||'');
+    if(auto){if(remoteNewer){state=s;localStorage.setItem(STORE_KEY,JSON.stringify(state));route();toast('Đã tải bản mới hơn từ GitHub');}return;}
+    if(!remoteNewer&&!confirm('Dữ liệu trên máy mới hơn hoặc bằng bản trên GitHub. Vẫn thay bằng bản GitHub?'))return;
+    state=s;localStorage.setItem(STORE_KEY,JSON.stringify(state));route();toast('Đã tải dữ liệu từ GitHub');
+  }catch(e){if(!auto)toast('Không tải được: '+e.message);}
+}
+
+/* =========================================================
+   SỰ KIỆN
+   ========================================================= */
+function autoGrow(el){if(el.tagName!=='TEXTAREA')return;el.style.height='auto';el.style.height=(el.scrollHeight+2)+'px';}
+function autoGrowAll(){document.querySelectorAll('#view textarea').forEach(autoGrow);}
+const view=document.getElementById('view');
+view.addEventListener('input',e=>{
+  const t=e.target,d=t.dataset;
+  if(d.a!==undefined){state.answers[d.a]=t.value;touch();}
+  else if(d.t!==undefined){ensureRows(d.t,+d.r+1)[+d.r][d.c]=t.value;touch();const cnt=document.querySelector(`[data-count="${d.t}"]`);if(cnt)cnt.textContent=rowsFilled(d.t);}
+  else if(d.w!==undefined){(state.weekly[d.w]=state.weekly[d.w]||{})[d.wk]=t.value;touch();}
+  else if(d.meta!==undefined){state.meta[d.meta]=t.value;touch();renderNav((location.hash.replace('#/','')||'home'));}
+  else if(t.id==='searchBox'){runSearch();}
+  autoGrow(t);
+});
+view.addEventListener('change',e=>{
+  const t=e.target,d=t.dataset;
+  if(d.check!==undefined){state.checks[d.check]=t.checked;touch();}
+  if(d.t!==undefined&&t.tagName==='SELECT'){ensureRows(d.t,+d.r+1)[+d.r][d.c]=t.value;touch();}
+  if(d.meta==='startDate'&&(location.hash===''||location.hash==='#/home'))route();
+});
+view.addEventListener('click',e=>{
+  const t=e.target.closest('button');if(!t)return;const d=t.dataset;
+  if(d.add){ensureRows(d.add,0).push({});persist();route_keep();}
+  else if(d.del){if(!confirm('Xóa dòng này?'))return;state.tables[d.del].splice(+d.r,1);persist();route_keep();}
+  else if(d.week){weekSel=+d.week;route_keep();}
+  else if(d.ddel!==undefined){if(!confirm('Xóa ghi chép này?'))return;state.daily.splice(+d.ddel,1);persist();route_keep();}
+  else if(t.id==='dAdd'){const note=document.getElementById('dNote').value.trim();if(!note){toast('Hãy viết nội dung ghi chép');return;}state.daily.push({d:document.getElementById('dDate').value||todayStr(),tag:document.getElementById('dTag').value,note});persist();route_keep();toast('Đã thêm ghi chép');}
+  else if(d.act==='export')exportMd();
+  else if(d.act==='import')document.getElementById('fileImport').click();
+  else if(d.act==='preview'){const p=document.getElementById('mdPreview');p.style.display=p.style.display==='none'?'block':'none';p.textContent=buildMarkdown().replace(/<!-- KHOI-DATA[\s\S]*?-->/,'<!-- KHOI-DATA … -->');}
+  else if(d.act==='push')pushGitHub();
+  else if(d.act==='pull')pullGitHub();
+  else if(d.act==='reset'){if(confirm('Xóa toàn bộ dữ liệu trên máy này? Hãy tải file .md trước nếu cần.')&&confirm('Chắc chắn xóa?')){state=defaultState();localStorage.removeItem(STORE_KEY);route();toast('Đã xóa dữ liệu trên máy');}}
+});
+function route_keep(){const y=window.scrollY;route();window.scrollTo(0,y);}
+document.getElementById('fileImport').addEventListener('change',e=>{if(e.target.files[0])importMd(e.target.files[0]);e.target.value='';});
+document.getElementById('btnExport').addEventListener('click',exportMd);
+document.getElementById('btnPush').addEventListener('click',()=>pushGitHub());
+document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
+window.addEventListener('hashchange',route);
+function flushOnLeave(){if(APP.role!=='khoi')return;if(saveTimer){clearTimeout(saveTimer);saveTimer=null;persist();}if(gh.auto&&ghReady()&&hasPending())pushGitHub(true,{fast:true});}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flushOnLeave();});
+window.addEventListener('pagehide',flushOnLeave);
+window.addEventListener('beforeunload',e=>{flushOnLeave();if(gh.auto&&ghReady()&&pushing){e.preventDefault();e.returnValue='';}});
+
+/* =========================================================
+   MÀN HÌNH MENTOR
+   ========================================================= */
+const Mentor=(()=>{
+  const CACHE_KEY='khoi-frt-mentor-diffs', PAGE=30;
+  const CASE_SHORT={c1:'Case 1',c2:'Case 2',c3:'Case 3'};
+  const WL={plan:'Kế hoạch',real:'Thực tế',why:'Vì sao khác',next:'Tuần sau làm gì khác',rule:'Quy luật rút ra',meaning:'Điều có ý nghĩa'};
+  let diffCache=(()=>{try{return JSON.parse(localStorage.getItem(CACHE_KEY))||{};}catch(e){return {};}})();
+  let commits=null, snaps={}, shown=PAGE, latest=null, loading=false, lastErr='', loadedAt=null;
+  const el=id=>document.getElementById(id);
+  const conf=()=>({owner:gh.owner,repo:gh.repo,branch:gh.branch,path:gh.path,token:gh.token});
+  const ready=()=>{const c=conf();return !!(c.owner&&c.repo);};
+  const pth=()=>conf().path||'ho-so-thuc-tap-frt.md', br=()=>conf().branch||'main';
+  const api=p=>`https://api.github.com/repos/${encodeURIComponent(conf().owner)}/${encodeURIComponent(conf().repo)}${p}`;
+  const hdr=a=>{const h={'Accept':a||'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};if(conf().token)h['Authorization']='Bearer '+conf().token;return h;};
+  const err=s=>s===401?'Token không hợp lệ hoặc đã hết hạn.':s===403?'Token không có quyền đọc kho này, hoặc đã vượt giới hạn truy cập.':s===404?'Không tìm thấy kho, nhánh hoặc file. Kiểm tra lại cài đặt.':'Lỗi GitHub ('+s+').';
+  const empty=()=>({meta:{},answers:{},tables:{},checks:{},weekly:{},daily:[]});
+  const dayKey=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const fmtDay=d=>{const t=new Date(),y=new Date(Date.now()-864e5);if(dayKey(d)===dayKey(t))return 'Hôm nay';if(dayKey(d)===dayKey(y))return 'Hôm qua';return d.toLocaleDateString('vi-VN',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});};
+  const ago=d=>{const m=Math.round((Date.now()-d)/6e4);if(m<1)return 'vừa xong';if(m<60)return m+' phút trước';const h=Math.round(m/60);if(h<24)return h+' giờ trước';return Math.round(h/24)+' ngày trước';};
+  const cut=(s,n)=>{s=String(s||'').trim();return s.length>n?s.slice(0,n)+'…':s;};
+  const parse=md=>{const m=md.match(/<!--\s*KHOI-DATA\s+([A-Za-z0-9+/=\s]+?)\s*-->/);if(!m)return null;try{return JSON.parse(b64dec(m[1]));}catch(e){return null;}};
+
+  /* ----- nhãn ----- */
+  function group(k){const p=k.split('.');
+    if(p[0]==='sum')return ({final:'câu đúc kết cuối',ask:'câu hỏi cho mentor',after:'mục sau buổi tổng kết'}[p[1]]||'mục tổng kết');
+    const c=CASE_SHORT[p[0]]||p[0];
+    if(/^b[1-4]$/.test(p[1]))return p[2]==='read'?`tóm tắt đọc thêm ${p[1].toUpperCase()}`:`${p[1].toUpperCase()} (${c})`;
+    if(p[1]==='self')return 'Tự soi';if(p[1]==='close')return `đúc kết ${c}`;return c;}
+  function title(k){const p=k.split('.');
+    if(p[0]==='sum')return group(k)+(p[2]?' '+(+p[2].slice(1)+1):'');
+    if(/^b[1-4]$/.test(p[1])){if(p[2]==='read')return `${CASE_SHORT[p[0]]} · Tóm tắt đọc thêm ${p[1].toUpperCase()}`;
+      const cs=CASES.find(x=>x.id===p[0]);const bs=cs&&cs.bs.find(x=>x.b===p[1]);const q=bs&&bs.parts[+p[2].slice(1)]&&bs.parts[+p[2].slice(1)].qs[+p[3].slice(1)];
+      return `${CASE_SHORT[p[0]]} · ${p[1].toUpperCase()} · `+(q?cut(q[1],110):'câu '+(+p[3].slice(1)+1));}
+    if(p[1]==='self')return 'Case 1 · Tự soi · '+({strengths:'điểm mạnh',learned:'điểm mới học',lost:'mất khách',far:'nhìn xa hơn'}[p[2]]||p[2]);
+    if(p[1]==='close')return `${CASE_SHORT[p[0]]} · Câu hỏi đúc kết của case`;return k;}
+  function tlabel(id){const p=id.split('.');
+    if(id==='sum.matrix')return 'dòng ma trận đúc kết';if(p[1]==='log')return `dòng nhật ký cập nhật (${CASE_SHORT[p[0]]})`;
+    if(p[1]==='assume')return `giả định (${CASE_SHORT[p[0]]})`;if(p[1]==='self')return 'dòng bảng Tự soi';
+    if(id==='c1.b3.channel')return 'dòng bảng kênh phân phối (B3)';return 'dòng bảng '+id;}
+  const filled=r=>r&&Object.values(r).some(v=>String(v||'').trim());
+  const sig=r=>JSON.stringify(Object.keys(r||{}).sort().map(k=>[k,String(r[k]||'').trim()]).filter(x=>x[1]));
+
+  /* ----- so sánh hai bản chụp ----- */
+  function diff(nw,od){
+    od=od||empty();nw=nw||empty();
+    const o={added:[],edited:[],terms:[],termEdits:[],rows:[],daily:[],weekly:[],checks:[]};
+    const na=nw.answers||{},oa=od.answers||{};
+    Object.keys(na).forEach(k=>{const n=(na[k]||'').trim(),x=(oa[k]||'').trim();if(!n||n===x)return;(x?o.edited:o.added).push({k,text:cut(n,600)});});
+    const nt=nw.tables||{},ot=od.tables||{};
+    Object.keys(nt).forEach(id=>{
+      if(id.endsWith('.terms')){const c=id.split('.')[0],om={};(ot[id]||[]).forEach(r=>{if((r.term||'').trim())om[r.term.trim().toLowerCase()]=r;});
+        (nt[id]||[]).forEach(r=>{const t=(r.term||'').trim();if(!t)return;const x=om[t.toLowerCase()];if(!x)o.terms.push({c,term:t,def:cut(r.def,300)});else if(sig(x)!==sig(r))o.termEdits.push({c,term:t,def:cut(r.def,300)});});return;}
+      const old=new Set((ot[id]||[]).filter(filled).map(sig));const fresh=(nt[id]||[]).filter(filled).filter(r=>!old.has(sig(r)));
+      if(fresh.length)o.rows.push({label:tlabel(id),n:fresh.length,rows:fresh.slice(0,5).map(r=>cut(Object.values(r).filter(v=>String(v||'').trim()).join(' · '),300))});
+    });
+    const od2=new Set((od.daily||[]).map(e=>(e.d||'')+'|'+(e.note||'')));
+    (nw.daily||[]).forEach(e=>{if(!od2.has((e.d||'')+'|'+(e.note||'')))o.daily.push({d:e.d,tag:e.tag,note:cut(e.note,600)});});
+    const nw2=nw.weekly||{},ow=od.weekly||{};
+    Object.keys(nw2).forEach(w=>{const ch=Object.keys(nw2[w]||{}).filter(k=>String(nw2[w][k]||'').trim()&&String(nw2[w][k]||'').trim()!==String((ow[w]||{})[k]||'').trim());
+      if(ch.length)o.weekly.push({w:+w,fields:ch.map(k=>({l:WL[k]||k,text:cut(nw2[w][k],400)}))});});
+    o.weekly.sort((a,b)=>a.w-b.w);
+    Object.keys(nw.checks||{}).forEach(k=>{if(nw.checks[k]&&!(od.checks||{})[k])o.checks.push(k);});
+    return o;
+  }
+  function chipList(d){const c=[];const g=a=>{const r={};a.forEach(x=>{const l=group(x.k);r[l]=(r[l]||0)+1;});return r;};
+    Object.entries(g(d.added)).forEach(([l,n])=>c.push(['',`${n} câu trả lời ${l}`]));
+    Object.entries(g(d.edited)).forEach(([l,n])=>c.push(['edit',`sửa ${n} câu ${l}`]));
+    if(d.terms.length)c.push(['',`${d.terms.length} thuật ngữ mới`]);if(d.termEdits.length)c.push(['edit',`sửa ${d.termEdits.length} thuật ngữ`]);
+    if(d.daily.length)c.push(['',`${d.daily.length} ghi chép hằng ngày`]);d.weekly.forEach(w=>c.push(['',`nhật ký tuần ${w.w}`]));
+    d.rows.forEach(r=>c.push(['',`${r.n} ${r.label}`]));if(d.checks.length)c.push(['',`tích ${d.checks.length} mục hồ sơ tổng kết`]);return c;}
+  function detail(d){let h='';
+    if(d.added.length||d.edited.length){h+='<h4>Câu trả lời</h4>';[...d.added.map(x=>({...x,t:'mới'})),...d.edited.map(x=>({...x,t:'sửa'}))].forEach(x=>h+=`<div><b>${esc(title(x.k))}</b> <span class="muted">(${x.t})</span><blockquote>${esc(x.text)}</blockquote></div>`);}
+    if(d.terms.length||d.termEdits.length){h+='<h4>Thuật ngữ</h4>';[...d.terms,...d.termEdits].forEach(t=>h+=`<div><b>${esc(t.term)}</b> <span class="muted">(${CASE_SHORT[t.c]})</span>${t.def?': '+esc(t.def):''}</div>`);}
+    if(d.daily.length){h+='<h4>Ghi chép hằng ngày</h4>';d.daily.forEach(e=>h+=`<div><b>${esc(e.d)}</b>${e.tag?` <span class="muted">· ${esc(e.tag)}</span>`:''}<blockquote>${esc(e.note)}</blockquote></div>`);}
+    d.weekly.forEach(w=>{h+=`<h4>Nhật ký tuần ${w.w}</h4>`;w.fields.forEach(f=>h+=`<div><b>${esc(f.l)}</b><blockquote>${esc(f.text)}</blockquote></div>`);});
+    if(d.rows.length){h+='<h4>Bảng</h4>';d.rows.forEach(r=>{h+=`<div><b>${r.n} ${esc(r.label)}</b>${r.rows.map(x=>`<blockquote>${esc(x)}</blockquote>`).join('')}</div>`;});}
+    return h||'<span class="muted">Lần lưu này không có thay đổi nội dung.</span>';}
+
+  /* ----- GitHub ----- */
+  async function fetchCommits(){const all=[];
+    for(let page=1;page<=5;page++){const r=await fetch(api(`/commits?path=${encodeURIComponent(pth())}&sha=${encodeURIComponent(br())}&per_page=100&page=${page}`),{headers:hdr(),cache:'no-store'});
+      if(r.status===404||r.status===409)break;if(!r.ok)throw new Error(err(r.status));const j=await r.json();all.push(...j.map(c=>({sha:c.sha,date:new Date(c.commit.author.date),url:c.html_url})));if(j.length<100)break;}
+    return all;}
+  async function fetchSnap(sha){if(snaps[sha]!==undefined)return snaps[sha];
+    const r=await fetch(api(`/contents/${pth().split('/').map(encodeURIComponent).join('/')}?ref=${sha}`),{headers:hdr('application/vnd.github.raw+json')});
+    if(r.status===404){snaps[sha]=null;return null;}if(!r.ok)throw new Error(err(r.status));snaps[sha]=parse(await r.text());return snaps[sha];}
+  async function pool(items,fn,n=6){let i=0;await Promise.all(Array.from({length:Math.min(n,items.length)},async()=>{while(i<items.length){const x=items[i++];await fn(x);}}));}
+  async function ensureDiffs(upto){const need=commits.slice(0,upto).filter(c=>!diffCache[c.sha]);const s=new Set();
+    need.forEach(c=>{const i=commits.indexOf(c);s.add(c.sha);if(commits[i+1])s.add(commits[i+1].sha);});await pool([...s],fetchSnap);
+    need.forEach(c=>{const i=commits.indexOf(c);diffCache[c.sha]=diff(snaps[c.sha],commits[i+1]?snaps[commits[i+1].sha]:empty());});
+    try{localStorage.setItem(CACHE_KEY,JSON.stringify(diffCache));}catch(e){}}
+
+  /* ----- giao diện ----- */
+  function overviewHtml(){
+    if(!commits)return '';const s=latest||empty(),last=commits[0],ans=s.answers||{};
+    const cnt=c=>caseQuestions(c).filter(q=>!q.reading&&(ans[q.id]||'').trim()).length;
+    const terms=c=>((s.tables||{})[c.id+'.terms']||[]).filter(r=>(r.term||'').trim()).length;
+    const weeks=Object.values(s.weekly||{}).filter(o=>Object.values(o||{}).some(v=>String(v).trim())).length;
+    const days=new Set(commits.map(c=>dayKey(c.date)));
+    let wk='';if(s.meta&&s.meta.startDate){const w=Math.floor((Date.now()-new Date(s.meta.startDate+'T00:00:00'))/(7*864e5))+1;wk=` · đang ở tuần ${w}/12`;}
+    let h=`<h2>Tổng quan${wk}</h2><div class="mgrid">
+      <div class="card"><div class="mlabel">Lần cập nhật gần nhất</div><div class="stat">${last?ago(last.date):'—'}</div><div class="mlabel">${last?fmtDay(last.date)+' lúc '+fmtTime(last.date):'Chưa có dữ liệu'}</div></div>
+      <div class="card"><div class="mlabel">Số lần lưu</div><div class="stat">${commits.length}</div><div class="mlabel">trong ${days.size} ngày có hoạt động</div></div>
+      <div class="card"><div class="mlabel">Ghi chép hằng ngày</div><div class="stat">${(s.daily||[]).length}</div><div class="mlabel">${weeks}/12 tuần đã viết nhật ký</div></div>`;
+    CASES.forEach(c=>{const tot=caseQuestions(c).filter(q=>!q.reading).length,n=cnt(c);h+=`<div class="card"><div class="mlabel">${esc(c.code)} – ${esc(c.title)}</div><div class="stat">${n}/${tot}</div><div class="mlabel">câu trả lời · ${terms(c)}/${c.termTarget} thuật ngữ</div><div class="bar"><i style="width:${Math.round(100*n/tot)}%"></i></div></div>`;});
+    h+='</div>';
+    const per={};commits.forEach(c=>{const k=dayKey(c.date);per[k]=(per[k]||0)+1;});
+    const cells=[];for(let i=27;i>=0;i--){const d=new Date(Date.now()-i*864e5),n=per[dayKey(d)]||0;cells.push(`<i class="${n===0?'':n===1?'l1':n<=3?'l2':'l3'}" title="${d.toLocaleDateString('vi-VN')}: ${n} lần lưu"></i>`);}
+    h+=`<div class="card"><div class="mlabel">Hoạt động 28 ngày gần nhất (mỗi ô là một ngày, màu đậm hơn là lưu nhiều lần hơn)</div><div class="heat">${cells.join('')}</div><div class="heat-legend"><span>${new Date(Date.now()-27*864e5).toLocaleDateString('vi-VN')}</span><span>Hôm nay</span></div></div>`;
+    const c=conf(),base=`https://github.com/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}`;
+    h+=`<p class="muted" style="font-size:13px">Đọc toàn bộ hồ sơ hiện tại: <a href="${base}/blob/${encodeURIComponent(br())}/${pth()}" target="_blank" rel="noopener">mở file trên GitHub</a> · <a href="${base}/commits/${encodeURIComponent(br())}/${pth()}" target="_blank" rel="noopener">lịch sử trên GitHub</a></p>`;
+    return h;}
+  function timelineHtml(){
+    if(loading&&!commits)return '<div class="muted" style="padding:12px 0">Đang đọc lịch sử từ GitHub…</div>';
+    if(!commits)return '';
+    let h='<h2>Dòng thời gian cập nhật</h2>';const list=commits.slice(0,shown);
+    if(!list.length)return h+'<div class="card muted">Chưa có lần lưu nào.</div>';
+    let cur='';h+='<div class="card">';
+    list.forEach((c,i)=>{const k=dayKey(c.date);if(k!==cur){if(cur)h+='</div><div class="card">';cur=k;h+=`<div class="day-title">${esc(fmtDay(c.date))}</div>`;}
+      const d=diffCache[c.sha],cs=d?chipList(d):[];
+      h+=`<div class="entry"><div class="etime">${fmtTime(c.date)}</div><div><div class="mchips">${d?(cs.length?cs.map(x=>`<span class="mchip ${x[0]}">${esc(x[1])}</span>`).join(''):'<span class="mchip none">không có thay đổi nội dung</span>'):'<span class="mchip none">đang tải…</span>'}</div>
+        <div class="eactions">${d&&cs.length?`<button class="linkbtn" data-mtoggle="${i}">Xem chi tiết</button>`:''}<a href="${c.url}" target="_blank" rel="noopener">Xem trên GitHub</a></div>
+        <div class="mdetail" id="mdet${i}">${d?detail(d):''}</div></div></div>`;});
+    h+='</div>';if(commits.length>shown)h+=`<p style="text-align:center"><button data-mmore="1">Tải thêm ${Math.min(PAGE,commits.length-shown)} lần lưu cũ hơn</button></p>`;
+    return h;}
+  function paint(){if(!el('mOverview'))return;el('mOverview').innerHTML=overviewHtml();el('mTimeline').innerHTML=timelineHtml();el('mError').innerHTML=lastErr?`<div class="merr">${esc(lastErr)}</div>`:'';
+    const sub=el('mSub');if(sub&&ready()){const c=conf();sub.textContent=`Kho ${c.owner}/${c.repo} · nhánh ${br()} · file ${pth()}${loadedAt?' · tải lúc '+fmtTime(loadedAt):''}`;}}
+  async function load(){
+    lastErr='';if(!ready()){paint();return;}
+    loading=true;commits=null;latest=null;paint();
+    try{commits=await fetchCommits();if(commits.length)latest=await fetchSnap(commits[0].sha);loadedAt=new Date();loading=false;paint();await ensureDiffs(shown);}
+    catch(e){lastErr=e.message;commits=null;}
+    loading=false;paint();}
+  function render(){
+    const h=`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><h1 style="margin-right:auto">Theo dõi Khôi</h1>
+      <button class="primary" data-mact="refresh">Làm mới</button></div>
+      <p class="lead" id="mSub">Đọc trực tiếp từ GitHub · chỉ xem, không sửa</p>
+      <div id="mError"></div>${ready()?'':'<div class="card">Chưa kết nối GitHub. Vào mục <a href="#/setup">Kết nối GitHub</a> để thiết lập một lần.</div>'}<div id="mOverview"></div><div id="mTimeline"></div>`;
+    setTimeout(()=>{if(commits===null&&!loading&&ready()&&!lastErr)load();else paint();},0);
+    return h;}
+  async function onClick(t){
+    const a=t.dataset.mact;
+    if(a==='refresh')load();
+    else if(t.dataset.mtoggle!==undefined){const d=el('mdet'+t.dataset.mtoggle);d.classList.toggle('open');t.textContent=d.classList.contains('open')?'Ẩn chi tiết':'Xem chi tiết';}
+    else if(t.dataset.mmore){t.disabled=true;t.textContent='Đang tải…';shown+=PAGE;paint();try{await ensureDiffs(shown);}catch(e){lastErr=e.message;}paint();}
+  }
+  return {render,onClick};
+})();
+view.addEventListener('click',e=>{const t=e.target.closest('button');if(t&&(t.dataset.mact||t.dataset.mtoggle!==undefined||t.dataset.mmore))Mentor.onClick(t);});
+
+/* =========================================================
+   ĐĂNG NHẬP & KẾT NỐI GITHUB
+   Mật khẩu chỉ lưu dưới dạng mã SHA-256. Token GitHub được mã hóa
+   bằng chính mật khẩu (PBKDF2 + AES-GCM) và lưu trong config.json.
+   ========================================================= */
+const Auth=(()=>{
+  const ROLE_SHA={khoi:'b8f5b04a98451b409870e7d5d9ee1470d9307daa73b8fd539c73555cf0d0f344',mentor:'c9b10b9a7b1f4ff9824743cc741eaea29c4e5e8880502bab86f5e87b1b1d6e7c'};
+  const SESSION_KEY='khoi-frt-session', CONFIG_CACHE='khoi-frt-config', DATA_BRANCH='data', DATA_PATH='ho-so-thuc-tap-frt.md';
+  const te=new TextEncoder(), td=new TextDecoder();
+  const b64=u8=>{let s='';u8.forEach(b=>s+=String.fromCharCode(b));return btoa(s);};
+  const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+  async function sha(s){const b=await crypto.subtle.digest('SHA-256',te.encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+  async function key(pw,salt){const base=await crypto.subtle.importKey('raw',te.encode(pw),'PBKDF2',false,['deriveKey']);
+    return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:200000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);}
+  async function enc(pw,plain){const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+    const c=await crypto.subtle.encrypt({name:'AES-GCM',iv},await key(pw,salt),te.encode(plain));return {s:b64(salt),i:b64(iv),c:b64(new Uint8Array(c))};}
+  async function dec(pw,o){const p=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(o.i)},await key(pw,unb64(o.s)),unb64(o.c));return td.decode(p);}
+  async function loadConfig(){
+    try{const r=await fetch('config.json?t='+Date.now(),{cache:'no-store'});if(r.ok){const j=await r.json();if(j&&j.owner){localStorage.setItem(CONFIG_CACHE,JSON.stringify(j));return j;}}}catch(e){}
+    try{return JSON.parse(localStorage.getItem(CONFIG_CACHE));}catch(e){return null;}
+  }
+  function readSession(){try{return JSON.parse(sessionStorage.getItem(SESSION_KEY)||localStorage.getItem(SESSION_KEY));}catch(e){return null;}}
+  function saveSession(s,remember){const v=JSON.stringify(s);sessionStorage.setItem(SESSION_KEY,v);if(remember)localStorage.setItem(SESSION_KEY,v);}
+
+  function enter(s){
+    APP.role=s.role;
+    gh={auto:true,owner:s.owner||'',repo:s.repo||'',branch:s.branch||DATA_BRANCH,path:s.path||DATA_PATH,token:s.token||''};
+    document.getElementById('gate').style.display='none';
+    document.querySelector('.app').style.display='';
+    const isK=s.role==='khoi';
+    document.getElementById('btnExport').style.display=isK?'':'none';
+    document.getElementById('btnPush').style.display=isK?'':'none';
+    if(isK){
+      if(location.hash==='#/mentor'||location.hash==='#/setup')location.hash='#/home';
+      route();
+      if(!ghReady())setStatus('Chưa kết nối GitHub · dữ liệu chỉ lưu trên máy này');
+      else if(state.meta.updatedAt)setStatus('Đã lưu trên máy lúc '+fmtDateTime(state.meta.updatedAt));
+      (async()=>{await pullGitHub(true);if(ghReady()&&hasPending())pushGitHub(true);})();
+    }else{
+      setStatus('Mentor · chỉ xem');
+      if(location.hash!=='#/setup')location.hash='#/mentor';
+      route();
+    }
+  }
+  async function login(pw,remember){
+    const h=await sha(pw);
+    const role=h===ROLE_SHA.khoi?'khoi':h===ROLE_SHA.mentor?'mentor':null;
+    if(!role)return false;
+    const cfg=await loadConfig();let token='';
+    if(cfg&&cfg.tk&&cfg.tk[role]){try{token=await dec(pw,cfg.tk[role]);}catch(e){token='';}}
+    if(role==='mentor')sessionStorage.setItem('khoi-frt-mpw',pw);
+    const s={role,token,owner:cfg&&cfg.owner,repo:cfg&&cfg.repo,branch:cfg&&cfg.branch,path:cfg&&cfg.path};
+    saveSession(s,remember);enter(s);return true;
+  }
+  function logout(){
+    if(APP.role==='khoi'&&saveTimer){clearTimeout(saveTimer);saveTimer=null;persist();}
+    const go=()=>{sessionStorage.removeItem(SESSION_KEY);localStorage.removeItem(SESSION_KEY);location.hash='';location.reload();};
+    if(APP.role==='khoi'&&ghReady()&&hasPending())pushGitHub(true).finally(go);else go();
+  }
+  function showGate(){
+    document.querySelector('.app').style.display='none';
+    const g=document.getElementById('gate');g.style.display='';
+    setTimeout(()=>{const i=document.getElementById('gatePass');if(i)i.focus();},50);
+  }
+  async function onGate(){
+    const i=document.getElementById('gatePass'),m=document.getElementById('gateMsg'),b=document.getElementById('gateBtn');
+    if(!i.value){m.textContent='Hãy nhập mật khẩu.';return;}
+    b.disabled=true;b.textContent='Đang mở…';m.textContent='';
+    let ok=false;try{ok=await login(i.value,document.getElementById('gateRemember').checked);}catch(e){m.textContent='Trình duyệt không hỗ trợ. Hãy mở bằng đường link https.';}
+    if(!ok){if(!m.textContent)m.textContent='Mật khẩu không đúng.';i.select();}
+    b.disabled=false;b.textContent='Vào';
+  }
+  function start(){
+    try{localStorage.removeItem('khoi-frt-github');}catch(e){}
+    document.getElementById('gateBtn').addEventListener('click',onGate);
+    document.getElementById('gatePass').addEventListener('keydown',e=>{if(e.key==='Enter')onGate();});
+    document.getElementById('btnLogout').addEventListener('click',logout);
+    const s=readSession();
+    if(s&&s.role){
+      // cập nhật cấu hình mới nhất nếu phiên cũ chưa có kết nối
+      enter(s);
+    }else showGate();
+  }
+
+  /* ----- Thiết lập kết nối (chỉ mentor) ----- */
+  function viewSetup(){
+    const c=(()=>{try{return JSON.parse(localStorage.getItem(CONFIG_CACHE))||{};}catch(e){return {};}})();
+    return `<h1>Kết nối GitHub</h1><p class="lead">Làm <b>một lần</b> sau khi đưa webapp lên GitHub. Sau bước này, Khôi chỉ cần mở link và nhập mật khẩu là dữ liệu tự lưu lên GitHub.</p>
+    ${gh.owner&&gh.repo?`<div class="card">Đang kết nối với kho <b>${esc(gh.owner)}/${esc(gh.repo)}</b>, dữ liệu ở nhánh <b>${esc(gh.branch)}</b>, file <b>${esc(gh.path)}</b>. <a href="https://github.com/${encodeURIComponent(gh.owner)}/${encodeURIComponent(gh.repo)}/blob/${encodeURIComponent(gh.branch)}/${gh.path}" target="_blank" rel="noopener">Mở file trên GitHub</a></div>`:''}
+    <div class="card">
+      <div class="field-row"><div><label>Tên tài khoản GitHub (chủ kho)</label><input type="text" id="sOwner" value="${esc(gh.owner||c.owner||'')}" placeholder="ten-tai-khoan"></div><div><label>Tên kho</label><input type="text" id="sRepo" value="${esc(gh.repo||c.repo||'so-thuc-tap')}"></div></div>
+      <div style="margin-top:10px"><label>Token GitHub (quyền Contents: Read and write, chỉ cho kho này)</label><input type="password" id="sToken" placeholder="github_pat_…"></div>
+      <div style="margin-top:10px"><label>Nhập lại mật khẩu của Khôi (để Khôi mở được kết nối)</label><input type="password" id="sKhoi"></div>
+      <div class="row-actions" style="margin-top:12px"><button class="primary" data-sact="connect">Kết nối</button></div>
+      <div id="sMsg" style="margin-top:10px;font-size:14px"></div>
+    </div>
+    <p class="muted" style="font-size:13px">Token được mã hóa bằng mật khẩu trước khi lưu vào file <code>config.json</code> của kho, nên không ai đọc được token nếu không biết mật khẩu. Dữ liệu của Khôi lưu ở nhánh <code>${DATA_BRANCH}</code> để không làm trang web phải dựng lại mỗi lần lưu.</p>`;
+  }
+  async function connect(){
+    const msg=t=>{document.getElementById('sMsg').innerHTML=t;};
+    const owner=document.getElementById('sOwner').value.trim(),repo=document.getElementById('sRepo').value.trim(),token=document.getElementById('sToken').value.trim(),kpw=document.getElementById('sKhoi').value;
+    if(!owner||!repo||!token||!kpw){msg('<span style="color:var(--warn)">Hãy điền đủ 4 ô.</span>');return;}
+    if((await sha(kpw))!==ROLE_SHA.khoi){msg('<span style="color:var(--warn)">Mật khẩu của Khôi chưa đúng.</span>');return;}
+    const H={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
+    const A=p=>`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}${p}`;
+    const fail=t=>msg(`<span style="color:var(--warn)">${t}</span>`);
+    try{
+      msg('Đang kiểm tra kho…');
+      let r=await fetch(A(''),{headers:H});
+      if(r.status===401)return fail('Token không hợp lệ hoặc đã hết hạn.');
+      if(r.status===404)return fail('Không tìm thấy kho, hoặc token chưa được cấp quyền cho kho này.');
+      if(!r.ok)return fail('Lỗi GitHub ('+r.status+').');
+      const info=await r.json();const main=info.default_branch||'main';
+      if(info.permissions&&info.permissions.push===false)return fail('Token chỉ có quyền đọc. Hãy cấp quyền Contents: Read and write.');
+      msg('Đang chuẩn bị nhánh lưu dữ liệu…');
+      r=await fetch(A('/git/ref/heads/'+DATA_BRANCH),{headers:H});
+      if(r.status===404){
+        const m=await fetch(A('/git/ref/heads/'+encodeURIComponent(main)),{headers:H});if(!m.ok)return fail('Kho chưa có nội dung. Hãy tải các file webapp lên trước.');
+        const sha0=(await m.json()).object.sha;
+        const c=await fetch(A('/git/refs'),{method:'POST',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify({ref:'refs/heads/'+DATA_BRANCH,sha:sha0})});
+        if(!c.ok)return fail('Không tạo được nhánh dữ liệu ('+c.status+'). Kiểm tra quyền Contents: Read and write.');
+      }else if(!r.ok)return fail('Lỗi GitHub ('+r.status+').');
+      msg('Đang mã hóa và lưu cấu hình…');
+      const mpw=sessionStorage.getItem('khoi-frt-mpw')||'';
+      const cfg={owner,repo,branch:DATA_BRANCH,path:DATA_PATH,tk:{khoi:await enc(kpw,token)}};
+      if(mpw)cfg.tk.mentor=await enc(mpw,token);
+      const cur=await fetch(A('/contents/config.json?ref='+encodeURIComponent(main)),{headers:H});
+      const body={message:'Cấu hình kết nối Sổ thực tập',branch:main,content:btoa(unescape(encodeURIComponent(JSON.stringify(cfg,null,2))))};
+      if(cur.ok)body.sha=(await cur.json()).sha;
+      const w=await fetch(A('/contents/config.json'),{method:'PUT',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify(body)});
+      if(!w.ok)return fail('Không ghi được config.json ('+w.status+').');
+      localStorage.setItem(CONFIG_CACHE,JSON.stringify(cfg));
+      const s={role:'mentor',token,owner,repo,branch:DATA_BRANCH,path:DATA_PATH};
+      saveSession(s,!!localStorage.getItem(SESSION_KEY));gh={...gh,owner,repo,branch:DATA_BRANCH,path:DATA_PATH,token};
+      msg('<span style="color:var(--accent)"><b>Đã kết nối.</b> Đợi 1–2 phút để GitHub Pages cập nhật, sau đó Khôi mở link và nhập mật khẩu là dùng được. Bấm <a href="#/mentor">Theo dõi Khôi</a> để xem dữ liệu.</span>');
+    }catch(e){fail('Không kết nối được GitHub: '+e.message);}
+  }
+  return {start,login,logout,viewSetup,connect,sha,ROLE_SHA};
+})();
+view.addEventListener('click',e=>{const t=e.target.closest('button');if(t&&t.dataset.sact==='connect')Auth.connect();});
+
+Auth.start();
+</script>
+</body>
+</html>
