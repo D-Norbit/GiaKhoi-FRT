@@ -126,6 +126,23 @@ mark{background:var(--warn-soft);color:inherit;padding:0 2px;border-radius:3px}
 .gate-remember{display:flex;gap:8px;align-items:center;justify-content:center;font-size:13px;color:var(--muted);margin-bottom:14px}
 .gate-remember input{width:auto}
 .gate-msg{color:var(--warn);font-size:14px;min-height:20px;margin-top:10px}
+.ptabs{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 14px;background:var(--bg);padding:6px 0;z-index:4}
+@media (min-width:821px){.ptabs{position:sticky;top:58px}}
+.ptab{border-radius:999px;padding:5px 12px;font-size:13px}
+.ptab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.pchip{display:block;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--ink);text-decoration:none;cursor:pointer;font-size:14px}
+.pchip b{display:block;font-size:15px;margin-bottom:2px}
+.pchip .bar{display:block}
+.pq{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0}
+.pq-q{font-size:13.5px;color:var(--muted);font-weight:600;margin-bottom:4px}
+.pq-a{white-space:pre-wrap;line-height:1.6}
+.pq-a.empty{color:var(--muted);font-style:italic;font-size:14px}
+.ptbl td{white-space:pre-wrap}
+.pempty{font-size:14px}
+.ponly{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
+.ponly input{width:auto}
+@media print{.ptabs,.ponly{display:none!important}.pq{break-inside:avoid}}
 @media print{aside,.topbar,.row-actions,button{display:none!important}.app{display:block}textarea{border:none}}
 </style>
 </head>
@@ -458,6 +475,7 @@ const ROUTES=[
 ];
 const ROUTES_M=[
   {id:'mentor',label:'Theo dõi Khôi',small:'Tổng quan và dòng thời gian'},
+  {id:'profile',label:'Hồ sơ của Khôi',small:'Đọc toàn bộ câu trả lời'},
   {id:'setup',label:'Kết nối GitHub',small:'Thiết lập một lần'}
 ];
 function renderNav(active){
@@ -467,8 +485,8 @@ function renderNav(active){
 function route(){
   if(!APP.role)return;
   let id=(location.hash.replace('#/','')||'home').split('?')[0];
-  if(APP.role==='mentor'&&id!=='mentor'&&id!=='setup')id='mentor';
-  if(APP.role==='khoi'&&(id==='mentor'||id==='setup'))id='home';
+  if(APP.role==='mentor'&&!['mentor','profile','setup'].includes(id))id='mentor';
+  if(APP.role==='khoi'&&['mentor','profile','setup'].includes(id))id='home';
   renderNav(id);
   const v=document.getElementById('view');
   const c=CASES.find(x=>x.id===id);
@@ -480,6 +498,7 @@ function route(){
   else if(id==='settings') v.innerHTML=viewSettings();
   else if(id==='mentor') v.innerHTML=Mentor.render();
   else if(id==='setup') v.innerHTML=Auth.viewSetup();
+  else if(id==='profile') v.innerHTML=Profile.render();
   else v.innerHTML=viewHome();
   document.getElementById('sidebar').classList.remove('open');
   autoGrowAll(); window.scrollTo(0,0);
@@ -941,7 +960,7 @@ const Mentor=(()=>{
     const cells=[];for(let i=27;i>=0;i--){const d=new Date(Date.now()-i*864e5),n=per[dayKey(d)]||0;cells.push(`<i class="${n===0?'':n===1?'l1':n<=3?'l2':'l3'}" title="${d.toLocaleDateString('vi-VN')}: ${n} lần lưu"></i>`);}
     h+=`<div class="card"><div class="mlabel">Hoạt động 28 ngày gần nhất (mỗi ô là một ngày, màu đậm hơn là lưu nhiều lần hơn)</div><div class="heat">${cells.join('')}</div><div class="heat-legend"><span>${new Date(Date.now()-27*864e5).toLocaleDateString('vi-VN')}</span><span>Hôm nay</span></div></div>`;
     const c=conf(),base=`https://github.com/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}`;
-    h+=`<p class="muted" style="font-size:13px">Đọc toàn bộ hồ sơ hiện tại: <a href="${base}/blob/${encodeURIComponent(br())}/${pth()}" target="_blank" rel="noopener">mở file trên GitHub</a> · <a href="${base}/commits/${encodeURIComponent(br())}/${pth()}" target="_blank" rel="noopener">lịch sử trên GitHub</a></p>`;
+    h+=`<p class="muted" style="font-size:13px">Đọc toàn bộ hồ sơ hiện tại: <a href="#/profile"><b>Hồ sơ của Khôi</b></a> · <a href="${base}/blob/${encodeURIComponent(br())}/${pth()}" target="_blank" rel="noopener">file gốc trên GitHub</a> · <a href="${base}/commits/${encodeURIComponent(br())}/${pth()}" target="_blank" rel="noopener">lịch sử trên GitHub</a></p>`;
     return h;}
   function timelineHtml(){
     if(loading&&!commits)return '<div class="muted" style="padding:12px 0">Đang đọc lịch sử từ GitHub…</div>';
@@ -979,6 +998,145 @@ const Mentor=(()=>{
   }
   return {render,onClick};
 })();
+/* =========================================================
+   HỒ SƠ CỦA KHÔI (mentor đọc, chỉ xem)
+   ========================================================= */
+const Profile=(()=>{
+  let S=null, loading=false, err='', sec='overview', onlyDone=false, loadedAt=null, q='';
+  const SECS=[['overview','Tổng quan'],...CASES.map(c=>[c.id,c.code+' – '+c.title]),['weekly','Nhật ký tuần'],['daily','Ghi chép hằng ngày'],['terms','Thuật ngữ'],['summary','Buổi tổng kết']];
+  const el=id=>document.getElementById(id);
+  const txt=s=>esc(String(s||'').trim());
+  // các hàm dùng chung (caseQuestions, rowsFilled…) đọc biến state, nên tạm gán bản chụp của Khôi khi dựng trang
+  function withSnap(fn){const saved=state;state=Object.assign(defaultState(),S||{});try{return fn();}finally{state=saved;}}
+  const ans=id=>(state.answers[id]||'').trim();
+  function qa(label,tags,id){
+    const a=ans(id);if(onlyDone&&!a)return '';
+    return `<div class="pq"><div class="pq-q">${tags?tagsHtml(tags):''}${label}</div>${a?`<div class="pq-a">${esc(a)}</div>`:'<div class="pq-a empty">Chưa trả lời</div>'}</div>`;
+  }
+  function tbl(cols,rows,statics){
+    const filled=rows.map((r,i)=>({r,i})).filter(x=>statics||Object.values(x.r||{}).some(v=>String(v||'').trim()));
+    if(!filled.length)return '<p class="muted pempty">Chưa có dữ liệu.</p>';
+    return `<div class="tbl-wrap"><table class="tbl ptbl"><tr>${statics?statics.head.map(h=>`<th>${esc(h)}</th>`).join(''):''}${cols.map(c=>`<th>${esc(c.l)}</th>`).join('')}</tr>${filled.map(({r,i})=>`<tr>${statics?(statics.rows[i]||[]).map(s=>`<td class="static">${esc(s)}</td>`).join(''):''}${cols.map(c=>`<td>${txt((r||{})[c.k])}</td>`).join('')}</tr>`).join('')}</table></div>`;
+  }
+  function progressChips(){
+    return CASES.map(c=>{const p=caseProgress(c),t=rowsFilled(c.id+'.terms');return `<a class="pchip" data-psec="${c.id}"><b>${esc(c.code)}</b> ${p.done}/${p.total} câu · ${t}/${c.termTarget} thuật ngữ<span class="bar"><i style="width:${Math.round(100*p.done/p.total)}%"></i></span></a>`;}).join('');
+  }
+  function secOverview(){
+    const wk=currentWeek(),daily=state.daily.length,weeks=Object.values(state.weekly).filter(o=>Object.values(o||{}).some(v=>String(v).trim())).length;
+    const last=[...state.daily].sort((a,b)=>(b.d||'').localeCompare(a.d||'')).slice(0,5);
+    let h=`<div class="pgrid">${progressChips()}
+      <a class="pchip" data-psec="weekly"><b>Nhật ký tuần</b> ${weeks}/12 tuần<span class="bar"><i style="width:${Math.round(100*weeks/12)}%"></i></span></a>
+      <a class="pchip" data-psec="daily"><b>Ghi chép</b> ${daily} ghi chép hằng ngày</a></div>`;
+    h+=`<h2>Ghi chép gần nhất</h2>${last.length?last.map(e=>`<div class="pq"><div class="pq-q">${esc(e.d)}${e.tag?` · ${esc(e.tag)}`:''}</div><div class="pq-a">${esc(e.note)}</div></div>`).join(''):'<p class="muted">Chưa có ghi chép.</p>'}`;
+    const lw=Object.keys(state.weekly).map(Number).filter(w=>Object.values(state.weekly[w]||{}).some(v=>String(v).trim())).sort((a,b)=>b-a)[0];
+    if(lw){h+=`<h2>Nhật ký tuần gần nhất: tuần ${lw}</h2>`;WEEKLY_QS.forEach(([k,l])=>{const v=(state.weekly[lw]||{})[k];if(v&&v.trim())h+=`<div class="pq"><div class="pq-q">${esc(l)}</div><div class="pq-a">${esc(v)}</div></div>`;});}
+    const rules=(state.tables['sum.matrix']||[]).map((r,i)=>[SUMMARY.matrixRows[i],r&&r.rule]).filter(x=>x[1]&&x[1].trim());
+    if(rules.length){h+=`<h2>Quy luật Khôi đã rút ra</h2>`+rules.map(r=>`<div class="pq"><div class="pq-q">${esc(r[0])}</div><div class="pq-a">${esc(r[1])}</div></div>`).join('');}
+    return h;
+  }
+  function secCase(c){
+    const p=caseProgress(c);
+    let h=`<p class="lead">${esc(c.sub)} · đã trả lời ${p.done}/${p.total} câu</p>`;
+    c.bs.forEach(bs=>{
+      const qs=caseQuestions(c).filter(x=>x.b===bs.b&&!x.reading),done=qs.filter(x=>ans(x.id)).length;
+      if(onlyDone&&!done&&!ans(`${c.id}.${bs.b}.read`))return;
+      h+=`<h2>${esc(B_META[bs.b].title)} <span class="chip ${done===qs.length?'done':''}">${done}/${qs.length}</span></h2>`;
+      if(bs.readSummary)h+=qa('Tóm tắt tài liệu đọc thêm','',`${c.id}.${bs.b}.read`);
+      bs.parts.forEach((pt,pi)=>{
+        const partDone=pt.qs.some((x,qi)=>ans(`${c.id}.${bs.b}.p${pi}.q${qi}`))||(pt.table&&rowsFilled(pt.table.id));
+        if(onlyDone&&!partDone)return;
+        if(pt.title)h+=`<p class="part-title">${esc(pt.title)}</p>`;
+        if(pt.table){h+=`<p class="pq-q" style="margin-top:8px">${esc(pt.table.title)}</p>`+tbl(pt.table.cols,state.tables[pt.table.id]||[],{head:pt.table.staticCols,rows:pt.table.rows});}
+        pt.qs.forEach((x,qi)=>h+=qa(`${qi+1}. ${esc(x[1])}`,x[0],`${c.id}.${bs.b}.p${pi}.q${qi}`));
+      });
+    });
+    c.extras.forEach(x=>{
+      if(x.type==='heading')h+=`<h2>${esc(x.title)}</h2>`;
+      if(x.type==='fixed'){h+=`<h3>${esc(x.title)}</h3>`+tbl(x.cols,state.tables[x.id]||[]);(x.qs||[]).forEach((qq,i)=>h+=qa(`${i+1}. ${esc(qq)}`,'',`${x.id}.q${i}`));}
+      if(x.type==='qs'){h+=`<h3>${esc(x.title)}</h3>`;x.qs.forEach((qq,i)=>h+=qa(`${i+1}. ${esc(qq)}`,'',`${x.id}.q${i}`));}
+      if(x.type==='dyn'){h+=`<h2>${esc(x.title)}</h2>`+tbl(x.cols,state.tables[x.id]||[]);}
+    });
+    h+=`<h2>Sổ thuật ngữ <span class="chip">${rowsFilled(c.id+'.terms')}/${c.termTarget}</span></h2>`+tbl(c.termCols,state.tables[c.id+'.terms']||[]);
+    h+=`<h2>Nhật ký cập nhật thông tin</h2>`+tbl(c.logCols,state.tables[c.id+'.log']||[]);
+    return h;
+  }
+  function secWeekly(){
+    let h='',any=false;
+    for(let w=12;w>=1;w--){const o=state.weekly[w]||{};if(!Object.values(o).some(v=>String(v).trim()))continue;any=true;
+      h+=`<h2>Tuần ${w}</h2>`;WEEKLY_QS.forEach(([k,l])=>{if(onlyDone&&!(o[k]||'').trim())return;h+=`<div class="pq"><div class="pq-q">${esc(l)}</div>${(o[k]||'').trim()?`<div class="pq-a">${esc(o[k])}</div>`:'<div class="pq-a empty">Trống</div>'}</div>`;});}
+    return any?h:'<p class="muted">Khôi chưa viết nhật ký tuần nào.</p>';
+  }
+  function secDaily(){
+    const list=[...state.daily].sort((a,b)=>(b.d||'').localeCompare(a.d||''));
+    if(!list.length)return '<p class="muted">Chưa có ghi chép.</p>';
+    let h='',cur='';list.forEach(e=>{if(e.d!==cur){cur=e.d;h+=`<h3>${esc(e.d)}</h3>`;}h+=`<div class="pq">${e.tag?`<div class="pq-q">${esc(e.tag)}</div>`:''}<div class="pq-a">${esc(e.note)}</div></div>`;});
+    return h;
+  }
+  function secTerms(){
+    const t=allTerms().filter(x=>!q||[x.term,x.def,x.ex,x.cmp,x.src].join(' ').toLowerCase().includes(q.toLowerCase()));
+    return `<input type="text" id="pSearch" placeholder="Tìm thuật ngữ…" value="${esc(q)}" style="margin-bottom:10px">`+
+      (t.length?`<div class="tbl-wrap"><table class="tbl ptbl"><tr><th>Thuật ngữ</th><th>Giải thích của Khôi</th><th>Ví dụ</th><th>Nguồn</th><th>Case</th></tr>${t.map(x=>`<tr><td><b>${txt(x.term)}</b></td><td>${txt(x.def)}</td><td>${txt(x.ex)}</td><td>${txt(x.src)}</td><td>${esc(x.case.code)}</td></tr>`).join('')}</table></div>`:'<p class="muted">Chưa có thuật ngữ.</p>');
+  }
+  function secSummary(){
+    let h='<h2>Hồ sơ nộp trước buổi</h2><div class="card checklist">';
+    checklistItems().forEach(([k,label,auto])=>{h+=`<label><input type="checkbox" disabled ${state.checks[k]?'checked':''}><span>${esc(label)} ${auto===true?'<span class="chip done">đủ</span>':auto===false?'<span class="chip due">chưa đủ</span>':''}</span></label>`;});
+    h+='</div><h2>Ma trận đúc kết 3 case</h2>'+tbl(SUMMARY.matrixCols,ensureRowsLocal('sum.matrix',4),{head:['Khung học thuật'],rows:SUMMARY.matrixRows.map(x=>[x])});
+    h+='<h2>Câu hỏi đúc kết cuối cùng</h2>';SUMMARY.finalQs.forEach((x,i)=>h+=qa(`${i+1}. ${esc(x)}`,'',`sum.final.q${i}`));
+    h+='<h2>Câu hỏi Khôi muốn hỏi mentor</h2>';SUMMARY.myQs.forEach((x,i)=>h+=qa(esc(x),'',`sum.ask.q${i}`));
+    h+='<h2>Sau buổi tổng kết</h2>';SUMMARY.afterQs.forEach((x,i)=>h+=qa(`${i+1}. ${esc(x)}`,'',`sum.after.q${i}`));
+    return h;
+  }
+  function ensureRowsLocal(id,n){const r=[...(state.tables[id]||[])];while(r.length<n)r.push({});return r;}
+  function body(){
+    if(loading&&!S)return '<p class="muted">Đang tải hồ sơ từ GitHub…</p>';
+    if(err)return `<div class="merr">${esc(err)}</div>`;
+    if(!S)return '<div class="card">Chưa có dữ liệu. Khôi chưa lưu lần nào, hoặc chưa kết nối GitHub (mục <a href="#/setup">Kết nối GitHub</a>).</div>';
+    return withSnap(()=>{
+      const c=CASES.find(x=>x.id===sec);
+      return c?secCase(c):sec==='weekly'?secWeekly():sec==='daily'?secDaily():sec==='terms'?secTerms():sec==='summary'?secSummary():secOverview();
+    });
+  }
+  function header(){
+    if(!S)return '';
+    return withSnap(()=>{const wk=currentWeek();return `<p class="lead" style="margin-bottom:6px">${esc(state.meta.student||'Gia Khôi')}${state.meta.startDate?` · bắt đầu ${esc(state.meta.startDate)}`:''}${wk?` · đang ở tuần ${wk}/12`:''} · cập nhật lần cuối ${fmtDateTime(state.meta.updatedAt)}</p>`;});
+  }
+  function paint(){
+    if(!el('pBody'))return;
+    el('pHead').innerHTML=header();
+    el('pTabs').innerHTML=SECS.map(([k,l])=>`<button class="ptab ${k===sec?'on':''}" data-psec="${k}">${esc(l)}</button>`).join('');
+    el('pBody').innerHTML=body();
+    const s=el('pSearch');if(s){s.oninput=()=>{q=s.value;const pos=s.selectionStart;paint();const n=el('pSearch');n.focus();n.setSelectionRange(pos,pos);};}
+  }
+  async function load(){
+    if(!(gh.owner&&gh.repo)){paint();return;}
+    loading=true;err='';paint();
+    try{
+      const h={'Accept':'application/vnd.github.raw+json','X-GitHub-Api-Version':'2022-11-28'};if(gh.token)h['Authorization']='Bearer '+gh.token;
+      const r=await fetch(`https://api.github.com/repos/${encodeURIComponent(gh.owner)}/${encodeURIComponent(gh.repo)}/contents/${gh.path.split('/').map(encodeURIComponent).join('/')}?ref=${encodeURIComponent(gh.branch)}&t=${Date.now()}`,{headers:h,cache:'no-store'});
+      if(r.status===404){S=null;}
+      else if(!r.ok)err='Không tải được hồ sơ (lỗi GitHub '+r.status+').';
+      else{const md=await r.text();const m=md.match(/<!--\s*KHOI-DATA\s+([A-Za-z0-9+/=\s]+?)\s*-->/);S=m?JSON.parse(b64dec(m[1])):null;loadedAt=new Date();}
+    }catch(e){err='Không tải được hồ sơ: '+e.message;}
+    loading=false;paint();
+  }
+  function render(){
+    const qs=(location.hash.split('?')[1]||'');const m=qs.match(/s=([a-z0-9]+)/);if(m&&SECS.some(x=>x[0]===m[1]))sec=m[1];
+    setTimeout(()=>{if(!S&&!loading&&!err)load();else paint();},0);
+    return `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><h1 style="margin-right:auto">Hồ sơ của Khôi</h1>
+      <label class="ponly"><input type="checkbox" id="pOnly" ${onlyDone?'checked':''}> Chỉ hiện câu đã trả lời</label>
+      <button data-pact="print">In / lưu PDF</button><button class="primary" data-pact="reload">Làm mới</button></div>
+      <div id="pHead"></div><div class="ptabs" id="pTabs"></div><div id="pBody"></div>`;
+  }
+  view.addEventListener('click',e=>{
+    const a=e.target.closest('[data-psec]');if(a&&el('pBody')){e.preventDefault();sec=a.dataset.psec;paint();window.scrollTo(0,0);return;}
+    const b=e.target.closest('[data-pact]');if(!b)return;
+    if(b.dataset.pact==='reload')load();
+    if(b.dataset.pact==='print')window.print();
+  });
+  view.addEventListener('change',e=>{if(e.target.id==='pOnly'){onlyDone=e.target.checked;paint();}});
+  return {render};
+})();
+
 view.addEventListener('click',e=>{const t=e.target.closest('button');if(t&&(t.dataset.mact||t.dataset.mtoggle!==undefined||t.dataset.mmore))Mentor.onClick(t);});
 
 /* =========================================================
@@ -1014,14 +1172,14 @@ const Auth=(()=>{
     document.getElementById('btnExport').style.display=isK?'':'none';
     document.getElementById('btnPush').style.display=isK?'':'none';
     if(isK){
-      if(location.hash==='#/mentor'||location.hash==='#/setup')location.hash='#/home';
+      if(/^#\/(mentor|profile|setup)/.test(location.hash))location.hash='#/home';
       route();
       if(!ghReady())setStatus('Chưa kết nối GitHub · dữ liệu chỉ lưu trên máy này');
       else if(state.meta.updatedAt)setStatus('Đã lưu trên máy lúc '+fmtDateTime(state.meta.updatedAt));
       (async()=>{await pullGitHub(true);if(ghReady()&&hasPending())pushGitHub(true);})();
     }else{
       setStatus('Mentor · chỉ xem');
-      if(location.hash!=='#/setup')location.hash='#/mentor';
+      if(!/^#\/(profile|setup)/.test(location.hash))location.hash='#/mentor';
       route();
     }
   }
@@ -1068,10 +1226,12 @@ const Auth=(()=>{
   /* ----- Thiết lập kết nối (chỉ mentor) ----- */
   function viewSetup(){
     const c=(()=>{try{return JSON.parse(localStorage.getItem(CONFIG_CACHE))||{};}catch(e){return {};}})();
+    const host=location.hostname.endsWith('.github.io')?location.hostname.split('.')[0]:'';
+    const seg=host?(location.pathname.split('/').filter(Boolean)[0]||''):'';
     return `<h1>Kết nối GitHub</h1><p class="lead">Làm <b>một lần</b> sau khi đưa webapp lên GitHub. Sau bước này, Khôi chỉ cần mở link và nhập mật khẩu là dữ liệu tự lưu lên GitHub.</p>
     ${gh.owner&&gh.repo?`<div class="card">Đang kết nối với kho <b>${esc(gh.owner)}/${esc(gh.repo)}</b>, dữ liệu ở nhánh <b>${esc(gh.branch)}</b>, file <b>${esc(gh.path)}</b>. <a href="https://github.com/${encodeURIComponent(gh.owner)}/${encodeURIComponent(gh.repo)}/blob/${encodeURIComponent(gh.branch)}/${gh.path}" target="_blank" rel="noopener">Mở file trên GitHub</a></div>`:''}
     <div class="card">
-      <div class="field-row"><div><label>Tên tài khoản GitHub (chủ kho)</label><input type="text" id="sOwner" value="${esc(gh.owner||c.owner||'')}" placeholder="ten-tai-khoan"></div><div><label>Tên kho</label><input type="text" id="sRepo" value="${esc(gh.repo||c.repo||'so-thuc-tap')}"></div></div>
+      <div class="field-row"><div><label>Tên tài khoản GitHub (username, không phải email)</label><input type="text" id="sOwner" value="${esc(gh.owner||c.owner||host)}" placeholder="ten-tai-khoan"></div><div><label>Tên kho</label><input type="text" id="sRepo" value="${esc(gh.repo||c.repo||seg||'so-thuc-tap')}"></div></div>
       <div style="margin-top:10px"><label>Token GitHub (quyền Contents: Read and write, chỉ cho kho này)</label><input type="password" id="sToken" placeholder="github_pat_…"></div>
       <div style="margin-top:10px"><label>Nhập lại mật khẩu của Khôi (để Khôi mở được kết nối)</label><input type="password" id="sKhoi"></div>
       <div class="row-actions" style="margin-top:12px"><button class="primary" data-sact="connect">Kết nối</button></div>
@@ -1081,8 +1241,11 @@ const Auth=(()=>{
   }
   async function connect(){
     const msg=t=>{document.getElementById('sMsg').innerHTML=t;};
-    const owner=document.getElementById('sOwner').value.trim(),repo=document.getElementById('sRepo').value.trim(),token=document.getElementById('sToken').value.trim(),kpw=document.getElementById('sKhoi').value;
+    let owner=document.getElementById('sOwner').value.trim().replace(/^https?:\/\/(www\.)?github\.com\//i,'').replace(/^@/,'').split('/')[0];
+    let repo=document.getElementById('sRepo').value.trim().replace(/\.git$/,'').split('/').pop();
+    const token=document.getElementById('sToken').value.trim(),kpw=document.getElementById('sKhoi').value;
     if(!owner||!repo||!token||!kpw){msg('<span style="color:var(--warn)">Hãy điền đủ 4 ô.</span>');return;}
+    if(owner.includes('@')){msg('<span style="color:var(--warn)">Ô đầu tiên cần <b>tên tài khoản</b> GitHub (phần nằm sau github.com/ trong đường link), không phải email.</span>');return;}
     if((await sha(kpw))!==ROLE_SHA.khoi){msg('<span style="color:var(--warn)">Mật khẩu của Khôi chưa đúng.</span>');return;}
     const H={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
     const A=p=>`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}${p}`;
@@ -1091,7 +1254,13 @@ const Auth=(()=>{
       msg('Đang kiểm tra kho…');
       let r=await fetch(A(''),{headers:H});
       if(r.status===401)return fail('Token không hợp lệ hoặc đã hết hạn.');
-      if(r.status===404)return fail('Không tìm thấy kho, hoặc token chưa được cấp quyền cho kho này.');
+      if(r.status===404){
+        let who='';try{const u=await fetch('https://api.github.com/user',{headers:H});if(u.ok)who=(await u.json()).login||'';}catch(e){}
+        const pub=await fetch(`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`).then(x=>x.status).catch(()=>0);
+        if(who&&who.toLowerCase()!==owner.toLowerCase())return fail(`Token này thuộc tài khoản <b>${esc(who)}</b>, nhưng ô tên tài khoản đang ghi <b>${esc(owner)}</b>. Hãy sửa cho khớp.`);
+        if(pub===404)return fail(`Không có kho <b>${esc(owner)}/${esc(repo)}</b> trên GitHub. Kiểm tra lại tên tài khoản và tên kho (phân biệt dấu gạch ngang, không dấu cách).`);
+        return fail(`Kho <b>${esc(owner)}/${esc(repo)}</b> có tồn tại, nhưng token chưa được cấp quyền cho kho này. Khi tạo token, ở mục <i>Repository access</i> hãy chọn <b>Only select repositories</b> và tích đúng kho <b>${esc(repo)}</b>; ở <i>Permissions → Contents</i> chọn <b>Read and write</b>.`);
+      }
       if(!r.ok)return fail('Lỗi GitHub ('+r.status+').');
       const info=await r.json();const main=info.default_branch||'main';
       if(info.permissions&&info.permissions.push===false)return fail('Token chỉ có quyền đọc. Hãy cấp quyền Contents: Read and write.');
