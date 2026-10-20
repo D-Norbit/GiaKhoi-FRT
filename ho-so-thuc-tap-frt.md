@@ -1,6 +1,6 @@
 # Hồ sơ thực tập FRT – Gia Khôi
 
-- Cập nhật lần cuối: 19/10/2026 11:21
+- Cập nhật lần cuối: 20/10/2026 09:19
 - Ngày bắt đầu thực tập: chưa đặt
 - Case 1 – FPT Shop: 0/22 câu hỏi · 0/12 thuật ngữ
 - Case 2 – Long Châu: 0/18 câu hỏi · 0/8 thuật ngữ
@@ -246,7 +246,10 @@ _(chưa có)_
 
 ### Nhật ký cập nhật thông tin
 
-_(chưa có)_
+| Ngày | Thông tin mới | Nguồn | Thay đổi gì trong câu trả lời hoặc quy luật của em? |
+| --- | --- | --- | --- |
+| 2026-10-20 |   |   |   |
+
 
 ## 4. Case 2 – Long Châu
 
@@ -542,4 +545,4 @@ _(chưa trả lời)_
 
 _File được tạo tự động từ Sổ thực tập FRT. Đoạn dữ liệu ẩn bên dưới dùng để khôi phục, vui lòng không sửa._
 
-<!-- KHOI-DATA eyJtZXRhIjp7InN0dWRlbnQiOiJHaWEgS2jDtGkiLCJzdGFydERhdGUiOiIiLCJ1cGRhdGVkQXQiOiIyMDI2LTEwLTE5VDA0OjIxOjM1LjA5MVoifSwiYW5zd2VycyI6eyJjMS5iMS5yZWFkIjoiVGjhu60gbmdoaeG7h20gLSB0ZXN0aW5nIn0sInRhYmxlcyI6eyJjMS5iMy5jaGFubmVsIjpbe30se30se30se30se30se30se31dLCJjMS5zZWxmLnN0cmVuZ3RocyI6W3t9LHt9LHt9XSwiYzEuc2VsZi5sZWFybmVkIjpbe30se30se31dLCJjMS5zZWxmLmxvc3QiOlt7fSx7fSx7fV0sImMxLnRlcm1zIjpbe31dLCJjMS5sb2ciOlt7fV0sInN1bS5tYXRyaXgiOlt7fSx7fSx7fSx7fV19LCJjaGVja3MiOnt9LCJ3ZWVrbHkiOnt9LCJkYWlseSI6W119 -->
+<!-- KHOI-DATA eyJtZXRhIjp7InN0dWRlbnQiOiJHaWEgS2jDtGkiLCJzdGFydERhdGUiOiIiLCJ1cGRhdGVkQXQiOiIyMDI2LTEwLTIwVDAyOjE5OjMyLjQwNFoifSwiYW5zd2VycyI6eyJjMS5iMS5yZWFkIjoiVGjhu60gbmdoaeG7h20gLSB0ZXN0aW5nIn0sInRhYmxlcyI6eyJjMS5iMy5jaGFubmVsIjpbe30se30se30se30se30se30se31dLCJjMS5zZWxmLnN0cmVuZ3RocyI6W3t9LHt9LHt9XSwiYzEuc2VsZi5sZWFybmVkIjpbe30se30se31dLCJjMS5zZWxmLmxvc3QiOlt7fSx7fSx7fV0sImMxLnRlcm1zIjpbe31dLCJjMS5sb2ciOlt7ImQiOiIyMDI2LTEwLTIwIn1dLCJzdW0ubWF0cml4Ijpbe30se30se30se31dfSwiY2hlY2tzIjp7fSwid2Vla2x5Ijp7fSwiZGFpbHkiOltdfQ== -->
