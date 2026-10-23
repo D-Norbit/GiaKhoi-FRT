@@ -152,6 +152,21 @@ mark{background:var(--warn-soft);color:inherit;padding:0 2px;border-radius:3px}
 .nfiles{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 details.card summary{cursor:pointer}
 .dsteps{padding-left:20px}.dsteps li{margin:12px 0}
+.rbar{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 4px}.rbar input{flex:1;min-width:180px}.rbar select{width:auto}
+.rprog .bar{margin-top:8px}
+.rshare{font-size:14px}.rshare.warn{border-color:var(--warn);background:var(--warn-soft)}
+.rgroup{padding:12px 16px}.rgroup summary{cursor:pointer;padding:2px 0}
+.rghead{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px}
+.rsub{font-size:13px;font-weight:600;color:var(--muted);margin:12px 0 2px;text-transform:none}
+.ritem{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line)}
+.ritem:first-of-type{border-top:0}
+.ritem.done .rtitle{color:var(--muted)}
+.rmain{min-width:0;flex:1}.rtitle{font-weight:500;word-break:break-word}
+.rmeta{font-size:12.5px;color:var(--muted);margin-top:2px}.rdesc{font-size:14px;margin-top:4px;white-space:pre-wrap}
+.rkind{display:inline-block;font-size:11px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:0 6px;margin-right:4px}
+.rchk{display:flex;gap:6px;align-items:center;font-size:13.5px;white-space:nowrap;cursor:pointer}.rchk input{width:auto}
+.rstat{font-size:12.5px;color:var(--muted);white-space:nowrap}.rstat.done{color:var(--accent);font-weight:600}
+@media (max-width:640px){.ritem{flex-direction:column;gap:6px}}
 @media print{aside,.topbar,.row-actions,button{display:none!important}.app{display:block}textarea{border:none}}
 </style>
 </head>
@@ -488,6 +503,7 @@ const ROUTES=[
   ...CASES.map(c=>({id:c.id,label:`${c.code} – ${c.title}`,small:c.sub})),
   {sep:true},
   {id:'terms',label:'Tra cứu',small:'Thuật ngữ và toàn bộ ghi chép'},
+  {id:'reading',label:'Tài liệu cần đọc',small:'Sách, bài viết, chủ đề · Drive'},
   {id:'summary',label:'Buổi tổng kết đúc kết',small:'Hồ sơ, ma trận, câu hỏi cuối'},
   {sep:true},
   {id:'settings',label:'Cài đặt và lưu trữ',small:'File .md, đồng bộ'}
@@ -495,6 +511,7 @@ const ROUTES=[
 const ROUTES_M=[
   {id:'mentor',label:'Theo dõi Khôi',small:'Tổng quan và dòng thời gian'},
   {id:'profile',label:'Hồ sơ của Khôi',small:'Đọc toàn bộ câu trả lời'},
+  {id:'reading',label:'Tài liệu cần đọc',small:'Sách, bài viết, chủ đề · Drive'},
   {id:'notes',label:'Ghi nhận của mentor',small:'Văn bản, ảnh, PDF · Google Drive'},
   {id:'setup',label:'Kết nối',small:'GitHub và Google Drive'}
 ];
@@ -505,7 +522,7 @@ function renderNav(active){
 function route(){
   if(!APP.role)return;
   let id=(location.hash.replace('#/','')||'home').split('?')[0];
-  if(APP.role==='mentor'&&!['mentor','profile','setup','notes'].includes(id))id='mentor';
+  if(APP.role==='mentor'&&!['mentor','profile','setup','notes','reading'].includes(id))id='mentor';
   if(APP.role==='khoi'&&['mentor','profile','setup','notes'].includes(id))id='home';
   renderNav(id);
   const v=document.getElementById('view');
@@ -520,6 +537,7 @@ function route(){
   else if(id==='setup') v.innerHTML=Auth.viewSetup();
   else if(id==='profile') v.innerHTML=Profile.render();
   else if(id==='notes') v.innerHTML=Drive.notesView();
+  else if(id==='reading') v.innerHTML=Reading.render();
   else v.innerHTML=viewHome();
   document.getElementById('sidebar').classList.remove('open');
   autoGrowAll(); window.scrollTo(0,0);
@@ -749,6 +767,8 @@ function buildMarkdown(){
   L.push('### Câu hỏi đúc kết cuối cùng','');SUMMARY.finalQs.forEach((q,i)=>L.push(`**${i+1}. ${q}**`,'',mdAnswer(`sum.final.q${i}`),''));
   L.push('### Câu hỏi hỏi lại mentor','');SUMMARY.myQs.forEach((q,i)=>L.push(`- ${(state.answers['sum.ask.q'+i]||'').trim()||'_(trống)_'}`));L.push('');
   L.push('### Sau buổi tổng kết','');SUMMARY.afterQs.forEach((q,i)=>L.push(`**${i+1}. ${q}**`,'',mdAnswer(`sum.after.q${i}`),''));
+  const rd=Object.entries(state.reading||{}).sort((a,b)=>String(a[1].d||'').localeCompare(String(b[1].d||'')));
+  if(rd.length)L.push('## Tài liệu đã đọc','',mdTable(['Ngày đánh dấu','Tài liệu'],rd.map(([k,v])=>[v.d||'',v.t||k])),'');
   L.push('---','',`_File được tạo tự động từ ${PROGRAM.title}. Đoạn dữ liệu ẩn bên dưới dùng để khôi phục, vui lòng không sửa._`,'');
   L.push(`<!-- KHOI-DATA ${b64enc(JSON.stringify(state))} -->`,'');
   return L.join('\n');
@@ -904,7 +924,8 @@ const Mentor=(()=>{
   /* ----- so sánh hai bản chụp ----- */
   function diff(nw,od){
     od=od||empty();nw=nw||empty();
-    const o={added:[],edited:[],terms:[],termEdits:[],rows:[],daily:[],weekly:[],checks:[]};
+    const o={added:[],edited:[],terms:[],termEdits:[],rows:[],daily:[],weekly:[],checks:[],reads:[]};
+    Object.keys(nw.reading||{}).forEach(k=>{if(!(od.reading||{})[k])o.reads.push((nw.reading[k]&&nw.reading[k].t)||k);});
     const na=nw.answers||{},oa=od.answers||{};
     Object.keys(na).forEach(k=>{const n=(na[k]||'').trim(),x=(oa[k]||'').trim();if(!n||n===x)return;(x?o.edited:o.added).push({k,text:cut(n,600)});});
     const nt=nw.tables||{},ot=od.tables||{};
@@ -928,13 +949,14 @@ const Mentor=(()=>{
     Object.entries(g(d.edited)).forEach(([l,n])=>c.push(['edit',`sửa ${n} câu ${l}`]));
     if(d.terms.length)c.push(['',`${d.terms.length} thuật ngữ mới`]);if(d.termEdits.length)c.push(['edit',`sửa ${d.termEdits.length} thuật ngữ`]);
     if(d.daily.length)c.push(['',`${d.daily.length} ghi chép hằng ngày`]);d.weekly.forEach(w=>c.push(['',`nhật ký tuần ${w.w}`]));
-    d.rows.forEach(r=>c.push(['',`${r.n} ${r.label}`]));if(d.checks.length)c.push(['',`tích ${d.checks.length} mục hồ sơ tổng kết`]);return c;}
+    d.rows.forEach(r=>c.push(['',`${r.n} ${r.label}`]));if(d.checks.length)c.push(['',`tích ${d.checks.length} mục hồ sơ tổng kết`]);if((d.reads||[]).length)c.push(['',`đã đọc ${d.reads.length} tài liệu`]);return c;}
   function detail(d){let h='';
     if(d.added.length||d.edited.length){h+='<h4>Câu trả lời</h4>';[...d.added.map(x=>({...x,t:'mới'})),...d.edited.map(x=>({...x,t:'sửa'}))].forEach(x=>h+=`<div><b>${esc(title(x.k))}</b> <span class="muted">(${x.t})</span><blockquote>${esc(x.text)}</blockquote></div>`);}
     if(d.terms.length||d.termEdits.length){h+='<h4>Thuật ngữ</h4>';[...d.terms,...d.termEdits].forEach(t=>h+=`<div><b>${esc(t.term)}</b> <span class="muted">(${CASE_SHORT[t.c]})</span>${t.def?': '+esc(t.def):''}</div>`);}
     if(d.daily.length){h+='<h4>Ghi chép hằng ngày</h4>';d.daily.forEach(e=>h+=`<div><b>${esc(e.d)}</b>${e.tag?` <span class="muted">· ${esc(e.tag)}</span>`:''}<blockquote>${esc(e.note)}</blockquote></div>`);}
     d.weekly.forEach(w=>{h+=`<h4>Nhật ký tuần ${w.w}</h4>`;w.fields.forEach(f=>h+=`<div><b>${esc(f.l)}</b><blockquote>${esc(f.text)}</blockquote></div>`);});
     if(d.rows.length){h+='<h4>Bảng</h4>';d.rows.forEach(r=>{h+=`<div><b>${r.n} ${esc(r.label)}</b>${r.rows.map(x=>`<blockquote>${esc(x)}</blockquote>`).join('')}</div>`;});}
+    if((d.reads||[]).length){h+='<h4>Tài liệu đã đọc</h4>';d.reads.forEach(t=>h+=`<div>${esc(t)}</div>`);}
     return h||'<span class="muted">Lần lưu này không có thay đổi nội dung.</span>';}
 
   /* ----- GitHub ----- */
@@ -1143,7 +1165,7 @@ const Profile=(()=>{
     if(b.dataset.pact==='print')window.print();
   });
   view.addEventListener('change',e=>{if(e.target.id==='pOnly'){onlyDone=e.target.checked;paint();}});
-  return {render};
+  return {render,snap:()=>S,loadSnap:load};
 })();
 
 view.addEventListener('click',e=>{const t=e.target.closest('button');if(t&&(t.dataset.mact||t.dataset.mtoggle!==undefined||t.dataset.mmore))Mentor.onClick(t);});
@@ -1189,7 +1211,7 @@ const Auth=(()=>{
       (async()=>{await pullGitHub(true);if(ghReady()&&hasPending())pushGitHub(true);Drive.schedule();})();
     }else{
       setStatus('Mentor · chỉ xem');
-      if(!/^#\/(profile|setup|notes)/.test(location.hash))location.hash='#/mentor';
+      if(!/^#\/(profile|setup|notes|reading)/.test(location.hash))location.hash='#/mentor';
       route();
     }
   }
@@ -1319,17 +1341,22 @@ view.addEventListener('click',e=>{const t=e.target.closest('button');if(t&&t.dat
    tài khoản Google của mình; script ghi file vào Google Drive của mentor.
    Khôi chỉ có khóa sao lưu; mentor có khóa đầy đủ (ghi nhận, tệp đính kèm).
    ========================================================= */
+const READING_TITLE=`Các tài liệu, sách, chủ đề ${String(PROGRAM.student||'Khôi').trim().split(/\s+/).pop()} cần đọc`;
 const GAS_TEMPLATE=String.raw`/**
  * Sổ thực tập – sao lưu Google Drive
  * Mã do webapp tạo, đã chứa sẵn khóa riêng của chương trình. Không chia sẻ mã này.
  * 1. Chạy hàm caiDat một lần để cấp quyền và tạo thư mục.
  * 2. Triển khai > Tùy chọn triển khai mới > Ứng dụng web
  *    (Thực thi với tư cách: Tôi; Người có quyền truy cập: Bất kỳ ai).
+ * Cập nhật mã sau này: dán đè, Lưu, rồi Triển khai > Quản lý các bản triển khai >
+ *    biểu tượng bút chì > Phiên bản: Phiên bản mới > Triển khai (đường link giữ nguyên).
  */
 var KHOI_KEY = '%%KHOI_KEY%%';
 var MENTOR_KEY = '%%MENTOR_KEY%%';
 var TEN_THU_MUC = '%%FOLDER%%';
 var SLUG = '%%SLUG%%';
+var TEN_THU_MUC_DOC = '%%READING%%';
+var VERSION = 2;
 var TZ = 'Asia/Ho_Chi_Minh';
 
 function caiDat() {
@@ -1337,11 +1364,12 @@ function caiDat() {
   thuMucCon_('Lịch sử sao lưu');
   thuMucCon_('Tệp đính kèm mentor');
   thuMucCon_('Dữ liệu hệ thống');
+  thuMucCon_(TEN_THU_MUC_DOC);
   Logger.log('Đã sẵn sàng. Thư mục sao lưu: ' + f.getUrl());
 }
 
 function doGet() {
-  return traVe_({ ok: true, app: 'so-thuc-tap-backup', slug: SLUG });
+  return traVe_({ ok: true, app: 'so-thuc-tap-backup', slug: SLUG, version: VERSION });
 }
 
 function doPost(e) {
@@ -1352,7 +1380,8 @@ function doPost(e) {
     var vaiTro = req.key === MENTOR_KEY ? 'mentor' : (req.key === KHOI_KEY ? 'khoi' : '');
     if (!vaiTro) return traVe_({ ok: false, error: 'Khóa không hợp lệ' });
     var a = req.action;
-    if (a === 'ping') return traVe_({ ok: true, role: vaiTro, folderUrl: thuMuc_().getUrl() });
+    if (a === 'ping') return traVe_({ ok: true, role: vaiTro, version: VERSION, folderUrl: thuMuc_().getUrl() });
+    if (a === 'listReading') return traVe_(dsTaiLieu_());
     if (a === 'backup') {
       if (typeof req.md !== 'string' || req.md.indexOf('KHOI-DATA') < 0) return traVe_({ ok: false, error: 'Dữ liệu sao lưu không hợp lệ' });
       ghiFile_(thuMucCon_('Dữ liệu hệ thống'), '_ho-so.md', req.md);
@@ -1362,6 +1391,7 @@ function doPost(e) {
     if (a === 'listActivities') return traVe_({ ok: true, items: docGhiNhan_(), folderUrl: thuMuc_().getUrl() });
     if (a === 'addActivity') return traVe_(themGhiNhan_(req.entry || {}, req.files || []));
     if (a === 'deleteActivity') return traVe_(xoaGhiNhan_(String(req.id || '')));
+    if (a === 'shareReading') return traVe_(chiaSeTaiLieu_(!!req.on));
     return traVe_({ ok: false, error: 'Thao tác không hợp lệ' });
   } catch (err) {
     return traVe_({ ok: false, error: String((err && err.message) || err) });
@@ -1447,6 +1477,47 @@ function xoaGhiNhan_(id) {
   return { ok: true };
 }
 
+// Liệt kê thư mục tài liệu cần đọc: mỗi thư mục con là một môn học/chủ đề (tối đa 4 cấp, 1.000 tệp).
+function dsTaiLieu_() {
+  var goc = thuMucCon_(TEN_THU_MUC_DOC);
+  var items = [], folders = [], dem = { n: 0 };
+  duyetThuMuc_(goc, [], 0, items, folders, dem);
+  var share = '';
+  try { share = String(goc.getSharingAccess()); } catch (x) {}
+  return { ok: true, version: VERSION, folderUrl: goc.getUrl(), share: share, folders: folders, items: items, truncated: dem.n >= 1000 };
+}
+
+function duyetThuMuc_(thuMuc, duong, cap, items, folders, dem) {
+  var fi = thuMuc.getFiles();
+  while (fi.hasNext() && dem.n < 1000) {
+    var f = fi.next();
+    if (f.isTrashed()) continue;
+    dem.n++;
+    var id = f.getId(), mime = f.getMimeType(), url = f.getUrl();
+    if (mime === 'application/vnd.google-apps.shortcut') {
+      try { id = f.getTargetId(); mime = f.getTargetMimeType(); url = 'https://drive.google.com/open?id=' + id; } catch (x) {}
+    }
+    items.push({ id: id, name: f.getName(), url: url, mime: mime, size: f.getSize(),
+      updated: f.getLastUpdated().toISOString(), desc: f.getDescription() || '', path: duong });
+  }
+  if (cap >= 4) return;
+  var di = thuMuc.getFolders();
+  while (di.hasNext()) {
+    var d = di.next();
+    if (d.isTrashed()) continue;
+    var p = duong.concat([d.getName()]);
+    folders.push({ path: p, url: d.getUrl() });
+    duyetThuMuc_(d, p, cap + 1, items, folders, dem);
+  }
+}
+
+function chiaSeTaiLieu_(bat) {
+  var goc = thuMucCon_(TEN_THU_MUC_DOC);
+  if (bat) goc.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  else goc.setSharing(DriveApp.Access.PRIVATE, DriveApp.Permission.NONE);
+  return { ok: true, share: String(goc.getSharingAccess()) };
+}
+
 function taoBackup_(boi) {
   var heThong = thuMucCon_('Dữ liệu hệ thống');
   var hoSo = docFile_(heThong, '_ho-so.md');
@@ -1483,6 +1554,8 @@ function taoBackup_(boi) {
 `;
 const Drive=(()=>{
   const LAST=SK('drive-last'),HASHK=SK('drive-hash'),FOLDER=SK('drive-folder'),PEND=SK('drive-newkeys'),AUTHOR=SK('note-author'),DRAFT=SK('note-draft');
+  const GAS_VERSION=2,VER=SK('drive-ver');
+  function noteVersion(v){try{localStorage.setItem(VER,String(+v||1));}catch(e){}}
   const TYPES=['Quan sát tại nơi thực tập','Buổi gặp mentor','Phản hồi từ người hướng dẫn','Nhận xét bài làm của Khôi','Trao đổi giữa hai mentor','Khác'];
   let gd=null,timer=null,busy=null,again=false,lastAt=0,lastErr='';
   let notes=null,notesLoading=false,notesErr='',files=[],q='',saving=false;
@@ -1550,12 +1623,13 @@ const Drive=(()=>{
     k={khoi:'k'+rnd(18),mentor:'m'+rnd(18)};localStorage.setItem(PEND,JSON.stringify(k));return k;
   }
   const jsq=s=>String(s).replace(/[\\']/g,'\\$&');
-  function code(k){return GAS_TEMPLATE.split('%%KHOI_KEY%%').join(k.khoi).split('%%MENTOR_KEY%%').join(k.mentor).split('%%FOLDER%%').join(jsq(PROGRAM.title+' – Sao lưu')).split('%%SLUG%%').join(jsq(PROGRAM.slug));}
+  function code(k){return GAS_TEMPLATE.split('%%KHOI_KEY%%').join(k.khoi).split('%%MENTOR_KEY%%').join(k.mentor).split('%%FOLDER%%').join(jsq(PROGRAM.title+' – Sao lưu')).split('%%SLUG%%').join(jsq(PROGRAM.slug)).split('%%READING%%').join(jsq(READING_TITLE));}
   function setupHtml(){
     const k=pendingKeys(),folder=localStorage.getItem(FOLDER),on=ready()&&full();
     const fresh=!!localStorage.getItem(PEND)&&on;
     const mpwMissing=!sessionStorage.getItem(SK('mpw'));
     return `<h2 id="drive">Sao lưu Google Drive</h2>
+    ${on&&(+localStorage.getItem(VER)||GAS_VERSION)<GAS_VERSION?`<div class="card rshare warn"><b>Cần cập nhật mã Apps Script</b> để dùng mục Tài liệu cần đọc. Làm theo phần <b>Cập nhật mã Apps Script</b> bên dưới (khoảng 2 phút).</div>`:''}
     ${on?`<div class="card"><b>Đã bật.</b> Sau mỗi lần Khôi hoặc mentor cập nhật, hệ thống ghi file <b>backup-data-${esc(PROGRAM.slug)}.md</b> vào Google Drive, kèm một bản theo từng ngày. ${folder?`<a href="${esc(folder)}" target="_blank" rel="noopener">Mở thư mục sao lưu</a>`:''}
       <div class="row-actions" style="margin-top:10px"><button data-dact="seed">Sao lưu ngay</button><button data-dact="test">Kiểm tra kết nối</button></div><div id="dMsg2" style="margin-top:8px;font-size:14px"></div></div>`
     :`<p>Chưa bật. Làm theo 5 bước dưới đây, khoảng 10 phút. Dữ liệu hiện có trên GitHub giữ nguyên và sẽ được sao lưu ngay khi kết nối xong.</p>`}
@@ -1574,6 +1648,14 @@ const Drive=(()=>{
         <div class="row-actions" style="margin-top:12px"><button class="primary" data-dact="connect">Kết nối Google Drive</button>${on?'<button data-dact="newkeys">Tạo khóa mới</button>':''}</div>
         <div id="dMsg" style="margin-top:10px;font-size:14px"></div></li>
     </ol></details>
+    ${on?`<details class="card" ${(+localStorage.getItem(VER)||GAS_VERSION)<GAS_VERSION?'open':''} id="dUpdate"><summary><b>Cập nhật mã Apps Script</b> <span class="muted" style="font-size:13px">khi webapp có tính năng mới, giữ nguyên đường link</span></summary>
+      <ol class="dsteps">
+        <li>Mở phần <b>Thiết lập lại hoặc xem lại mã</b> ở trên → bấm <b>Sao chép mã Apps Script</b> (mã giữ nguyên khóa đang dùng).</li>
+        <li>Mở dự án Apps Script cũ (script.google.com → Dự án của tôi) → chọn hết mã cũ, dán đè mã mới → bấm <b>Lưu</b>.</li>
+        <li><b>Triển khai → Quản lý các bản triển khai</b> → chọn bản đang dùng → biểu tượng <b>bút chì</b> (Chỉnh sửa) → Phiên bản: <b>Phiên bản mới</b> → <b>Triển khai</b>. Nếu Google hỏi cấp quyền thì bấm Cho phép.</li>
+        <li>Quay lại đây bấm <b>Kiểm tra kết nối</b>: thấy "Mã Apps Script là bản mới nhất" là xong. Không cần bấm Kết nối lại.</li>
+      </ol>
+      <p class="muted" style="font-size:13px">Lưu ý: nếu chọn "Tùy chọn triển khai mới" thay vì chỉnh sửa bản cũ, Google sẽ tạo đường link khác; khi đó dán link mới ở bước 5 và bấm Kết nối Google Drive.</p></details>`:''}
     <p class="muted" style="font-size:13px">Đường link và khóa được mã hóa bằng mật khẩu trước khi lưu vào <code>config.json</code>. Khóa của Khôi chỉ cho phép sao lưu hồ sơ; chỉ mentor xem và thêm được ghi nhận. Bố Khôi muốn mở tệp đính kèm thì chia sẻ thư mục sao lưu trên Drive cho Gmail của bố (quyền Người xem).</p>`;
   }
   async function connect(){
@@ -1591,7 +1673,7 @@ const Drive=(()=>{
       m('Đang kiểm tra Apps Script…');
       const p=await call('ping',{},{},{url,key:k.mentor});
       await call('ping',{},{},{url,key:k.khoi});
-      if(p.folderUrl)localStorage.setItem(FOLDER,p.folderUrl);
+      if(p.folderUrl)localStorage.setItem(FOLDER,p.folderUrl);noteVersion(p.version);
       m('Đang lưu cấu hình (mã hóa bằng mật khẩu)…');
       const H={'Authorization':'Bearer '+gh.token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
       const A=x=>`https://api.github.com/repos/${encodeURIComponent(gh.owner)}/${encodeURIComponent(gh.repo)}${x}`;
@@ -1616,7 +1698,7 @@ const Drive=(()=>{
   async function mentorAction(kind){
     const box=el('dMsg2');const say=(t,bad)=>{if(box)box.innerHTML=`<span style="color:var(--${bad?'warn':'accent'})">${t}</span>`;};
     try{
-      if(kind==='test'){const p=await call('ping');if(p.folderUrl)localStorage.setItem(FOLDER,p.folderUrl);say('Kết nối tốt.');}
+      if(kind==='test'){const p=await call('ping');if(p.folderUrl)localStorage.setItem(FOLDER,p.folderUrl);noteVersion(p.version);route_keep();const b2=el('dMsg2');if(b2)b2.innerHTML=(+p.version||1)<GAS_VERSION?'<span style="color:var(--warn)">Kết nối tốt, nhưng mã Apps Script là bản cũ. Làm theo phần Cập nhật mã Apps Script bên dưới.</span>':'<span style="color:var(--accent)">Kết nối tốt. Mã Apps Script là bản mới nhất.</span>';}
       else{say('Đang sao lưu…');const ok=await seed();say(ok?'Đã sao lưu bản mới nhất lên Google Drive.':'Chưa có hồ sơ của Khôi trên GitHub.');}
     }catch(e){say(esc(e.message),true);}
   }
@@ -1711,8 +1793,161 @@ const Drive=(()=>{
   });
   view.addEventListener('change',e=>{if(e.target.id==='nFiles'){files.push(...e.target.files);e.target.value='';paintFiles();}});
   view.addEventListener('input',e=>{const id=e.target.id;if(id==='nSearch'){q=e.target.value;paintNotes();}else if(['nText','nDate','nAuthor','nType','nTopic'].includes(id))saveDraft();});
-  return {set,ready,schedule,flush,khoiStatus,setupHtml,notesView};
+  return {set,ready,schedule,flush,khoiStatus,setupHtml,notesView,call,noteVersion};
 })();
+/* =========================================================
+   TÀI LIỆU CẦN ĐỌC
+   Nguồn 1: bài đọc gợi ý theo B1–B4 (READ, B_META).
+   Nguồn 2: thư mục Google Drive "Các tài liệu, sách, chủ đề … cần đọc"
+   (nằm trong thư mục sao lưu, mỗi thư mục con là một môn học/chủ đề),
+   do Apps Script tự liệt kê kèm đường link.
+   Khôi đánh dấu "Đã đọc" (lưu trong state.reading, lên GitHub như mọi dữ liệu khác);
+   mentor xem trạng thái theo bản mới nhất trên GitHub.
+   ========================================================= */
+const Reading=(()=>{
+  const CACHE=SK('reading-cache');
+  const TITLE=READING_TITLE;
+  let data=null,loading=false,err='',q='',filt='all',lastLoad=0,sharing=false;
+  try{const c=JSON.parse(localStorage.getItem(CACHE));if(c&&c.items)data=c;}catch(e){}
+  const el=id=>document.getElementById(id);
+  const isM=()=>APP.role==='mentor';
+  const okUrl=u=>/^https:\/\//.test(u||'');
+  const coll=new Intl.Collator('vi',{numeric:true,sensitivity:'base'});
+  function marks(){if(isM()){const S=Profile.snap();return (S&&S.reading)||{};}return state.reading||{};}
+  function fmtD(s){if(!s)return '';const p=String(s).slice(0,10).split('-');return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:s;}
+  function fmtSize(n){n=+n||0;if(!n)return '';return n<1024*1024?Math.max(1,Math.round(n/1024))+' KB':(n/1024/1024).toFixed(1).replace('.',',')+' MB';}
+  function kind(m,n){m=m||'';n=(n||'').toLowerCase();
+    if(/pdf/.test(m)||/\.pdf$/.test(n))return 'PDF';
+    if(m==='application/vnd.google-apps.document')return 'Google Docs';
+    if(m==='application/vnd.google-apps.spreadsheet')return 'Google Sheets';
+    if(m==='application/vnd.google-apps.presentation')return 'Google Slides';
+    if(m==='application/vnd.google-apps.form')return 'Google Forms';
+    if(/wordprocessingml|msword/.test(m)||/\.docx?$/.test(n))return 'Word';
+    if(/presentationml|powerpoint/.test(m)||/\.pptx?$/.test(n))return 'PowerPoint';
+    if(/spreadsheetml|excel/.test(m)||/\.xlsx?$/.test(n))return 'Excel';
+    if(/epub/.test(m)||/\.epub$/.test(n))return 'EPUB';
+    if(/^video\//.test(m))return 'Video';if(/^audio\//.test(m))return 'Âm thanh';if(/^image\//.test(m))return 'Ảnh';
+    if(/^text\//.test(m))return 'Văn bản';return 'Tệp';}
+  function bList(){return Object.keys(B_META).filter(b=>READ[b]).map(b=>{
+    const c=CASES.find(x=>x.bs.some(s=>s.b===b&&s.readSummary));
+    return {b,meta:B_META[b],r:READ[b],sumCase:c};});}
+  function allIds(){const ids=[];bList().forEach(x=>{ids.push(`B:${x.b}:book`);if(x.r.art)ids.push(`B:${x.b}:art`);});(data&&data.items||[]).forEach(i=>ids.push('D:'+i.id));return ids;}
+  const strip=h=>String(h||'').replace(/<[^>]*>/g,'').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
+  function pass(id,text){const m=marks()[id];if(filt==='todo'&&m)return false;if(filt==='done'&&!m)return false;const ql=q.trim().toLowerCase();return !ql||text.toLowerCase().includes(ql);}
+  function ctl(id,name){const m=marks()[id];
+    if(isM())return `<span class="rstat${m?' done':''}">${m?'Khôi đã đọc · '+esc(fmtD(m.d)):'Chưa đọc'}</span>`;
+    return `<label class="rchk"><input type="checkbox" data-rread="${esc(id)}" data-rname="${esc(name)}" ${m?'checked':''}> Đã đọc${m?` <span class="muted">${esc(fmtD(m.d))}</span>`:''}</label>`;}
+  function item(id,name,main,meta,desc){const m=marks()[id];
+    return `<div class="ritem${m?' done':''}"><div class="rmain">${main}${meta?`<div class="rmeta">${meta}</div>`:''}${desc?`<div class="rdesc">${esc(desc)}</div>`:''}</div>${ctl(id,name)}</div>`;}
+
+  function render(){
+    setTimeout(()=>{
+      if(isM()&&!Profile.snap()&&gh.owner&&gh.repo)Profile.loadSnap().then(paint);
+      if(!loading&&Drive.ready()&&(err||Date.now()-lastLoad>20000))load();else paint();
+    },0);
+    return `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><h1 style="margin-right:auto">${esc(TITLE)}</h1><span id="rFolder"></span><button data-ract="reload">Làm mới</button></div>
+    <p class="lead">${isM()?'Danh sách Khôi nhìn thấy: bài đọc gợi ý theo B1–B4 và tài liệu trong thư mục Google Drive. Thêm tài liệu bằng cách bỏ tệp vào thư mục trên Drive (mỗi thư mục con là một môn học hoặc chủ đề); hệ thống tự liệt kê và lấy đường link. Cột bên phải cho biết Khôi đã đánh dấu đọc hay chưa.':'Bài đọc gợi ý theo B1–B4 và các tài liệu mentor chọn trên Google Drive. Bấm vào tên để mở đọc; đọc xong thì tích <b>Đã đọc</b> để mentor biết.'}</p>
+    <div id="rTop"></div>
+    <div class="rbar"><input type="text" id="rSearch" placeholder="Tìm tài liệu, sách, chủ đề…" value="${esc(q)}"><select id="rFilt"><option value="all">Tất cả</option><option value="todo" ${filt==='todo'?'selected':''}>Chưa đọc</option><option value="done" ${filt==='done'?'selected':''}>Đã đọc</option></select></div>
+    <h2>Bài đọc theo ${esc(Object.keys(B_META).map(b=>b.toUpperCase()).join(', '))}</h2><div id="rB"></div>
+    <h2>Thư viện trên Google Drive</h2><div id="rDrive"></div>`;
+  }
+  function paint(){if(!el('rB'))return;paintTop();paintB();paintDrive();}
+  function paintTop(){
+    const box=el('rTop');if(!box)return;
+    const ids=allIds(),mk=marks(),done=ids.filter(i=>mk[i]).length;
+    const shared=data&&/ANYONE/.test(data.share||'');
+    let h=`<div class="card rprog"><div><b>${isM()?'Khôi đã đọc':'Em đã đọc'} ${done}/${ids.length}</b> tài liệu${data&&data.at?` <span class="muted" style="font-size:13px">· danh sách Drive cập nhật lúc ${esc(fmtDateTime(data.at))}</span>`:''}</div><div class="bar"><i style="width:${ids.length?Math.round(100*done/ids.length):0}%"></i></div>`;
+    if(isM()&&!Profile.snap())h+=`<p class="muted" style="font-size:13px;margin:8px 0 0">Trạng thái "đã đọc" lấy từ hồ sơ của Khôi trên GitHub${gh.owner?' (đang tải…)':'; cần kết nối GitHub'}.</p>`;
+    h+='</div>';
+    if(isM()&&Drive.ready()&&data){
+      h+=shared?`<div class="card rshare"><b>Đang chia sẻ bằng đường link:</b> ai có đường link tới tài liệu trong thư mục này đều xem được (chỉ xem), nên Khôi mở được ngay. <button class="linkbtn" data-ract="share-off" ${sharing?'disabled':''}>Tắt chia sẻ</button></div>`
+        :`<div class="card rshare warn"><b>Khôi chưa mở được tệp trên Drive</b> nếu thư mục chưa được chia sẻ. Chọn một cách: <button data-ract="share-on" ${sharing?'disabled':''}>Bật chia sẻ bằng đường link (chỉ xem)</button> hoặc mở thư mục trên Drive → <b>Chia sẻ</b> → thêm Gmail của Khôi (quyền Người xem).</div>`;
+    }
+    if(!isM()&&data&&!shared&&(data.items||[]).length)h+=`<p class="muted" style="font-size:13px">Nếu mở tài liệu trên Drive mà thấy "Bạn cần có quyền truy cập", hãy đăng nhập đúng Gmail mentor đã chia sẻ hoặc nhắn mentor.</p>`;
+    box.innerHTML=h;
+    const f=el('rFolder');if(f)f.innerHTML=data&&okUrl(data.folderUrl)&&(isM()||shared)?`<a class="btn" href="${esc(data.folderUrl)}" target="_blank" rel="noopener">Mở thư mục trên Drive</a>`:'';
+  }
+  function paintB(){
+    const box=el('rB');if(!box)return;
+    const wk=currentWeek();
+    const html=bList().map(x=>{
+      const rows=[];
+      const bookT=strip(x.r.book);
+      if(pass(`B:${x.b}:book`,x.meta.title+' '+bookT))rows.push(item(`B:${x.b}:book`,`${x.b.toUpperCase()} – Sách: ${bookT}`,`<span class="rkind">Sách</span> <span class="rtitle">${x.r.book}</span>`,'Tham khảo thêm sách',''));
+      if(x.r.art&&pass(`B:${x.b}:art`,x.meta.title+' '+x.r.art.t))rows.push(item(`B:${x.b}:art`,`${x.b.toUpperCase()} – ${x.r.art.t}`,`<span class="rkind">Bài viết</span> ${okUrl(x.r.art.u)?`<a class="rtitle" href="${esc(x.r.art.u)}" target="_blank" rel="noopener">${esc(x.r.art.t)}</a>`:esc(x.r.art.t)}`,'Bài đọc nhanh thêm',''));
+      if(!rows.length)return '';
+      const S=isM()?Profile.snap():state;const sumKey=x.sumCase?`${x.sumCase.id}.${x.b}.read`:'';
+      const sumDone=sumKey&&S&&S.answers&&String(S.answers[sumKey]||'').trim();
+      const when=[x.meta.read?`đọc tuần ${x.meta.read}`:'',x.meta.due?`nộp bài tuần ${x.meta.due}`:''].filter(Boolean).join(' · ');
+      const now=wk&&x.meta.read&&wk>=x.meta.read&&wk<=(x.meta.due||x.meta.read);
+      return `<div class="card rgroup"><div class="rghead"><b>${esc(x.meta.title)}</b>${when?`<span class="muted" style="font-size:13px">${esc(when)}</span>`:''}${now?'<span class="chip due">tuần này</span>':''}
+        ${x.sumCase?`<a class="chip ${sumDone?'done':''}" href="#/${x.sumCase.id}" style="margin-left:auto">${sumDone?'Đã viết tóm tắt':'Chưa viết tóm tắt'} (${esc(x.sumCase.code)})</a>`:''}</div>${rows.join('')}</div>`;
+    }).join('');
+    box.innerHTML=html||'<p class="muted">Không có bài đọc phù hợp.</p>';
+  }
+  function paintDrive(){
+    const box=el('rDrive');if(!box)return;
+    if(!Drive.ready()){box.innerHTML=`<div class="card">${isM()?'Cần bật <b>Sao lưu Google Drive</b> trước: vào mục <a href="#/setup">Kết nối</a>. Sau đó thư mục <b>'+esc(TITLE)+'</b> được tạo tự động trong thư mục sao lưu.':'Mentor chưa bật Google Drive, hoặc em cần đăng xuất và đăng nhập lại để nhận kết nối mới.'}</div>`;return;}
+    if(err){box.innerHTML=`<div class="merr">${err}</div>`+(data?'':'');if(!data)return;}
+    if(!data){box.innerHTML='<p class="muted">Đang đọc thư mục trên Google Drive…</p>';return;}
+    const items=data.items||[];
+    const groups={};const add=(g)=>{if(!groups[g])groups[g]={name:g,url:'',items:[]};return groups[g];};
+    (data.folders||[]).forEach(f=>{if(f.path&&f.path.length===1)add(f.path[0]).url=f.url;});
+    items.forEach(i=>add(i.path&&i.path.length?i.path[0]:'').items.push(i));
+    const names=Object.keys(groups).sort((a,b)=>a===''?1:b===''?-1:coll.compare(a,b));
+    if(!names.length){box.innerHTML=`<div class="card">${isM()?`Thư mục <b>${esc(TITLE)}</b> trên Drive đang trống. ${okUrl(data.folderUrl)?`<a href="${esc(data.folderUrl)}" target="_blank" rel="noopener">Mở thư mục</a>, `:''}tạo các thư mục con theo môn học hoặc chủ đề (ví dụ "1. Marketing", "2. Bán hàng", "3. Tài chính cho founder") rồi bỏ tài liệu vào; bấm <b>Làm mới</b> để cập nhật.`:'Mentor chưa đưa tài liệu nào lên Drive.'}</div>`;return;}
+    const mk=marks(),week=Date.now()-7*864e5;
+    const out=names.map(g=>{
+      const G=groups[g];const all=G.items;
+      const shown=all.filter(i=>pass('D:'+i.id,[i.name,i.desc,(i.path||[]).join(' '),kind(i.mime,i.name)].join(' ')));
+      if((q.trim()||filt!=='all')&&!shown.length)return '';
+      const sub={};shown.forEach(i=>{const k=(i.path||[]).slice(1).join(' › ');(sub[k]=sub[k]||[]).push(i);});
+      const body=Object.keys(sub).sort(coll.compare).map(k=>(k?`<div class="rsub">${esc(k)}</div>`:'')+sub[k].sort((a,b)=>coll.compare(a.name,b.name)).map(i=>{
+        const isNew=!mk['D:'+i.id]&&i.updated&&new Date(i.updated).getTime()>week;
+        const meta=[kind(i.mime,i.name),fmtSize(i.size),i.updated?'cập nhật '+fmtD(new Date(i.updated).toISOString().slice(0,10)):''].filter(Boolean).map(esc).join(' · ');
+        return item('D:'+i.id,i.name,`${okUrl(i.url)?`<a class="rtitle" href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.name)}</a>`:esc(i.name)}${isNew?' <span class="chip due">mới</span>':''}`,meta,i.desc);
+      }).join('')).join('');
+      const dn=all.filter(i=>mk['D:'+i.id]).length;
+      return `<details class="card rgroup" open><summary><b>${esc(g||'Chung')}</b> <span class="muted" style="font-size:13px">${dn}/${all.length} đã đọc</span>${isM()&&okUrl(G.url)?` <a href="${esc(G.url)}" target="_blank" rel="noopener" style="font-size:13px">Mở trên Drive</a>`:''}</summary>${body||'<p class="muted" style="font-size:14px">Thư mục chưa có tài liệu.</p>'}</details>`;
+    }).join('');
+    box.innerHTML=(out||'<p class="muted">Không có tài liệu phù hợp.</p>')+(data.truncated?'<p class="muted" style="font-size:13px">Chỉ hiện 1.000 tệp đầu tiên.</p>':'');
+  }
+  async function load(){
+    if(!Drive.ready()){paint();return;}
+    loading=true;err='';paint();
+    try{
+      const j=await Drive.call('listReading');
+      data={items:j.items||[],folders:j.folders||[],folderUrl:j.folderUrl||'',share:j.share||'',truncated:!!j.truncated,at:new Date().toISOString()};
+      Drive.noteVersion(j.version);
+      try{localStorage.setItem(CACHE,JSON.stringify(data));}catch(e){}
+    }catch(e){
+      err=/Thao tác không hợp lệ|Không có quyền/.test(e.message)
+        ?(isM()?'Mã Apps Script đang là bản cũ nên chưa đọc được thư mục tài liệu. Vào <a href="#/setup">Kết nối</a> → Sao lưu Google Drive → làm theo mục <b>Cập nhật mã Apps Script</b> (khoảng 2 phút, giữ nguyên đường link).':'Mentor cần cập nhật mã Apps Script để hiện thư viện tài liệu trên Drive.')
+        :esc(e.message);
+      if(isM()&&/bản cũ/.test(err))Drive.noteVersion(1);
+    }
+    lastLoad=Date.now();loading=false;paint();
+  }
+  async function share(on){
+    if(on&&!confirm('Bật chia sẻ bằng đường link? Bất kỳ ai có đường link tới tài liệu trong thư mục này đều xem được (chỉ xem, không sửa).'))return;
+    sharing=true;paintTop();
+    try{const j=await Drive.call('shareReading',{on});if(data){data.share=j.share||'';try{localStorage.setItem(CACHE,JSON.stringify(data));}catch(e){}}toast(on?'Đã bật chia sẻ bằng đường link':'Đã tắt chia sẻ');}
+    catch(e){toast((on?'Chưa bật được chia sẻ: ':'Chưa tắt được chia sẻ: ')+e.message);}
+    sharing=false;paintTop();
+  }
+  view.addEventListener('click',e=>{const t=e.target.closest('[data-ract]');if(!t||!el('rB'))return;const a=t.dataset.ract;
+    if(a==='reload'){if(isM()&&gh.owner)Profile.loadSnap().then(paint);load();}else if(a==='share-on')share(true);else if(a==='share-off')share(false);});
+  view.addEventListener('change',e=>{const t=e.target;
+    if(t.dataset&&t.dataset.rread!==undefined&&!isM()){
+      if(!state.reading)state.reading={};
+      if(t.checked)state.reading[t.dataset.rread]={d:todayStr(),t:t.dataset.rname};else delete state.reading[t.dataset.rread];
+      touch();paint();return;}
+    if(t.id==='rFilt'){filt=t.value;paint();}});
+  view.addEventListener('input',e=>{if(e.target.id==='rSearch'){q=e.target.value;paintB();paintDrive();}});
+  return {render};
+})();
+
 
 Auth.start();
 </script>
