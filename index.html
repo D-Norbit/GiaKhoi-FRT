@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sổ thực tập FRT – Gia Khôi</title>
-<meta name="description" content="Sổ thực tập bán hàng tại FRT: case, câu hỏi B1–B4, thuật ngữ, nhật ký và theo dõi của mentor.">
+<meta name="description" content="Sổ thực tập FRT: case, câu hỏi, thuật ngữ, nhật ký và theo dõi của mentor.">
 <meta name="theme-color" content="#1f6f5c">
 <meta name="robots" content="noindex, nofollow">
 <link rel="manifest" href="manifest.webmanifest">
@@ -143,6 +143,15 @@ mark{background:var(--warn-soft);color:inherit;padding:0 2px;border-radius:3px}
 .ponly{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
 .ponly input{width:auto}
 @media print{.ptabs,.ponly{display:none!important}.pq{break-inside:avoid}}
+.note{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}
+.note-head{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.note-text{white-space:pre-wrap;line-height:1.6}
+.nthumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.nthumbs img{width:120px;height:120px;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block}
+.nfile{display:inline-flex;gap:6px;align-items:center;background:var(--chip);border-radius:8px;padding:6px 10px;font-size:13px;color:var(--ink);text-decoration:none}
+.nfiles{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+details.card summary{cursor:pointer}
+.dsteps{padding-left:20px}.dsteps li{margin:12px 0}
 @media print{aside,.topbar,.row-actions,button{display:none!important}.app{display:block}textarea{border:none}}
 </style>
 </head>
@@ -161,7 +170,7 @@ mark{background:var(--warn-soft);color:inherit;padding:0 2px;border-radius:3px}
 <div class="app" style="display:none">
   <aside id="sidebar">
     <p class="brand">Sổ thực tập FRT</p>
-    <div class="brand-sub" id="brandSub">Gia Khôi · 12 tuần</div>
+    <div class="brand-sub" id="brandSub">Gia Khôi</div>
     <nav id="nav"></nav>
   </aside>
   <main>
@@ -179,9 +188,11 @@ mark{background:var(--warn-soft);color:inherit;padding:0 2px;border-radius:3px}
 <input type="file" id="fileImport" accept=".md,.markdown,.txt" hidden>
 
 <script>
-/* =========================================================
-   NỘI DUNG CASE (giáo viên chỉnh sửa tại đây)
-   ========================================================= */
+/* === PROGRAM START === */
+const PROGRAM={"slug": "frt", "title": "Sổ thực tập FRT", "student": "Gia Khôi", "weeks": 12, "dataPath": "ho-so-thuc-tap-frt.md", "pass": {"khoi": "b8f5b04a98451b409870e7d5d9ee1470d9307daa73b8fd539c73555cf0d0f344", "mentor": "c9b10b9a7b1f4ff9824743cc741eaea29c4e5e8880502bab86f5e87b1b1d6e7c"}};
+/* === PROGRAM END === */
+/* === CONTENT START === */
+/* Nội dung chương trình: Thực tập bán hàng tại FRT (FPT Shop). Dùng làm ví dụ chuẩn. */
 const READ = {
   b1:{book:'Christensen, C. M., Hall, T., Dillon, K. & Duncan, D. S. (2016). <i>Competing Against Luck</i>. HarperBusiness.',
       art:{t:'The "Jobs to Be Done" Theory of Innovation – strategy+business',u:'https://www.strategy-business.com/article/The-Jobs-to-Be-Done-Theory-of-Innovation'}},
@@ -193,10 +204,10 @@ const READ = {
       art:{t:'How to reignite growth through adjacencies – McKinsey & Company',u:'https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/how-to-reignite-growth-through-adjacencies'}}
 };
 const B_META = {
-  b1:{title:'B1 – Hành trình khách hàng',due:4},
-  b2:{title:'B2 – Phễu bán hàng và bán hàng cá nhân B2C',due:8},
-  b3:{title:'B3 – Mô hình kinh doanh và mô hình phân phối',due:10},
-  b4:{title:'B4 – Kiểm định và chuyển giao năng lực',due:12}
+  b1:{title:'B1 – Hành trình khách hàng',due:4,read:3},
+  b2:{title:'B2 – Phễu bán hàng và bán hàng cá nhân B2C',due:8,read:7},
+  b3:{title:'B3 – Mô hình kinh doanh và mô hình phân phối',due:10,read:10},
+  b4:{title:'B4 – Kiểm định và chuyển giao năng lực',due:12,read:11}
 };
 const LEGEND_ACTUAL = '<b>Nhãn câu hỏi:</b> <span class="tag">Q</span> Quan sát · <span class="tag">Đ</span> Đối chiếu với lý thuyết · <span class="tag">A</span> Áp dụng · <span class="tag">P</span> Phản biện';
 const LEGEND_ASSUMED = '<b>Nhãn câu hỏi:</b> <span class="tag">Q</span> Quan sát · <span class="tag">Gđ</span> Giả định · <span class="tag">Đ</span> Đối chiếu với lý thuyết · <span class="tag">A</span> Áp dụng · <span class="tag">P</span> Phản biện';
@@ -397,6 +408,8 @@ const CASES = [
 }
 ];
 
+const DAILY_TAGS = ['Khách hàng','Bán hàng','Mô hình kinh doanh','Thuật ngữ','Long Châu','Thế Giới Di Động','Bản thân'];
+
 const WEEKLY_QS = [
   ['plan','Kế hoạch tuần này là gì?'],['real','Thực tế diễn ra thế nào?'],['why','Vì sao khác với kế hoạch?'],
   ['next','Tuần sau em làm gì khác?'],['rule','Tuần này em rút ra quy luật gì?'],['meaning','Điều gì khiến em thấy có ý nghĩa?']
@@ -407,20 +420,26 @@ const SUMMARY = {
   matrixCols:[{k:'c1',l:'FPT Shop (thực tiễn)'},{k:'c2',l:'Long Châu (giả định)'},{k:'c3',l:'Thế Giới Di Động (giả định)'},{k:'same',l:'Điểm giống'},{k:'diff',l:'Điểm khác và lý do'},{k:'rule',l:'Quy luật em rút ra'},{k:'ok',l:'Còn đúng ở 3 shop?'}],
   finalQs:['Cùng một lý thuyết, vì sao áp dụng ở ba doanh nghiệp lại cho kết quả khác nhau?','Điều gì em biết chắc vì đã trải nghiệm, điều gì em chỉ đang giả định?','Ba điểm mạnh của em với tư cách người bán hàng là gì, và em sẽ phát triển điểm nào tiếp?','Khi tự khởi nghiệp, em sẽ dùng những gì đã học trong đợt này như thế nào?'],
   myQs:['Câu hỏi 1 em muốn hỏi mentor','Câu hỏi 2 em muốn hỏi mentor','Câu hỏi 3 em muốn hỏi mentor'],
+  intro:'Khép lại đợt thực tập 12 tuần: gộp thực tiễn ở FPT Shop với hai case giả định để rút ra quy luật của riêng em, bảo vệ quan điểm trước phản biện, và xác định điều mang sang đợt sau.',
+  info:[['Thời điểm','Cuối tuần 12 hoặc trong tuần 13'],['Thời lượng','Khoảng 2,5 giờ'],['Thành phần','Khôi (trình bày); hai mentor (phản biện, đánh giá); cửa hàng trưởng shop chính (khách mời)']],
+  agenda:[['10 phút','Mở đầu: mục tiêu đợt thực tập, cách đánh giá','Mentor'],['20 phút','Thực tiễn ở FPT Shop: kết quả KPI, 3 điểm mạnh, 3 bài học','Khôi'],['10 phút','Nhận xét thực tiễn','Cửa hàng trưởng'],['25 phút','Ma trận đúc kết 3 case','Khôi'],['15 phút','Đề xuất cải tiến (B4)','Khôi'],['40 phút','Phản biện','Hai mentor'],['15 phút','Câu hỏi của Khôi','Khôi'],['15 phút','Kết luận và định hướng đợt sau','Hai mentor']],
+  criteria:[['Chất lượng hồ sơ 3 case','Thiếu câu trả lời hoặc chỉ mô tả','Đủ B1–B4, có đối chiếu lý thuyết và nguồn','Có quy luật tự rút ra, cập nhật đều qua nhật ký'],['Hiểu thuật ngữ','Dùng sai hoặc chép định nghĩa','Giải thích đúng bằng lời của mình','Dùng đúng chỗ khi phản biện, có ví dụ thực tế'],['Phân biệt biết chắc và giả định','Không phân biệt','Có bảng giả định, ghi mức tin cậy','Nêu được cách kiểm chứng và đã kiểm chứng một phần'],['Quy luật và kiểm định','Chưa có quy luật riêng','Có quy luật, đối chiếu với case','Có ít nhất 1 quy luật được kiểm định ở cả 3 shop'],['Phản biện','Bảo vệ cứng nhắc hoặc đổi ý ngay','Lập luận có dẫn chứng','Biết khi nào bảo vệ, khi nào điều chỉnh, và giải thích vì sao'],['Tự soi','Chung chung, thiếu bằng chứng','Có tình huống thật cho từng điểm','Có xác nhận từ đồng nghiệp, hướng phát triển rõ']],
   afterQs:['Bài phản tư 1 trang: quan điểm nào của em đã thay đổi sau phản biện, và vì sao?','1 quy luật cần kiểm định tiếp ở đợt sau','1 kỹ năng cần phát triển ở đợt sau','1 câu hỏi em còn chưa trả lời được','Em muốn thử mảng nào trong danh sách vị trí của tập đoàn ở đợt tiếp theo, và vì sao?']
 };
-
+/* === CONTENT END === */
+const SK=k=>`khoi-${PROGRAM.slug}-${k}`;
+const FIRST=String(PROGRAM.student).trim().split(/\s+/).pop();
 /* =========================================================
    TRẠNG THÁI & LƯU TRỮ
    ========================================================= */
-const STORE_KEY='khoi-frt-v1';
-function defaultState(){return {meta:{student:'Gia Khôi',startDate:'',updatedAt:null},answers:{},tables:{},checks:{},weekly:{},daily:[]};}
+const STORE_KEY=SK('v1');
+function defaultState(){return {meta:{student:PROGRAM.student,startDate:'',updatedAt:null},answers:{},tables:{},checks:{},weekly:{},daily:[]};}
 function loadState(){try{const s=JSON.parse(localStorage.getItem(STORE_KEY));if(s&&s.meta)return Object.assign(defaultState(),s);}catch(e){}return defaultState();}
 let state=loadState();
 let gh={auto:true};
 const APP={role:null};
-const LASTPUSH_KEY='khoi-frt-lastpush';
-const PENDING_KEY='khoi-frt-pending',HASH_KEY='khoi-frt-lasthash';let ghSha=null;
+const LASTPUSH_KEY=SK('lastpush');
+const PENDING_KEY=SK('pending'),HASH_KEY=SK('lasthash');let ghSha=null;
 function hashStr(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return String(h)+':'+s.length;}
 let saveTimer=null, pushTimer=null;
 
@@ -476,17 +495,18 @@ const ROUTES=[
 const ROUTES_M=[
   {id:'mentor',label:'Theo dõi Khôi',small:'Tổng quan và dòng thời gian'},
   {id:'profile',label:'Hồ sơ của Khôi',small:'Đọc toàn bộ câu trả lời'},
-  {id:'setup',label:'Kết nối GitHub',small:'Thiết lập một lần'}
+  {id:'notes',label:'Ghi nhận của mentor',small:'Văn bản, ảnh, PDF · Google Drive'},
+  {id:'setup',label:'Kết nối',small:'GitHub và Google Drive'}
 ];
 function renderNav(active){
   document.getElementById('nav').innerHTML=(APP.role==='mentor'?ROUTES_M:ROUTES).map(r=>r.sep?'<div class="sep"></div>':`<a href="#/${r.id}" class="${r.id===active?'active':''}">${esc(r.label)}<small>${esc(r.small)}</small></a>`).join('');
-  document.getElementById('brandSub').textContent=APP.role==='mentor'?'Mentor · chỉ xem':`${state.meta.student||'Gia Khôi'} · ${currentWeek()?('Tuần '+currentWeek()+'/12'):'12 tuần'}`;
+  document.getElementById('brandSub').textContent=APP.role==='mentor'?'Mentor · chỉ xem':`${state.meta.student||PROGRAM.student} · ${currentWeek()?('Tuần '+currentWeek()+'/'+PROGRAM.weeks):PROGRAM.weeks+' tuần'}`;
 }
 function route(){
   if(!APP.role)return;
   let id=(location.hash.replace('#/','')||'home').split('?')[0];
-  if(APP.role==='mentor'&&!['mentor','profile','setup'].includes(id))id='mentor';
-  if(APP.role==='khoi'&&['mentor','profile','setup'].includes(id))id='home';
+  if(APP.role==='mentor'&&!['mentor','profile','setup','notes'].includes(id))id='mentor';
+  if(APP.role==='khoi'&&['mentor','profile','setup','notes'].includes(id))id='home';
   renderNav(id);
   const v=document.getElementById('view');
   const c=CASES.find(x=>x.id===id);
@@ -499,6 +519,7 @@ function route(){
   else if(id==='mentor') v.innerHTML=Mentor.render();
   else if(id==='setup') v.innerHTML=Auth.viewSetup();
   else if(id==='profile') v.innerHTML=Profile.render();
+  else if(id==='notes') v.innerHTML=Drive.notesView();
   else v.innerHTML=viewHome();
   document.getElementById('sidebar').classList.remove('open');
   autoGrowAll(); window.scrollTo(0,0);
@@ -568,12 +589,12 @@ function viewCase(c){
 }
 function viewHome(){
   const wk=currentWeek();
-  let h=`<h1>Chào ${esc(state.meta.student||'Khôi')}!</h1><p class="lead">${wk?`Hôm nay là tuần <b>${wk}</b> của đợt thực tập 12 tuần.`:'Hãy đặt ngày bắt đầu thực tập ở mục Cài đặt để xem lịch theo tuần.'}</p>`;
+  let h=`<h1>Chào ${esc(FIRST)}!</h1><p class="lead">${wk?`Hôm nay là tuần <b>${wk}</b> của đợt thực tập ${PROGRAM.weeks} tuần.`:'Hãy đặt ngày bắt đầu thực tập ở mục Cài đặt để xem lịch theo tuần.'}</p>`;
   if(!wk) h+=`<div class="card"><label>Ngày bắt đầu thực tập</label><input type="date" data-meta="startDate" value="${esc(state.meta.startDate)}"></div>`;
   // việc tuần này
   const tasks=[];
   if(wk){CASES.forEach(c=>c.schedule.forEach(s=>{if(s[0]===wk||s[0]===wk+1)tasks.push(`<li><span class="chip ${s[0]===wk?'due':''}">${s[0]===wk?'tuần này':'tuần sau'}</span><a href="#/${c.id}">${esc(c.code)}</a>: ${esc(s[1])}</li>`);}));
-    if(wk===3||wk===7||wk===10||wk===11) tasks.push(`<li><span class="chip due">đọc thêm</span>Tuần này đọc tài liệu cho ${wk===3?'B1':wk===7?'B2':wk===10?'B3':'B4'} và viết tóm tắt trong <a href="#/c1">Case 1</a></li>`);
+    Object.entries(B_META).forEach(([b,m])=>{if(wk===(m.read||m.due-1))tasks.push(`<li><span class="chip due">đọc thêm</span>Tuần này đọc tài liệu cho ${b.toUpperCase()} và viết tóm tắt trong <a href="#/${CASES[0].id}">${esc(CASES[0].code)}</a></li>`);});
   }
   tasks.push(`<li><span class="chip">hằng ngày</span><a href="#/daily">Ghi chép nhanh</a> sau ca làm: 1 khách, 1 bài học</li>`);
   tasks.push(`<li><span class="chip">cuối tuần</span><a href="#/weekly">Nhật ký tuần</a>, nộp trước tối Chủ nhật</li>`);
@@ -582,7 +603,7 @@ function viewHome(){
   CASES.forEach(c=>{const p=caseProgress(c),t=rowsFilled(`${c.id}.terms`),pct=Math.round(100*p.done/p.total);
     h+=`<a class="card" href="#/${c.id}" style="text-decoration:none;color:inherit;margin:0"><div class="muted">${esc(c.code)} – ${esc(c.title)}</div><div class="stat">${p.done}/${p.total}</div><div class="muted" style="font-size:13px">câu hỏi đã trả lời · ${t}/${c.termTarget} thuật ngữ</div><div class="bar"><i style="width:${pct}%"></i></div></a>`;});
   const wDone=Object.keys(state.weekly).filter(k=>Object.values(state.weekly[k]||{}).some(v=>String(v).trim())).length;
-  h+=`<a class="card" href="#/weekly" style="text-decoration:none;color:inherit;margin:0"><div class="muted">Nhật ký tuần</div><div class="stat">${wDone}/12</div><div class="muted" style="font-size:13px">tuần đã viết · ${state.daily.length} ghi chép hằng ngày</div><div class="bar"><i style="width:${Math.round(100*wDone/12)}%"></i></div></a></div>`;
+  h+=`<a class="card" href="#/weekly" style="text-decoration:none;color:inherit;margin:0"><div class="muted">Nhật ký tuần</div><div class="stat">${wDone}/${PROGRAM.weeks}</div><div class="muted" style="font-size:13px">tuần đã viết · ${state.daily.length} ghi chép hằng ngày</div><div class="bar"><i style="width:${Math.round(100*wDone/PROGRAM.weeks)}%"></i></div></a></div>`;
   const last=[...state.daily].sort((a,b)=>(b.d||'').localeCompare(a.d||'')).slice(0,3);
   h+=`<h2>Ghi chép gần nhất</h2><div class="card">${last.length?last.map(e=>`<div class="daily-entry"><b>${esc(e.d)}</b> ${e.tag?`<span class="chip">${esc(e.tag)}</span>`:''}<div>${esc(e.note).replace(/\n/g,'<br>')}</div></div>`).join(''):'<span class="muted">Chưa có ghi chép nào.</span> <a href="#/daily">Viết ghi chép đầu tiên</a>'}</div>`;
   h+=`<p class="muted" style="font-size:13px">Cập nhật lần cuối: ${fmtDateTime(state.meta.updatedAt)}${localStorage.getItem(LASTPUSH_KEY)?` · Lưu lên GitHub: ${fmtDateTime(localStorage.getItem(LASTPUSH_KEY))}`:''}</p>`;
@@ -590,7 +611,7 @@ function viewHome(){
 }
 function viewDaily(){
   let h=`<h1>Ghi chép hằng ngày</h1><p class="lead">Mỗi ca làm, ghi nhanh 1 khách đáng nhớ, 1 điều học được hoặc 1 thuật ngữ mới. Cuối tuần dùng các ghi chép này để viết Nhật ký tuần.</p>`;
-  h+=`<div class="card"><div class="field-row"><div><label>Ngày</label><input type="date" id="dDate" value="${todayStr()}"></div><div><label>Chủ đề</label><select id="dTag"><option value="">Chung</option><option>Khách hàng</option><option>Bán hàng</option><option>Mô hình kinh doanh</option><option>Thuật ngữ</option><option>Long Châu</option><option>Thế Giới Di Động</option><option>Bản thân</option></select></div></div>
+  h+=`<div class="card"><div class="field-row"><div><label>Ngày</label><input type="date" id="dDate" value="${todayStr()}"></div><div><label>Chủ đề</label><select id="dTag"><option value="">Chung</option>${DAILY_TAGS.map(t=>`<option>${esc(t)}</option>`).join('')}</select></div></div>
   <div style="margin-top:10px"><label>Ghi chép</label><textarea id="dNote" placeholder="Hôm nay em gặp một khách…"></textarea></div>
   <div class="row-actions"><button class="primary" id="dAdd">Thêm ghi chép</button></div></div>`;
   const list=[...state.daily].map((e,i)=>({...e,i})).sort((a,b)=>(b.d||'').localeCompare(a.d||'')||b.i-a.i);
@@ -599,9 +620,9 @@ function viewDaily(){
 }
 let weekSel=null;
 function viewWeekly(){
-  const wk=currentWeek();if(weekSel==null)weekSel=Math.min(Math.max(wk||1,1),12);
+  const wk=currentWeek();if(weekSel==null)weekSel=Math.min(Math.max(wk||1,1),PROGRAM.weeks);
   let h=`<h1>Nhật ký tuần</h1><p class="lead">Theo mẫu after-action review, nộp trước tối Chủ nhật mỗi tuần.</p><div class="weeks">`;
-  for(let i=1;i<=12;i++){const f=Object.values(state.weekly[i]||{}).some(v=>String(v).trim());h+=`<button data-week="${i}" class="${i===weekSel?'on':''} ${f?'filled':''}">Tuần ${i}</button>`;}
+  for(let i=1;i<=PROGRAM.weeks;i++){const f=Object.values(state.weekly[i]||{}).some(v=>String(v).trim());h+=`<button data-week="${i}" class="${i===weekSel?'on':''} ${f?'filled':''}">Tuần ${i}</button>`;}
   h+=`</div><h2 style="margin-top:4px">Tuần ${weekSel}${wk===weekSel?' <span class="chip due">tuần này</span>':''}</h2>`;
   WEEKLY_QS.forEach(([k,l],i)=>{h+=`<div class="q"><label>${i+1}. ${esc(l)}</label><textarea data-w="${weekSel}" data-wk="${k}">${esc((state.weekly[weekSel]||{})[k]||'')}</textarea></div>`;});
   return h;
@@ -629,45 +650,31 @@ function runSearch(){
   res.innerHTML=hits.length?hits.map(x=>`<div class="search-hit"><a href="${x.link}">${esc(x.where)}</a>${x.title?`<div class="muted" style="font-size:13px">${hl(x.title,q)}</div>`:''}<div>${hl(x.body,q).replace(/\n/g,'<br>')}</div></div>`).join(''):'<span class="muted">Không tìm thấy.</span>';
 }
 function checklistItems(){
-  const c=CASES.map(x=>({p:caseProgress(x),t:rowsFilled(`${x.id}.terms`),x}));
-  const reads=['b1','b2','b3','b4'].filter(b=>answered(`c1.${b}.read`)).length;
+  const reads=Object.keys(B_META).filter(b=>answered(`${CASES[0].id}.${b}.read`)).length,nB=Object.keys(B_META).length;
+  const nRows=SUMMARY.matrixRows.length;
   const mFilled=(state.tables['sum.matrix']||[]).filter(r=>(r.rule||'').trim()).length;
   const fq=SUMMARY.finalQs.filter((_,i)=>answered(`sum.final.q${i}`)).length;
-  return [
-    ['case1',`Case 1 – FPT Shop hoàn chỉnh: ${c[0].p.done}/${c[0].p.total} câu, ${c[0].t}/12 thuật ngữ, Tự soi đầy đủ`,c[0].p.done===c[0].p.total&&c[0].t>=12],
-    ['case2',`Case 2 – Long Châu hoàn chỉnh: ${c[1].p.done}/${c[1].p.total} câu, ${c[1].t}/8 thuật ngữ, Bảng giả định`,c[1].p.done===c[1].p.total&&c[1].t>=8],
-    ['case3',`Case 3 – Thế Giới Di Động hoàn chỉnh: ${c[2].p.done}/${c[2].p.total} câu, ${c[2].t}/8 thuật ngữ, Bảng giả định`,c[2].p.done===c[2].p.total&&c[2].t>=8],
-    ['matrix',`Ma trận đúc kết: ${mFilled}/4 dòng có quy luật`,mFilled===4],
-    ['final',`Bài viết đúc kết cuối cùng: ${fq}/4 câu`,fq===4],
+  const items=CASES.map((c,i)=>{const p=caseProgress(c),t=rowsFilled(`${c.id}.terms`);
+    const extra=c.extras.some(x=>x.type==='fixed')?', Tự soi đầy đủ':c.extras.some(x=>x.type==='dyn')?', Bảng giả định':'';
+    return ['case'+(i+1),`${c.code} – ${c.title} hoàn chỉnh: ${p.done}/${p.total} câu, ${t}/${c.termTarget} thuật ngữ${extra}`,p.done===p.total&&t>=c.termTarget];});
+  return [...items,
+    ['matrix',`Ma trận đúc kết: ${mFilled}/${nRows} dòng có quy luật`,mFilled===nRows],
+    ['final',`Bài viết đúc kết cuối cùng: ${fq}/${SUMMARY.finalQs.length} câu`,fq===SUMMARY.finalQs.length],
     ['slides','Slide trình bày (tối đa 10 slide, tập trung vào quy luật và đề xuất)',null],
-    ['reads',`4 bản tóm tắt tài liệu đọc thêm: ${reads}/4`,reads===4]
-  ];
+    ['reads',`${nB} bản tóm tắt tài liệu đọc thêm: ${reads}/${nB}`,reads===nB]];
 }
 function viewSummary(){
-  let h=`<h1>Buổi tổng kết đúc kết</h1><p class="lead">Khép lại đợt thực tập 12 tuần: gộp thực tiễn ở FPT Shop với hai case giả định để rút ra quy luật của riêng em, bảo vệ quan điểm trước phản biện, và xác định điều mang sang đợt sau.</p>`;
-  h+=`<div class="tbl-wrap"><table class="tbl"><tr><th>Thời điểm</th><td>Cuối tuần 12 hoặc trong tuần 13</td></tr><tr><th>Thời lượng</th><td>Khoảng 2,5 giờ</td></tr><tr><th>Thành phần</th><td>Khôi (trình bày); hai mentor (phản biện, đánh giá); cửa hàng trưởng shop chính (khách mời)</td></tr><tr><th>Ngày dự kiến</th><td><input type="date" data-meta="summaryDate" value="${esc(state.meta.summaryDate||'')}"></td></tr></table></div>`;
+  const row=c=>`<tr>${c.map(x=>`<td>${esc(x)}</td>`).join('')}</tr>`;
+  let h=`<h1>Buổi tổng kết đúc kết</h1><p class="lead">${esc(SUMMARY.intro||'')}</p>`;
+  h+=`<div class="tbl-wrap"><table class="tbl">${(SUMMARY.info||[]).map(r=>`<tr><th>${esc(r[0])}</th><td>${esc(r[1])}</td></tr>`).join('')}<tr><th>Ngày dự kiến</th><td><input type="date" data-meta="summaryDate" value="${esc(state.meta.summaryDate||'')}"></td></tr></table></div>`;
   h+=`<h2>Hồ sơ nộp trước buổi (ít nhất 3 ngày)</h2><div class="card checklist">`;
   checklistItems().forEach(([k,label,auto])=>{const v=state.checks[k];h+=`<label><input type="checkbox" data-check="${k}" ${v?'checked':''}><span>${esc(label)} ${auto===true?'<span class="chip done">đủ</span>':auto===false?'<span class="chip due">chưa đủ</span>':''}</span></label>`;});
   h+=`</div><p class="muted" style="font-size:13px">Trạng thái "đủ / chưa đủ" được tính tự động từ dữ liệu; ô tích là xác nhận của em khi đã kiểm tra xong.</p>`;
-  h+=`<h2>Ma trận đúc kết 3 case</h2><p>Điền từ câu trả lời trong 3 case. Cột "Quy luật em rút ra" sẽ được mang sang đợt thực tập sau.</p>`+tableHtml('sum.matrix',SUMMARY.matrixCols,{fixed:4,staticCols:['Khung học thuật'],staticRows:SUMMARY.matrixRows.map(x=>[x])});
+  h+=`<h2>Ma trận đúc kết ${CASES.length} case</h2><p>Điền từ câu trả lời trong các case. Cột "Quy luật em rút ra" sẽ được mang sang đợt thực tập sau.</p>`+tableHtml('sum.matrix',SUMMARY.matrixCols,{fixed:SUMMARY.matrixRows.length,staticCols:['Khung học thuật'],staticRows:SUMMARY.matrixRows.map(x=>[x])});
   h+=`<h2>Câu hỏi đúc kết cuối cùng</h2>`;SUMMARY.finalQs.forEach((q,i)=>h+=qBlock(`sum.final.q${i}`,`${i+1}. ${esc(q)}`,''));
-  h+=`<h2>3 câu hỏi em muốn hỏi lại mentor</h2>`;SUMMARY.myQs.forEach((q,i)=>h+=qBlock(`sum.ask.q${i}`,esc(q),''));
-  h+=`<h2>Chương trình buổi</h2><div class="tbl-wrap"><table class="tbl"><tr><th>Thời lượng</th><th>Phần</th><th>Người dẫn</th></tr>
-  <tr><td>10 phút</td><td>Mở đầu: mục tiêu đợt thực tập, cách đánh giá</td><td>Mentor</td></tr>
-  <tr><td>20 phút</td><td>Thực tiễn ở FPT Shop: kết quả KPI, 3 điểm mạnh, 3 bài học</td><td>Khôi</td></tr>
-  <tr><td>10 phút</td><td>Nhận xét thực tiễn</td><td>Cửa hàng trưởng</td></tr>
-  <tr><td>25 phút</td><td>Ma trận đúc kết 3 case</td><td>Khôi</td></tr>
-  <tr><td>15 phút</td><td>Đề xuất cải tiến (B4)</td><td>Khôi</td></tr>
-  <tr><td>40 phút</td><td>Phản biện</td><td>Hai mentor</td></tr>
-  <tr><td>15 phút</td><td>Câu hỏi của Khôi</td><td>Khôi</td></tr>
-  <tr><td>15 phút</td><td>Kết luận và định hướng đợt sau</td><td>Hai mentor</td></tr></table></div>`;
-  h+=`<h2>Tiêu chí đánh giá</h2><div class="tbl-wrap"><table class="tbl"><tr><th>Tiêu chí</th><th>Cần cải thiện</th><th>Đạt</th><th>Xuất sắc</th></tr>
-  <tr><td>Chất lượng hồ sơ 3 case</td><td>Thiếu câu trả lời hoặc chỉ mô tả</td><td>Đủ B1–B4, có đối chiếu lý thuyết và nguồn</td><td>Có quy luật tự rút ra, cập nhật đều qua nhật ký</td></tr>
-  <tr><td>Hiểu thuật ngữ</td><td>Dùng sai hoặc chép định nghĩa</td><td>Giải thích đúng bằng lời của mình</td><td>Dùng đúng chỗ khi phản biện, có ví dụ thực tế</td></tr>
-  <tr><td>Phân biệt biết chắc và giả định</td><td>Không phân biệt</td><td>Có bảng giả định, ghi mức tin cậy</td><td>Nêu được cách kiểm chứng và đã kiểm chứng một phần</td></tr>
-  <tr><td>Quy luật và kiểm định</td><td>Chưa có quy luật riêng</td><td>Có quy luật, đối chiếu với case</td><td>Có ít nhất 1 quy luật được kiểm định ở cả 3 shop</td></tr>
-  <tr><td>Phản biện</td><td>Bảo vệ cứng nhắc hoặc đổi ý ngay</td><td>Lập luận có dẫn chứng</td><td>Biết khi nào bảo vệ, khi nào điều chỉnh, và giải thích vì sao</td></tr>
-  <tr><td>Tự soi</td><td>Chung chung, thiếu bằng chứng</td><td>Có tình huống thật cho từng điểm</td><td>Có xác nhận từ đồng nghiệp, hướng phát triển rõ</td></tr></table></div>`;
+  h+=`<h2>${SUMMARY.myQs.length} câu hỏi em muốn hỏi lại mentor</h2>`;SUMMARY.myQs.forEach((q,i)=>h+=qBlock(`sum.ask.q${i}`,esc(q),''));
+  if(SUMMARY.agenda)h+=`<h2>Chương trình buổi</h2><div class="tbl-wrap"><table class="tbl"><tr><th>Thời lượng</th><th>Phần</th><th>Người dẫn</th></tr>${SUMMARY.agenda.map(row).join('')}</table></div>`;
+  if(SUMMARY.criteria)h+=`<h2>Tiêu chí đánh giá</h2><div class="tbl-wrap"><table class="tbl"><tr><th>Tiêu chí</th><th>Cần cải thiện</th><th>Đạt</th><th>Xuất sắc</th></tr>${SUMMARY.criteria.map(row).join('')}</table></div>`;
   h+=`<h2>Sau buổi tổng kết (nộp trong 3 ngày)</h2>`;SUMMARY.afterQs.forEach((q,i)=>h+=qBlock(`sum.after.q${i}`,`${i+1}. ${esc(q)}`,''));
   return h;
 }
@@ -679,7 +686,8 @@ function viewSettings(){
   <pre id="mdPreview" style="display:none;white-space:pre-wrap;max-height:420px;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12.5px;margin-top:10px"></pre></div>
   <h2>Đồng bộ GitHub</h2><div class="card">${ghReady()?`<p style="margin-top:0">Đã kết nối. Mọi thay đổi tự lưu lên GitHub sau 15 giây, khi rời tab hoặc đóng app, và khi mở lại app nếu còn thay đổi chưa lên. Mentor xem được mọi lần lưu.</p>
   <div class="row-actions"><button class="primary" data-act="push">Đồng bộ ngay</button><button data-act="pull">Tải bản mới nhất từ GitHub</button></div>
-  <p class="muted" style="font-size:13px">Lần lưu GitHub gần nhất: ${fmtDateTime(localStorage.getItem(LASTPUSH_KEY))} · <a href="https://github.com/${encodeURIComponent(gh.owner)}/${encodeURIComponent(gh.repo)}/blob/${encodeURIComponent(gh.branch)}/${gh.path}" target="_blank" rel="noopener">Xem file hồ sơ trên GitHub</a></p>`:`<p style="margin:0">Chưa kết nối GitHub nên dữ liệu chỉ lưu trên máy này. Nhờ mentor vào mục <b>Kết nối GitHub</b> để thiết lập, sau đó đăng xuất và đăng nhập lại.</p>`}</div>
+  <p class="muted" style="font-size:13px">Lần lưu GitHub gần nhất: ${fmtDateTime(localStorage.getItem(LASTPUSH_KEY))} · <a href="https://github.com/${encodeURIComponent(gh.owner)}/${encodeURIComponent(gh.repo)}/blob/${encodeURIComponent(gh.branch)}/${gh.path}" target="_blank" rel="noopener">Xem file hồ sơ trên GitHub</a></p>`:`<p style="margin:0">Chưa kết nối GitHub nên dữ liệu chỉ lưu trên máy này. Nhờ mentor vào mục <b>Kết nối</b> để thiết lập, sau đó đăng xuất và đăng nhập lại.</p>`}</div>
+  <h2>Sao lưu Google Drive</h2><div class="card">${Drive.khoiStatus()}</div>
   <h2>Dữ liệu trên máy</h2><div class="card"><p style="margin-top:0">Dữ liệu tự lưu trong trình duyệt của máy này. Nếu xóa dữ liệu trình duyệt hoặc đổi máy, hãy dùng file .md hoặc GitHub để khôi phục.</p><div class="row-actions"><button data-act="reset" style="color:var(--warn)">Xóa toàn bộ dữ liệu trên máy</button></div></div>`;
 }
 
@@ -693,11 +701,11 @@ function b64enc(str){const bytes=new TextEncoder().encode(str);let bin='';for(le
 function b64dec(b64){const bin=atob(b64.replace(/\s+/g,''));const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder().decode(bytes);}
 function buildMarkdown(){
   const L=[];const wk=currentWeek();
-  L.push(`# Hồ sơ thực tập FRT – ${state.meta.student||'Gia Khôi'}`,'');
+  L.push(`# ${PROGRAM.title.replace(/^Sổ /,'Hồ sơ ')} – ${state.meta.student||PROGRAM.student}`,'');
   L.push(`- Cập nhật lần cuối: ${fmtDateTime(state.meta.updatedAt||new Date().toISOString())}`);
-  L.push(`- Ngày bắt đầu thực tập: ${state.meta.startDate||'chưa đặt'}${wk?` (đang ở tuần ${wk}/12)`:''}`);
+  L.push(`- Ngày bắt đầu thực tập: ${state.meta.startDate||'chưa đặt'}${wk?` (đang ở tuần ${wk}/${PROGRAM.weeks})`:''}`);
   CASES.forEach(c=>{const p=caseProgress(c);L.push(`- ${c.code} – ${c.title}: ${p.done}/${p.total} câu hỏi · ${rowsFilled(c.id+'.terms')}/${c.termTarget} thuật ngữ`);});
-  L.push('','## Mục lục','','1. Ghi chép hằng ngày','2. Nhật ký tuần',...CASES.map((c,i)=>`${i+3}. ${c.code} – ${c.title}`),'6. Sổ thuật ngữ tổng hợp','7. Buổi tổng kết đúc kết','');
+  const NC=CASES.length;L.push('','## Mục lục','','1. Ghi chép hằng ngày','2. Nhật ký tuần',...CASES.map((c,i)=>`${i+3}. ${c.code} – ${c.title}`),`${NC+3}. Sổ thuật ngữ tổng hợp`,`${NC+4}. Buổi tổng kết đúc kết`,'');
   // daily
   L.push('## 1. Ghi chép hằng ngày','');
   const daily=[...state.daily].sort((a,b)=>(b.d||'').localeCompare(a.d||''));
@@ -705,7 +713,7 @@ function buildMarkdown(){
   // weekly
   L.push('## 2. Nhật ký tuần','');
   let anyW=false;
-  for(let w=1;w<=12;w++){const o=state.weekly[w]||{};if(!Object.values(o).some(v=>String(v).trim()))continue;anyW=true;L.push(`### Tuần ${w}`,'');WEEKLY_QS.forEach(([k,l])=>{L.push(`**${l}**`,'',(o[k]||'').trim()||'_(trống)_','');});}
+  for(let w=1;w<=PROGRAM.weeks;w++){const o=state.weekly[w]||{};if(!Object.values(o).some(v=>String(v).trim()))continue;anyW=true;L.push(`### Tuần ${w}`,'');WEEKLY_QS.forEach(([k,l])=>{L.push(`**${l}**`,'',(o[k]||'').trim()||'_(trống)_','');});}
   if(!anyW)L.push('_(chưa có)_','');
   // cases
   CASES.forEach((c,ci)=>{
@@ -732,21 +740,21 @@ function buildMarkdown(){
   });
   // glossary
   const at=allTerms();
-  L.push('## 6. Sổ thuật ngữ tổng hợp','',at.length?mdTable(['Thuật ngữ','Giải thích','Ví dụ','Case'],at.map(t=>[t.term,t.def,t.ex,t.case.code])):'_(chưa có)_','');
+  L.push(`## ${CASES.length+3}. Sổ thuật ngữ tổng hợp`,'',at.length?mdTable(['Thuật ngữ','Giải thích','Ví dụ','Case'],at.map(t=>[t.term,t.def,t.ex,t.case.code])):'_(chưa có)_','');
   // summary
-  L.push('## 7. Buổi tổng kết đúc kết','',`- Ngày dự kiến: ${state.meta.summaryDate||'chưa đặt'}`,'');
+  L.push(`## ${CASES.length+4}. Buổi tổng kết đúc kết`,'',`- Ngày dự kiến: ${state.meta.summaryDate||'chưa đặt'}`,'');
   L.push('### Hồ sơ nộp trước buổi','');checklistItems().forEach(([k,label])=>L.push(`- [${state.checks[k]?'x':' '}] ${label}`));L.push('');
-  const mrows=ensureRows('sum.matrix',4);
-  L.push('### Ma trận đúc kết 3 case','',mdTable(['Khung học thuật',...SUMMARY.matrixCols.map(k=>k.l)],SUMMARY.matrixRows.map((r,i)=>[r,...SUMMARY.matrixCols.map(k=>mrows[i][k.k])])),'');
+  const mrows=ensureRows('sum.matrix',SUMMARY.matrixRows.length);
+  L.push(`### Ma trận đúc kết ${CASES.length} case`,'',mdTable(['Khung học thuật',...SUMMARY.matrixCols.map(k=>k.l)],SUMMARY.matrixRows.map((r,i)=>[r,...SUMMARY.matrixCols.map(k=>mrows[i][k.k])])),'');
   L.push('### Câu hỏi đúc kết cuối cùng','');SUMMARY.finalQs.forEach((q,i)=>L.push(`**${i+1}. ${q}**`,'',mdAnswer(`sum.final.q${i}`),''));
   L.push('### Câu hỏi hỏi lại mentor','');SUMMARY.myQs.forEach((q,i)=>L.push(`- ${(state.answers['sum.ask.q'+i]||'').trim()||'_(trống)_'}`));L.push('');
   L.push('### Sau buổi tổng kết','');SUMMARY.afterQs.forEach((q,i)=>L.push(`**${i+1}. ${q}**`,'',mdAnswer(`sum.after.q${i}`),''));
-  L.push('---','','_File được tạo tự động từ Sổ thực tập FRT. Đoạn dữ liệu ẩn bên dưới dùng để khôi phục, vui lòng không sửa._','');
+  L.push('---','',`_File được tạo tự động từ ${PROGRAM.title}. Đoạn dữ liệu ẩn bên dưới dùng để khôi phục, vui lòng không sửa._`,'');
   L.push(`<!-- KHOI-DATA ${b64enc(JSON.stringify(state))} -->`,'');
   return L.join('\n');
 }
 function parseMarkdown(md){const m=md.match(/<!--\s*KHOI-DATA\s+([A-Za-z0-9+/=\s]+?)\s*-->/);if(!m)throw new Error('Không tìm thấy dữ liệu trong file');const s=JSON.parse(b64dec(m[1]));if(!s.meta)throw new Error('Dữ liệu không hợp lệ');return Object.assign(defaultState(),s);}
-function fileName(){return `ho-so-thuc-tap-frt-${todayStr()}.md`;}
+function fileName(){return `ho-so-${PROGRAM.slug}-${todayStr()}.md`;}
 function exportMd(){const blob=new Blob([buildMarkdown()],{type:'text/markdown;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fileName();document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);toast('Đã tải file .md');}
 function importMd(file){const r=new FileReader();r.onload=()=>{try{const s=parseMarkdown(r.result);if(!confirm('Thay dữ liệu trên máy bằng dữ liệu trong file (cập nhật lúc '+fmtDateTime(s.meta.updatedAt)+')?'))return;state=s;localStorage.setItem(STORE_KEY,JSON.stringify(state));route();toast('Đã nhập dữ liệu từ file');}catch(e){alert('Không đọc được file: '+e.message);}};r.readAsText(file);}
 
@@ -770,7 +778,7 @@ async function pushGitHub(silent,opts={}){
     try{
       const md=buildMarkdown();
       const h=hashStr(md);
-      if(silent&&localStorage.getItem(HASH_KEY)===h){localStorage.removeItem(PENDING_KEY);setStatus('Đã lưu lên GitHub');return;}
+      if(silent&&localStorage.getItem(HASH_KEY)===h){localStorage.removeItem(PENDING_KEY);setStatus('Đã lưu lên GitHub');Drive.schedule();return;}
       const body={message:`Cập nhật hồ sơ thực tập ${new Date().toLocaleString('vi-VN')}`,content:b64enc(md),branch:gh.branch||'main'};
       const put=async(sha,keepalive)=>{const b={...body};if(sha)b.sha=sha;const raw=JSON.stringify(b);
         return fetch(ghUrl(),{method:'PUT',headers:{...ghHeaders(),'Content-Type':'application/json'},body:raw,keepalive:!!keepalive&&raw.length<60000});};
@@ -781,6 +789,7 @@ async function pushGitHub(silent,opts={}){
       try{const j=await r.json();ghSha=j.content&&j.content.sha||null;}catch(e){}
       localStorage.setItem(LASTPUSH_KEY,new Date().toISOString());
       localStorage.removeItem(PENDING_KEY);localStorage.setItem(HASH_KEY,h);
+      Drive.schedule();
       if(!silent)toast('Đã lưu lên GitHub');
       setStatus('Đã lưu lên GitHub lúc '+fmtTime(new Date()));
     }catch(e){
@@ -844,7 +853,7 @@ document.getElementById('btnExport').addEventListener('click',exportMd);
 document.getElementById('btnPush').addEventListener('click',()=>pushGitHub());
 document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
 window.addEventListener('hashchange',route);
-function flushOnLeave(){if(APP.role!=='khoi')return;if(saveTimer){clearTimeout(saveTimer);saveTimer=null;persist();}if(gh.auto&&ghReady()&&hasPending())pushGitHub(true,{fast:true});}
+function flushOnLeave(){if(APP.role!=='khoi')return;if(saveTimer){clearTimeout(saveTimer);saveTimer=null;persist();}if(gh.auto&&ghReady()&&hasPending())pushGitHub(true,{fast:true});Drive.flush();}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flushOnLeave();});
 window.addEventListener('pagehide',flushOnLeave);
 window.addEventListener('beforeunload',e=>{flushOnLeave();if(gh.auto&&ghReady()&&pushing){e.preventDefault();e.returnValue='';}});
@@ -853,15 +862,15 @@ window.addEventListener('beforeunload',e=>{flushOnLeave();if(gh.auto&&ghReady()&
    MÀN HÌNH MENTOR
    ========================================================= */
 const Mentor=(()=>{
-  const CACHE_KEY='khoi-frt-mentor-diffs', PAGE=30;
-  const CASE_SHORT={c1:'Case 1',c2:'Case 2',c3:'Case 3'};
+  const CACHE_KEY=SK('mentor-diffs'), PAGE=30;
+  const CASE_SHORT=Object.fromEntries(CASES.map(c=>[c.id,c.code]));
   const WL={plan:'Kế hoạch',real:'Thực tế',why:'Vì sao khác',next:'Tuần sau làm gì khác',rule:'Quy luật rút ra',meaning:'Điều có ý nghĩa'};
   let diffCache=(()=>{try{return JSON.parse(localStorage.getItem(CACHE_KEY))||{};}catch(e){return {};}})();
   let commits=null, snaps={}, shown=PAGE, latest=null, loading=false, lastErr='', loadedAt=null;
   const el=id=>document.getElementById(id);
   const conf=()=>({owner:gh.owner,repo:gh.repo,branch:gh.branch,path:gh.path,token:gh.token});
   const ready=()=>{const c=conf();return !!(c.owner&&c.repo);};
-  const pth=()=>conf().path||'ho-so-thuc-tap-frt.md', br=()=>conf().branch||'main';
+  const pth=()=>conf().path||PROGRAM.dataPath, br=()=>conf().branch||'main';
   const api=p=>`https://api.github.com/repos/${encodeURIComponent(conf().owner)}/${encodeURIComponent(conf().repo)}${p}`;
   const hdr=a=>{const h={'Accept':a||'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};if(conf().token)h['Authorization']='Bearer '+conf().token;return h;};
   const err=s=>s===401?'Token không hợp lệ hoặc đã hết hạn.':s===403?'Token không có quyền đọc kho này, hoặc đã vượt giới hạn truy cập.':s===404?'Không tìm thấy kho, nhánh hoặc file. Kiểm tra lại cài đặt.':'Lỗi GitHub ('+s+').';
@@ -883,7 +892,7 @@ const Mentor=(()=>{
     if(/^b[1-4]$/.test(p[1])){if(p[2]==='read')return `${CASE_SHORT[p[0]]} · Tóm tắt đọc thêm ${p[1].toUpperCase()}`;
       const cs=CASES.find(x=>x.id===p[0]);const bs=cs&&cs.bs.find(x=>x.b===p[1]);const q=bs&&bs.parts[+p[2].slice(1)]&&bs.parts[+p[2].slice(1)].qs[+p[3].slice(1)];
       return `${CASE_SHORT[p[0]]} · ${p[1].toUpperCase()} · `+(q?cut(q[1],110):'câu '+(+p[3].slice(1)+1));}
-    if(p[1]==='self')return 'Case 1 · Tự soi · '+({strengths:'điểm mạnh',learned:'điểm mới học',lost:'mất khách',far:'nhìn xa hơn'}[p[2]]||p[2]);
+    if(p[1]==='self')return CASE_SHORT[p[0]]+' · Tự soi · '+({strengths:'điểm mạnh',learned:'điểm mới học',lost:'mất khách',far:'nhìn xa hơn'}[p[2]]||p[2]);
     if(p[1]==='close')return `${CASE_SHORT[p[0]]} · Câu hỏi đúc kết của case`;return k;}
   function tlabel(id){const p=id.split('.');
     if(id==='sum.matrix')return 'dòng ma trận đúc kết';if(p[1]==='log')return `dòng nhật ký cập nhật (${CASE_SHORT[p[0]]})`;
@@ -949,11 +958,11 @@ const Mentor=(()=>{
     const terms=c=>((s.tables||{})[c.id+'.terms']||[]).filter(r=>(r.term||'').trim()).length;
     const weeks=Object.values(s.weekly||{}).filter(o=>Object.values(o||{}).some(v=>String(v).trim())).length;
     const days=new Set(commits.map(c=>dayKey(c.date)));
-    let wk='';if(s.meta&&s.meta.startDate){const w=Math.floor((Date.now()-new Date(s.meta.startDate+'T00:00:00'))/(7*864e5))+1;wk=` · đang ở tuần ${w}/12`;}
+    let wk='';if(s.meta&&s.meta.startDate){const w=Math.floor((Date.now()-new Date(s.meta.startDate+'T00:00:00'))/(7*864e5))+1;wk=` · đang ở tuần ${w}/${PROGRAM.weeks}`;}
     let h=`<h2>Tổng quan${wk}</h2><div class="mgrid">
       <div class="card"><div class="mlabel">Lần cập nhật gần nhất</div><div class="stat">${last?ago(last.date):'—'}</div><div class="mlabel">${last?fmtDay(last.date)+' lúc '+fmtTime(last.date):'Chưa có dữ liệu'}</div></div>
       <div class="card"><div class="mlabel">Số lần lưu</div><div class="stat">${commits.length}</div><div class="mlabel">trong ${days.size} ngày có hoạt động</div></div>
-      <div class="card"><div class="mlabel">Ghi chép hằng ngày</div><div class="stat">${(s.daily||[]).length}</div><div class="mlabel">${weeks}/12 tuần đã viết nhật ký</div></div>`;
+      <div class="card"><div class="mlabel">Ghi chép hằng ngày</div><div class="stat">${(s.daily||[]).length}</div><div class="mlabel">${weeks}/${PROGRAM.weeks} tuần đã viết nhật ký</div></div>`;
     CASES.forEach(c=>{const tot=caseQuestions(c).filter(q=>!q.reading).length,n=cnt(c);h+=`<div class="card"><div class="mlabel">${esc(c.code)} – ${esc(c.title)}</div><div class="stat">${n}/${tot}</div><div class="mlabel">câu trả lời · ${terms(c)}/${c.termTarget} thuật ngữ</div><div class="bar"><i style="width:${Math.round(100*n/tot)}%"></i></div></div>`;});
     h+='</div>';
     const per={};commits.forEach(c=>{const k=dayKey(c.date);per[k]=(per[k]||0)+1;});
@@ -987,7 +996,7 @@ const Mentor=(()=>{
     const h=`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><h1 style="margin-right:auto">Theo dõi Khôi</h1>
       <button class="primary" data-mact="refresh">Làm mới</button></div>
       <p class="lead" id="mSub">Đọc trực tiếp từ GitHub · chỉ xem, không sửa</p>
-      <div id="mError"></div>${ready()?'':'<div class="card">Chưa kết nối GitHub. Vào mục <a href="#/setup">Kết nối GitHub</a> để thiết lập một lần.</div>'}<div id="mOverview"></div><div id="mTimeline"></div>`;
+      <div id="mError"></div>${ready()?'':'<div class="card">Chưa kết nối GitHub. Vào mục <a href="#/setup">Kết nối</a> để thiết lập một lần.</div>'}<div id="mOverview"></div><div id="mTimeline"></div>`;
     setTimeout(()=>{if(commits===null&&!loading&&ready()&&!lastErr)load();else paint();},0);
     return h;}
   async function onClick(t){
@@ -1025,7 +1034,7 @@ const Profile=(()=>{
     const wk=currentWeek(),daily=state.daily.length,weeks=Object.values(state.weekly).filter(o=>Object.values(o||{}).some(v=>String(v).trim())).length;
     const last=[...state.daily].sort((a,b)=>(b.d||'').localeCompare(a.d||'')).slice(0,5);
     let h=`<div class="pgrid">${progressChips()}
-      <a class="pchip" data-psec="weekly"><b>Nhật ký tuần</b> ${weeks}/12 tuần<span class="bar"><i style="width:${Math.round(100*weeks/12)}%"></i></span></a>
+      <a class="pchip" data-psec="weekly"><b>Nhật ký tuần</b> ${weeks}/${PROGRAM.weeks} tuần<span class="bar"><i style="width:${Math.round(100*weeks/PROGRAM.weeks)}%"></i></span></a>
       <a class="pchip" data-psec="daily"><b>Ghi chép</b> ${daily} ghi chép hằng ngày</a></div>`;
     h+=`<h2>Ghi chép gần nhất</h2>${last.length?last.map(e=>`<div class="pq"><div class="pq-q">${esc(e.d)}${e.tag?` · ${esc(e.tag)}`:''}</div><div class="pq-a">${esc(e.note)}</div></div>`).join(''):'<p class="muted">Chưa có ghi chép.</p>'}`;
     const lw=Object.keys(state.weekly).map(Number).filter(w=>Object.values(state.weekly[w]||{}).some(v=>String(v).trim())).sort((a,b)=>b-a)[0];
@@ -1062,7 +1071,7 @@ const Profile=(()=>{
   }
   function secWeekly(){
     let h='',any=false;
-    for(let w=12;w>=1;w--){const o=state.weekly[w]||{};if(!Object.values(o).some(v=>String(v).trim()))continue;any=true;
+    for(let w=PROGRAM.weeks;w>=1;w--){const o=state.weekly[w]||{};if(!Object.values(o).some(v=>String(v).trim()))continue;any=true;
       h+=`<h2>Tuần ${w}</h2>`;WEEKLY_QS.forEach(([k,l])=>{if(onlyDone&&!(o[k]||'').trim())return;h+=`<div class="pq"><div class="pq-q">${esc(l)}</div>${(o[k]||'').trim()?`<div class="pq-a">${esc(o[k])}</div>`:'<div class="pq-a empty">Trống</div>'}</div>`;});}
     return any?h:'<p class="muted">Khôi chưa viết nhật ký tuần nào.</p>';
   }
@@ -1080,7 +1089,7 @@ const Profile=(()=>{
   function secSummary(){
     let h='<h2>Hồ sơ nộp trước buổi</h2><div class="card checklist">';
     checklistItems().forEach(([k,label,auto])=>{h+=`<label><input type="checkbox" disabled ${state.checks[k]?'checked':''}><span>${esc(label)} ${auto===true?'<span class="chip done">đủ</span>':auto===false?'<span class="chip due">chưa đủ</span>':''}</span></label>`;});
-    h+='</div><h2>Ma trận đúc kết 3 case</h2>'+tbl(SUMMARY.matrixCols,ensureRowsLocal('sum.matrix',4),{head:['Khung học thuật'],rows:SUMMARY.matrixRows.map(x=>[x])});
+    h+='</div><h2>Ma trận đúc kết</h2>'+tbl(SUMMARY.matrixCols,ensureRowsLocal('sum.matrix',SUMMARY.matrixRows.length),{head:['Khung học thuật'],rows:SUMMARY.matrixRows.map(x=>[x])});
     h+='<h2>Câu hỏi đúc kết cuối cùng</h2>';SUMMARY.finalQs.forEach((x,i)=>h+=qa(`${i+1}. ${esc(x)}`,'',`sum.final.q${i}`));
     h+='<h2>Câu hỏi Khôi muốn hỏi mentor</h2>';SUMMARY.myQs.forEach((x,i)=>h+=qa(esc(x),'',`sum.ask.q${i}`));
     h+='<h2>Sau buổi tổng kết</h2>';SUMMARY.afterQs.forEach((x,i)=>h+=qa(`${i+1}. ${esc(x)}`,'',`sum.after.q${i}`));
@@ -1090,7 +1099,7 @@ const Profile=(()=>{
   function body(){
     if(loading&&!S)return '<p class="muted">Đang tải hồ sơ từ GitHub…</p>';
     if(err)return `<div class="merr">${esc(err)}</div>`;
-    if(!S)return '<div class="card">Chưa có dữ liệu. Khôi chưa lưu lần nào, hoặc chưa kết nối GitHub (mục <a href="#/setup">Kết nối GitHub</a>).</div>';
+    if(!S)return '<div class="card">Chưa có dữ liệu. Khôi chưa lưu lần nào, hoặc chưa kết nối GitHub (mục <a href="#/setup">Kết nối</a>).</div>';
     return withSnap(()=>{
       const c=CASES.find(x=>x.id===sec);
       return c?secCase(c):sec==='weekly'?secWeekly():sec==='daily'?secDaily():sec==='terms'?secTerms():sec==='summary'?secSummary():secOverview();
@@ -1098,7 +1107,7 @@ const Profile=(()=>{
   }
   function header(){
     if(!S)return '';
-    return withSnap(()=>{const wk=currentWeek();return `<p class="lead" style="margin-bottom:6px">${esc(state.meta.student||'Gia Khôi')}${state.meta.startDate?` · bắt đầu ${esc(state.meta.startDate)}`:''}${wk?` · đang ở tuần ${wk}/12`:''} · cập nhật lần cuối ${fmtDateTime(state.meta.updatedAt)}</p>`;});
+    return withSnap(()=>{const wk=currentWeek();return `<p class="lead" style="margin-bottom:6px">${esc(state.meta.student||PROGRAM.student)}${state.meta.startDate?` · bắt đầu ${esc(state.meta.startDate)}`:''}${wk?` · đang ở tuần ${wk}/${PROGRAM.weeks}`:''} · cập nhật lần cuối ${fmtDateTime(state.meta.updatedAt)}</p>`;});
   }
   function paint(){
     if(!el('pBody'))return;
@@ -1145,8 +1154,8 @@ view.addEventListener('click',e=>{const t=e.target.closest('button');if(t&&(t.da
    bằng chính mật khẩu (PBKDF2 + AES-GCM) và lưu trong config.json.
    ========================================================= */
 const Auth=(()=>{
-  const ROLE_SHA={khoi:'b8f5b04a98451b409870e7d5d9ee1470d9307daa73b8fd539c73555cf0d0f344',mentor:'c9b10b9a7b1f4ff9824743cc741eaea29c4e5e8880502bab86f5e87b1b1d6e7c'};
-  const SESSION_KEY='khoi-frt-session', CONFIG_CACHE='khoi-frt-config', DATA_BRANCH='data', DATA_PATH='ho-so-thuc-tap-frt.md';
+  const ROLE_SHA=PROGRAM.pass;
+  const SESSION_KEY=SK('session'), CONFIG_CACHE=SK('config'), DATA_BRANCH='data', DATA_PATH=PROGRAM.dataPath;
   const te=new TextEncoder(), td=new TextDecoder();
   const b64=u8=>{let s='';u8.forEach(b=>s+=String.fromCharCode(b));return btoa(s);};
   const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
@@ -1165,6 +1174,7 @@ const Auth=(()=>{
 
   function enter(s){
     APP.role=s.role;
+    Drive.set(s.gd||null);
     gh={auto:true,owner:s.owner||'',repo:s.repo||'',branch:s.branch||DATA_BRANCH,path:s.path||DATA_PATH,token:s.token||''};
     document.getElementById('gate').style.display='none';
     document.querySelector('.app').style.display='';
@@ -1172,14 +1182,14 @@ const Auth=(()=>{
     document.getElementById('btnExport').style.display=isK?'':'none';
     document.getElementById('btnPush').style.display=isK?'':'none';
     if(isK){
-      if(/^#\/(mentor|profile|setup)/.test(location.hash))location.hash='#/home';
+      if(/^#\/(mentor|profile|setup|notes)/.test(location.hash))location.hash='#/home';
       route();
       if(!ghReady())setStatus('Chưa kết nối GitHub · dữ liệu chỉ lưu trên máy này');
       else if(state.meta.updatedAt)setStatus('Đã lưu trên máy lúc '+fmtDateTime(state.meta.updatedAt));
-      (async()=>{await pullGitHub(true);if(ghReady()&&hasPending())pushGitHub(true);})();
+      (async()=>{await pullGitHub(true);if(ghReady()&&hasPending())pushGitHub(true);Drive.schedule();})();
     }else{
       setStatus('Mentor · chỉ xem');
-      if(!/^#\/(profile|setup)/.test(location.hash))location.hash='#/mentor';
+      if(!/^#\/(profile|setup|notes)/.test(location.hash))location.hash='#/mentor';
       route();
     }
   }
@@ -1189,8 +1199,9 @@ const Auth=(()=>{
     if(!role)return false;
     const cfg=await loadConfig();let token='';
     if(cfg&&cfg.tk&&cfg.tk[role]){try{token=await dec(pw,cfg.tk[role]);}catch(e){token='';}}
-    if(role==='mentor')sessionStorage.setItem('khoi-frt-mpw',pw);
-    const s={role,token,owner:cfg&&cfg.owner,repo:cfg&&cfg.repo,branch:cfg&&cfg.branch,path:cfg&&cfg.path};
+    let gdObj=null;if(cfg&&cfg.gd&&cfg.gd[role]){try{gdObj=JSON.parse(await dec(pw,cfg.gd[role]));}catch(e){gdObj=null;}}
+    if(role==='mentor')sessionStorage.setItem(SK('mpw'),pw);
+    const s={role,token,owner:cfg&&cfg.owner,repo:cfg&&cfg.repo,branch:cfg&&cfg.branch,path:cfg&&cfg.path,gd:gdObj};
     saveSession(s,remember);enter(s);return true;
   }
   function logout(){
@@ -1206,20 +1217,28 @@ const Auth=(()=>{
   async function onGate(){
     const i=document.getElementById('gatePass'),m=document.getElementById('gateMsg'),b=document.getElementById('gateBtn');
     if(!i.value){m.textContent='Hãy nhập mật khẩu.';return;}
-    b.disabled=true;b.textContent='Đang mở…';m.textContent='';
+    b.disabled=true;b.textContent='Đang mở…';m.textContent='';m.style.color='';
     let ok=false;try{ok=await login(i.value,document.getElementById('gateRemember').checked);}catch(e){m.textContent='Trình duyệt không hỗ trợ. Hãy mở bằng đường link https.';}
     if(!ok){if(!m.textContent)m.textContent='Mật khẩu không đúng.';i.select();}
     b.disabled=false;b.textContent='Vào';
   }
   function start(){
-    try{localStorage.removeItem('khoi-frt-github');}catch(e){}
+    
     document.getElementById('gateBtn').addEventListener('click',onGate);
     document.getElementById('gatePass').addEventListener('keydown',e=>{if(e.key==='Enter')onGate();});
     document.getElementById('btnLogout').addEventListener('click',logout);
     const s=readSession();
     if(s&&s.role){
-      // cập nhật cấu hình mới nhất nếu phiên cũ chưa có kết nối
       enter(s);
+      // Phiên đã ghi nhớ từ trước khi bật Google Drive: cần nhập lại mật khẩu một lần để mở khóa kết nối mới
+      loadConfig().then(cfg=>{
+        if(!(cfg&&cfg.gd&&cfg.gd[s.role])||(s.gd&&s.gd.url))return;
+        const remembered=!!localStorage.getItem(SESSION_KEY);
+        sessionStorage.removeItem(SESSION_KEY);localStorage.removeItem(SESSION_KEY);
+        document.getElementById('gateRemember').checked=remembered;
+        showGate();
+        const m=document.getElementById('gateMsg');m.style.color='var(--muted)';m.textContent='Hệ thống vừa bật sao lưu Google Drive. Vui lòng nhập lại mật khẩu một lần.';
+      });
     }else showGate();
   }
 
@@ -1228,7 +1247,8 @@ const Auth=(()=>{
     const c=(()=>{try{return JSON.parse(localStorage.getItem(CONFIG_CACHE))||{};}catch(e){return {};}})();
     const host=location.hostname.endsWith('.github.io')?location.hostname.split('.')[0]:'';
     const seg=host?(location.pathname.split('/').filter(Boolean)[0]||''):'';
-    return `<h1>Kết nối GitHub</h1><p class="lead">Làm <b>một lần</b> sau khi đưa webapp lên GitHub. Sau bước này, Khôi chỉ cần mở link và nhập mật khẩu là dữ liệu tự lưu lên GitHub.</p>
+    return `<h1>Kết nối</h1><p class="lead">Làm <b>một lần</b> sau khi đưa webapp lên GitHub. Sau bước này, Khôi chỉ cần mở link và nhập mật khẩu là dữ liệu tự lưu lên GitHub (và Google Drive nếu bật).</p>
+    <h2>GitHub</h2>
     ${gh.owner&&gh.repo?`<div class="card">Đang kết nối với kho <b>${esc(gh.owner)}/${esc(gh.repo)}</b>, dữ liệu ở nhánh <b>${esc(gh.branch)}</b>, file <b>${esc(gh.path)}</b>. <a href="https://github.com/${encodeURIComponent(gh.owner)}/${encodeURIComponent(gh.repo)}/blob/${encodeURIComponent(gh.branch)}/${gh.path}" target="_blank" rel="noopener">Mở file trên GitHub</a></div>`:''}
     <div class="card">
       <div class="field-row"><div><label>Tên tài khoản GitHub (username, không phải email)</label><input type="text" id="sOwner" value="${esc(gh.owner||c.owner||host)}" placeholder="ten-tai-khoan"></div><div><label>Tên kho</label><input type="text" id="sRepo" value="${esc(gh.repo||c.repo||seg||'so-thuc-tap')}"></div></div>
@@ -1237,7 +1257,8 @@ const Auth=(()=>{
       <div class="row-actions" style="margin-top:12px"><button class="primary" data-sact="connect">Kết nối</button></div>
       <div id="sMsg" style="margin-top:10px;font-size:14px"></div>
     </div>
-    <p class="muted" style="font-size:13px">Token được mã hóa bằng mật khẩu trước khi lưu vào file <code>config.json</code> của kho, nên không ai đọc được token nếu không biết mật khẩu. Dữ liệu của Khôi lưu ở nhánh <code>${DATA_BRANCH}</code> để không làm trang web phải dựng lại mỗi lần lưu.</p>`;
+    <p class="muted" style="font-size:13px">Token được mã hóa bằng mật khẩu trước khi lưu vào file <code>config.json</code> của kho, nên không ai đọc được token nếu không biết mật khẩu. Dữ liệu của Khôi lưu ở nhánh <code>${DATA_BRANCH}</code> để không làm trang web phải dựng lại mỗi lần lưu.</p>
+    ${Drive.setupHtml()}`;
   }
   async function connect(){
     const msg=t=>{document.getElementById('sMsg').innerHTML=t;};
@@ -1273,23 +1294,425 @@ const Auth=(()=>{
         if(!c.ok)return fail('Không tạo được nhánh dữ liệu ('+c.status+'). Kiểm tra quyền Contents: Read and write.');
       }else if(!r.ok)return fail('Lỗi GitHub ('+r.status+').');
       msg('Đang mã hóa và lưu cấu hình…');
-      const mpw=sessionStorage.getItem('khoi-frt-mpw')||'';
+      const mpw=sessionStorage.getItem(SK('mpw'))||'';
       const cfg={owner,repo,branch:DATA_BRANCH,path:DATA_PATH,tk:{khoi:await enc(kpw,token)}};
       if(mpw)cfg.tk.mentor=await enc(mpw,token);
-      const cur=await fetch(A('/contents/config.json?ref='+encodeURIComponent(main)),{headers:H});
+      const cur=await fetch(A('/contents/config.json?ref='+encodeURIComponent(main)+'&t='+Date.now()),{headers:H,cache:'no-store'});
+      let oldSha=null;if(cur.ok){const cj=await cur.json();oldSha=cj.sha;try{const old=JSON.parse(b64dec(cj.content));if(old&&old.gd)cfg.gd=old.gd;}catch(e){}}
       const body={message:'Cấu hình kết nối Sổ thực tập',branch:main,content:btoa(unescape(encodeURIComponent(JSON.stringify(cfg,null,2))))};
-      if(cur.ok)body.sha=(await cur.json()).sha;
+      if(oldSha)body.sha=oldSha;
       const w=await fetch(A('/contents/config.json'),{method:'PUT',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify(body)});
       if(!w.ok)return fail('Không ghi được config.json ('+w.status+').');
       localStorage.setItem(CONFIG_CACHE,JSON.stringify(cfg));
-      const s={role:'mentor',token,owner,repo,branch:DATA_BRANCH,path:DATA_PATH};
+      const s={...(readSession()||{}),role:'mentor',token,owner,repo,branch:DATA_BRANCH,path:DATA_PATH};
       saveSession(s,!!localStorage.getItem(SESSION_KEY));gh={...gh,owner,repo,branch:DATA_BRANCH,path:DATA_PATH,token};
       msg('<span style="color:var(--accent)"><b>Đã kết nối.</b> Đợi 1–2 phút để GitHub Pages cập nhật, sau đó Khôi mở link và nhập mật khẩu là dùng được. Bấm <a href="#/mentor">Theo dõi Khôi</a> để xem dữ liệu.</span>');
     }catch(e){fail('Không kết nối được GitHub: '+e.message);}
   }
-  return {start,login,logout,viewSetup,connect,sha,ROLE_SHA};
+  return {start,login,logout,viewSetup,connect,sha,ROLE_SHA,enc,readSession,saveSession,SESSION_KEY,CONFIG_CACHE};
 })();
 view.addEventListener('click',e=>{const t=e.target.closest('button');if(t&&t.dataset.sact==='connect')Auth.connect();});
+
+/* =========================================================
+   SAO LƯU GOOGLE DRIVE & GHI NHẬN CỦA MENTOR
+   Webapp gửi dữ liệu tới một Google Apps Script do mentor triển khai trên
+   tài khoản Google của mình; script ghi file vào Google Drive của mentor.
+   Khôi chỉ có khóa sao lưu; mentor có khóa đầy đủ (ghi nhận, tệp đính kèm).
+   ========================================================= */
+const GAS_TEMPLATE=String.raw`/**
+ * Sổ thực tập – sao lưu Google Drive
+ * Mã do webapp tạo, đã chứa sẵn khóa riêng của chương trình. Không chia sẻ mã này.
+ * 1. Chạy hàm caiDat một lần để cấp quyền và tạo thư mục.
+ * 2. Triển khai > Tùy chọn triển khai mới > Ứng dụng web
+ *    (Thực thi với tư cách: Tôi; Người có quyền truy cập: Bất kỳ ai).
+ */
+var KHOI_KEY = '%%KHOI_KEY%%';
+var MENTOR_KEY = '%%MENTOR_KEY%%';
+var TEN_THU_MUC = '%%FOLDER%%';
+var SLUG = '%%SLUG%%';
+var TZ = 'Asia/Ho_Chi_Minh';
+
+function caiDat() {
+  var f = thuMuc_();
+  thuMucCon_('Lịch sử sao lưu');
+  thuMucCon_('Tệp đính kèm mentor');
+  thuMucCon_('Dữ liệu hệ thống');
+  Logger.log('Đã sẵn sàng. Thư mục sao lưu: ' + f.getUrl());
+}
+
+function doGet() {
+  return traVe_({ ok: true, app: 'so-thuc-tap-backup', slug: SLUG });
+}
+
+function doPost(e) {
+  var lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(30000);
+    var req = JSON.parse(e.postData.contents);
+    var vaiTro = req.key === MENTOR_KEY ? 'mentor' : (req.key === KHOI_KEY ? 'khoi' : '');
+    if (!vaiTro) return traVe_({ ok: false, error: 'Khóa không hợp lệ' });
+    var a = req.action;
+    if (a === 'ping') return traVe_({ ok: true, role: vaiTro, folderUrl: thuMuc_().getUrl() });
+    if (a === 'backup') {
+      if (typeof req.md !== 'string' || req.md.indexOf('KHOI-DATA') < 0) return traVe_({ ok: false, error: 'Dữ liệu sao lưu không hợp lệ' });
+      ghiFile_(thuMucCon_('Dữ liệu hệ thống'), '_ho-so.md', req.md);
+      return traVe_({ ok: true, at: taoBackup_(vaiTro === 'mentor' ? 'Mentor' : 'Khôi') });
+    }
+    if (vaiTro !== 'mentor') return traVe_({ ok: false, error: 'Không có quyền' });
+    if (a === 'listActivities') return traVe_({ ok: true, items: docGhiNhan_(), folderUrl: thuMuc_().getUrl() });
+    if (a === 'addActivity') return traVe_(themGhiNhan_(req.entry || {}, req.files || []));
+    if (a === 'deleteActivity') return traVe_(xoaGhiNhan_(String(req.id || '')));
+    return traVe_({ ok: false, error: 'Thao tác không hợp lệ' });
+  } catch (err) {
+    return traVe_({ ok: false, error: String((err && err.message) || err) });
+  } finally {
+    try { lock.releaseLock(); } catch (x) {}
+  }
+}
+
+function traVe_(o) {
+  return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
+}
+
+function thuMuc_() {
+  var p = PropertiesService.getScriptProperties();
+  var id = p.getProperty('FOLDER_ID');
+  if (id) {
+    try { var f = DriveApp.getFolderById(id); if (!f.isTrashed()) return f; } catch (x) {}
+  }
+  var moi = DriveApp.createFolder(TEN_THU_MUC);
+  p.setProperty('FOLDER_ID', moi.getId());
+  return moi;
+}
+
+function thuMucCon_(ten) {
+  var cha = thuMuc_();
+  var it = cha.getFoldersByName(ten);
+  return it.hasNext() ? it.next() : cha.createFolder(ten);
+}
+
+function ghiFile_(thuMuc, ten, noiDung) {
+  var it = thuMuc.getFilesByName(ten);
+  if (it.hasNext()) { var f = it.next(); f.setContent(noiDung); return f; }
+  return thuMuc.createFile(ten, noiDung, MimeType.PLAIN_TEXT);
+}
+
+function docFile_(thuMuc, ten) {
+  var it = thuMuc.getFilesByName(ten);
+  return it.hasNext() ? it.next().getBlob().getDataAsString('UTF-8') : '';
+}
+
+function docGhiNhan_() {
+  var s = docFile_(thuMucCon_('Dữ liệu hệ thống'), 'mentor-activities.json');
+  try { return s ? JSON.parse(s) : []; } catch (x) { return []; }
+}
+
+function luuGhiNhan_(ds) {
+  ghiFile_(thuMucCon_('Dữ liệu hệ thống'), 'mentor-activities.json', JSON.stringify(ds));
+}
+
+function themGhiNhan_(entry, files) {
+  var ngay = String(entry.date || Utilities.formatDate(new Date(), TZ, 'yyyy-MM-dd')).slice(0, 10);
+  var dk = thuMucCon_('Tệp đính kèm mentor');
+  var tep = [];
+  for (var i = 0; i < files.length; i++) {
+    var t = files[i] || {};
+    if (!t.data) continue;
+    var ten = String(t.name || ('tep-' + (i + 1)));
+    var blob = Utilities.newBlob(Utilities.base64Decode(t.data), String(t.mimeType || 'application/octet-stream'), ngay + ' - ' + ten);
+    var f = dk.createFile(blob);
+    var thumb = String(t.thumb || '');
+    tep.push({ id: f.getId(), name: ten, mimeType: String(t.mimeType || ''), size: f.getSize(), url: f.getUrl(),
+      thumb: (thumb.indexOf('data:image/') === 0 && thumb.length < 150000) ? thumb : '' });
+  }
+  var item = {
+    id: Utilities.getUuid(), date: ngay,
+    type: String(entry.type || ''), topic: String(entry.topic || ''), author: String(entry.author || ''),
+    text: String(entry.text || ''), files: tep, createdAt: new Date().toISOString()
+  };
+  var ds = docGhiNhan_();
+  ds.unshift(item);
+  luuGhiNhan_(ds);
+  taoBackup_('Mentor');
+  return { ok: true, item: item };
+}
+
+function xoaGhiNhan_(id) {
+  var ds = docGhiNhan_(), con = [], xoa = null;
+  for (var i = 0; i < ds.length; i++) { if (ds[i].id === id) xoa = ds[i]; else con.push(ds[i]); }
+  if (!xoa) return { ok: false, error: 'Không tìm thấy ghi nhận' };
+  (xoa.files || []).forEach(function (f) { try { DriveApp.getFileById(f.id).setTrashed(true); } catch (x) {} });
+  luuGhiNhan_(con);
+  taoBackup_('Mentor');
+  return { ok: true };
+}
+
+function taoBackup_(boi) {
+  var heThong = thuMucCon_('Dữ liệu hệ thống');
+  var hoSo = docFile_(heThong, '_ho-so.md');
+  var ds = docGhiNhan_().slice().sort(function (a, b) {
+    return String(b.date + b.createdAt).localeCompare(String(a.date + a.createdAt));
+  });
+  var bay = new Date();
+  var L = [];
+  L.push('# Backup data – ' + TEN_THU_MUC, '');
+  L.push('- Cập nhật lần cuối: ' + Utilities.formatDate(bay, TZ, 'dd/MM/yyyy HH:mm') + ' (bởi ' + boi + ')');
+  L.push('- File do hệ thống tự tạo sau mỗi lần Khôi hoặc mentor cập nhật. Bản theo từng ngày nằm trong thư mục "Lịch sử sao lưu".');
+  L.push('- Gồm hai phần: (1) Hồ sơ thực tập của Khôi, (2) Ghi nhận của mentor.', '', '---', '');
+  L.push(hoSo || '_(Chưa có hồ sơ của Khôi)_', '', '---', '');
+  L.push('# Ghi nhận của mentor', '');
+  if (!ds.length) L.push('_(Chưa có ghi nhận)_', '');
+  ds.forEach(function (g) {
+    L.push('## ' + g.date + (g.type ? ' · ' + g.type : '') + (g.topic && g.topic !== 'Chung' ? ' · ' + g.topic : ''), '');
+    var meta = [];
+    if (g.author) meta.push('Người ghi: ' + g.author);
+    if (g.createdAt) meta.push('lúc ' + Utilities.formatDate(new Date(g.createdAt), TZ, 'dd/MM/yyyy HH:mm'));
+    if (meta.length) L.push('_' + meta.join(' · ') + '_', '');
+    if (g.text) L.push(g.text, '');
+    if (g.files && g.files.length) {
+      L.push('Tệp đính kèm:');
+      g.files.forEach(function (f) { L.push('- [' + String(f.name).replace(/[\[\]]/g, '') + '](' + f.url + ')'); });
+      L.push('');
+    }
+  });
+  var md = L.join('\n');
+  ghiFile_(thuMuc_(), 'backup-data-' + SLUG + '.md', md);
+  ghiFile_(thuMucCon_('Lịch sử sao lưu'), 'backup-data-' + SLUG + '-' + Utilities.formatDate(bay, TZ, 'yyyy-MM-dd') + '.md', md);
+  return bay.toISOString();
+}
+`;
+const Drive=(()=>{
+  const LAST=SK('drive-last'),HASHK=SK('drive-hash'),FOLDER=SK('drive-folder'),PEND=SK('drive-newkeys'),AUTHOR=SK('note-author'),DRAFT=SK('note-draft');
+  const TYPES=['Quan sát tại nơi thực tập','Buổi gặp mentor','Phản hồi từ người hướng dẫn','Nhận xét bài làm của Khôi','Trao đổi giữa hai mentor','Khác'];
+  let gd=null,timer=null,busy=null,again=false,lastAt=0,lastErr='';
+  let notes=null,notesLoading=false,notesErr='',files=[],q='',saving=false;
+  const el=id=>document.getElementById(id);
+  const ready=()=>!!gd;
+  const full=()=>!!(gd&&gd.khoiKey);
+  function set(x){gd=(x&&x.url&&x.key)?x:null;notes=null;}
+  function rnd(n){const a=crypto.getRandomValues(new Uint8Array(n));let s='';a.forEach(b=>s+=String.fromCharCode(b));return btoa(s).replace(/[+/=]/g,'');}
+  function fmtSize(n){n=+n||0;return n<1024*1024?Math.max(1,Math.round(n/1024))+' KB':(n/1024/1024).toFixed(1).replace('.',',')+' MB';}
+  function topics(){return ['Chung',...CASES.map(c=>c.code+' – '+c.title),...Object.values(B_META).map(b=>b.title),'Tự soi','Buổi tổng kết'];}
+
+  async function call(action,payload={},opts={},cred=gd){
+    const body=JSON.stringify(Object.assign({key:cred.key,action},payload));
+    let r;
+    try{r=await fetch(cred.url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body,redirect:'follow',keepalive:!!opts.keepalive&&body.length<60000});}
+    catch(e){throw new Error('Không gọi được Google Apps Script. Kiểm tra mạng, và khi triển khai mục "Người có quyền truy cập" phải là "Bất kỳ ai".');}
+    if(!r.ok)throw new Error('Google Apps Script trả lỗi '+r.status+'.');
+    let j;try{j=await r.json();}catch(e){throw new Error('Phản hồi không hợp lệ. Kiểm tra URL (phải kết thúc bằng /exec) và quyền truy cập "Bất kỳ ai".');}
+    if(!j.ok)throw new Error(j.error==='Khóa không hợp lệ'?'Khóa không khớp: mã trong Apps Script không phải bản mới nhất. Sao chép lại mã, dán đè trong Apps Script và triển khai phiên bản mới.':(j.error||'Lỗi không rõ.'));
+    return j;
+  }
+
+  /* ----- Sao lưu hồ sơ (Khôi: tự động; mentor: lấy từ GitHub) ----- */
+  async function backup(md,opts={}){
+    if(!ready()||!md)return false;
+    const h=hashStr(md);
+    if(!opts.force&&localStorage.getItem(HASHK)===h)return true;
+    if(busy){again=true;return busy;}
+    busy=(async()=>{
+      try{await call('backup',{md},{keepalive:opts.keepalive});localStorage.setItem(HASHK,h);localStorage.setItem(LAST,new Date().toISOString());lastErr='';return true;}
+      catch(e){lastErr=e.message;return false;}
+      finally{lastAt=Date.now();}
+    })();
+    const ok=await busy;busy=null;
+    if(again){again=false;schedule();}
+    return ok;
+  }
+  function schedule(){
+    if(!ready()||APP.role!=='khoi')return;
+    clearTimeout(timer);
+    timer=setTimeout(()=>backup(buildMarkdown()),Math.max(0,60000-(Date.now()-lastAt)));
+  }
+  function flush(){if(!ready()||APP.role!=='khoi')return;clearTimeout(timer);backup(buildMarkdown(),{keepalive:true});}
+  async function seed(cred=gd){
+    const h={'Accept':'application/vnd.github.raw+json','X-GitHub-Api-Version':'2022-11-28'};if(gh.token)h['Authorization']='Bearer '+gh.token;
+    const r=await fetch(`https://api.github.com/repos/${encodeURIComponent(gh.owner)}/${encodeURIComponent(gh.repo)}/contents/${gh.path.split('/').map(encodeURIComponent).join('/')}?ref=${encodeURIComponent(gh.branch)}&t=${Date.now()}`,{headers:h,cache:'no-store'});
+    if(r.status===404)return false;
+    if(!r.ok)throw new Error('Không đọc được hồ sơ trên GitHub ('+r.status+').');
+    await call('backup',{md:await r.text()},{},cred);
+    localStorage.setItem(LAST,new Date().toISOString());
+    return true;
+  }
+  function khoiStatus(){
+    if(!ready())return `<p style="margin:0">Chưa bật. Mentor bật trong mục <b>Kết nối</b>; sau đó em đăng xuất và đăng nhập lại.</p>`;
+    return `<p style="margin-top:0">Đã bật. Sau mỗi lần đồng bộ, hồ sơ được sao lưu thêm thành file <b>backup data (.md)</b> trên Google Drive của mentor (tối đa 1 lần mỗi phút).</p>
+    <div class="row-actions"><button data-dact="backup">Sao lưu ngay</button></div>
+    <p class="muted" style="font-size:13px">Lần sao lưu Google Drive gần nhất: ${fmtDateTime(localStorage.getItem(LAST))}${lastErr?` · <span style="color:var(--warn)">Lần trước chưa thành công: ${esc(lastErr)}</span>`:''}</p>`;
+  }
+
+  /* ----- Thiết lập (mentor) ----- */
+  function pendingKeys(){
+    let k=null;try{k=JSON.parse(localStorage.getItem(PEND));}catch(e){}
+    if(k&&k.khoi&&k.mentor)return k;
+    if(gd&&gd.khoiKey)return {khoi:gd.khoiKey,mentor:gd.key};
+    k={khoi:'k'+rnd(18),mentor:'m'+rnd(18)};localStorage.setItem(PEND,JSON.stringify(k));return k;
+  }
+  const jsq=s=>String(s).replace(/[\\']/g,'\\$&');
+  function code(k){return GAS_TEMPLATE.split('%%KHOI_KEY%%').join(k.khoi).split('%%MENTOR_KEY%%').join(k.mentor).split('%%FOLDER%%').join(jsq(PROGRAM.title+' – Sao lưu')).split('%%SLUG%%').join(jsq(PROGRAM.slug));}
+  function setupHtml(){
+    const k=pendingKeys(),folder=localStorage.getItem(FOLDER),on=ready()&&full();
+    const fresh=!!localStorage.getItem(PEND)&&on;
+    const mpwMissing=!sessionStorage.getItem(SK('mpw'));
+    return `<h2 id="drive">Sao lưu Google Drive</h2>
+    ${on?`<div class="card"><b>Đã bật.</b> Sau mỗi lần Khôi hoặc mentor cập nhật, hệ thống ghi file <b>backup-data-${esc(PROGRAM.slug)}.md</b> vào Google Drive, kèm một bản theo từng ngày. ${folder?`<a href="${esc(folder)}" target="_blank" rel="noopener">Mở thư mục sao lưu</a>`:''}
+      <div class="row-actions" style="margin-top:10px"><button data-dact="seed">Sao lưu ngay</button><button data-dact="test">Kiểm tra kết nối</button></div><div id="dMsg2" style="margin-top:8px;font-size:14px"></div></div>`
+    :`<p>Chưa bật. Làm theo 5 bước dưới đây, khoảng 10 phút. Dữ liệu hiện có trên GitHub giữ nguyên và sẽ được sao lưu ngay khi kết nối xong.</p>`}
+    <details class="card" ${on&&!fresh?'':'open'}><summary><b>${on?'Thiết lập lại hoặc xem lại mã':'Các bước thiết lập'}</b></summary>
+    ${fresh?'<p style="color:var(--warn)">Đã tạo khóa mới. Sao chép lại mã, dán đè trong Apps Script, triển khai phiên bản mới, rồi bấm Kết nối.</p>':''}
+    <ol class="dsteps">
+      <li><b>Sao chép mã.</b> <button data-dact="copy">Sao chép mã Apps Script</button>
+        <textarea id="dCode" readonly rows="5" style="margin-top:8px;font-family:ui-monospace,Menlo,monospace;font-size:12px">${esc(code(k))}</textarea>
+        <span class="muted" style="font-size:13px">Mã đã chứa sẵn khóa riêng của chương trình. Không chia sẻ mã này.</span></li>
+      <li><b>Tạo dự án.</b> Mở <a href="https://script.google.com/home/projects/create" target="_blank" rel="noopener">script.google.com</a> bằng tài khoản Google sẽ chứa bản sao lưu → xóa mã mẫu, dán mã vừa sao chép → bấm biểu tượng <b>Lưu</b>.</li>
+      <li><b>Cấp quyền.</b> Ở thanh công cụ, chọn hàm <code>caiDat</code> → <b>Chạy</b> → chọn tài khoản. Nếu thấy "Google chưa xác minh ứng dụng này": <b>Nâng cao</b> → <b>Đi tới … (không an toàn)</b> → <b>Cho phép</b>.</li>
+      <li><b>Triển khai.</b> <b>Triển khai → Tùy chọn triển khai mới</b> → biểu tượng bánh răng → <b>Ứng dụng web</b> → Thực thi với tư cách: <b>Tôi</b> → Người có quyền truy cập: <b>Bất kỳ ai</b> → <b>Triển khai</b> → sao chép <b>URL ứng dụng web</b> (kết thúc bằng <code>/exec</code>).</li>
+      <li><b>Kết nối.</b>
+        <div style="margin-top:8px"><label>URL ứng dụng web</label><input type="text" id="dUrl" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(gd&&gd.url||'')}"></div>
+        <div class="field-row" style="margin-top:10px"><div><label>Mật khẩu của Khôi</label><input type="password" id="dKhoi"></div>${mpwMissing?'<div><label>Mật khẩu mentor</label><input type="password" id="dMentor"></div>':'<div></div>'}</div>
+        <div class="row-actions" style="margin-top:12px"><button class="primary" data-dact="connect">Kết nối Google Drive</button>${on?'<button data-dact="newkeys">Tạo khóa mới</button>':''}</div>
+        <div id="dMsg" style="margin-top:10px;font-size:14px"></div></li>
+    </ol></details>
+    <p class="muted" style="font-size:13px">Đường link và khóa được mã hóa bằng mật khẩu trước khi lưu vào <code>config.json</code>. Khóa của Khôi chỉ cho phép sao lưu hồ sơ; chỉ mentor xem và thêm được ghi nhận. Bố Khôi muốn mở tệp đính kèm thì chia sẻ thư mục sao lưu trên Drive cho Gmail của bố (quyền Người xem).</p>`;
+  }
+  async function connect(){
+    const m=t=>{el('dMsg').innerHTML=t;},fail=t=>m(`<span style="color:var(--warn)">${t}</span>`);
+    const url=el('dUrl').value.trim().replace(/\/+$/,''),kpw=el('dKhoi').value;
+    const mpw=sessionStorage.getItem(SK('mpw'))||(el('dMentor')?el('dMentor').value:'');
+    if(!/^https:\/\/script\.google\.com\/(a\/macros\/[^/]+|macros)\/s\/[\w-]+\/exec$/.test(url))
+      return fail(/\/dev$/.test(url)?'Đây là đường link thử nghiệm (/dev). Hãy dùng <b>URL ứng dụng web</b> kết thúc bằng <b>/exec</b> hiện ra sau khi bấm Triển khai.':'URL chưa đúng. URL ứng dụng web có dạng <code>https://script.google.com/macros/s/…/exec</code>.');
+    if(!kpw)return fail('Hãy nhập mật khẩu của Khôi.');
+    if((await Auth.sha(kpw))!==Auth.ROLE_SHA.khoi)return fail('Mật khẩu của Khôi chưa đúng.');
+    if(!mpw||(await Auth.sha(mpw))!==Auth.ROLE_SHA.mentor)return fail('Mật khẩu mentor chưa đúng.');
+    if(!(gh.owner&&gh.repo&&gh.token))return fail('Cần kết nối GitHub trước (phần phía trên).');
+    const k=pendingKeys();
+    try{
+      m('Đang kiểm tra Apps Script…');
+      const p=await call('ping',{},{},{url,key:k.mentor});
+      await call('ping',{},{},{url,key:k.khoi});
+      if(p.folderUrl)localStorage.setItem(FOLDER,p.folderUrl);
+      m('Đang lưu cấu hình (mã hóa bằng mật khẩu)…');
+      const H={'Authorization':'Bearer '+gh.token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
+      const A=x=>`https://api.github.com/repos/${encodeURIComponent(gh.owner)}/${encodeURIComponent(gh.repo)}${x}`;
+      const ri=await fetch(A(''),{headers:H});if(!ri.ok)return fail('Không đọc được thông tin kho GitHub ('+ri.status+').');
+      const main=(await ri.json()).default_branch||'main';
+      const cur=await fetch(A('/contents/config.json?ref='+encodeURIComponent(main)+'&t='+Date.now()),{headers:H,cache:'no-store'});
+      if(!cur.ok)return fail('Không đọc được config.json trên GitHub ('+cur.status+'). Hãy kết nối GitHub trước.');
+      const cj=await cur.json();const cfg=JSON.parse(b64dec(cj.content));
+      cfg.gd={khoi:await Auth.enc(kpw,JSON.stringify({url,key:k.khoi})),mentor:await Auth.enc(mpw,JSON.stringify({url,key:k.mentor,khoiKey:k.khoi}))};
+      const w=await fetch(A('/contents/config.json'),{method:'PUT',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify({message:'Bật sao lưu Google Drive',branch:main,sha:cj.sha,content:b64enc(JSON.stringify(cfg,null,2))})});
+      if(!w.ok)return fail('Không ghi được config.json ('+w.status+').');
+      localStorage.setItem(Auth.CONFIG_CACHE,JSON.stringify(cfg));localStorage.removeItem(PEND);
+      const s=Auth.readSession()||{};s.gd={url,key:k.mentor,khoiKey:k.khoi};Auth.saveSession(s,!!localStorage.getItem(Auth.SESSION_KEY));set(s.gd);
+      m('Đang tạo bản sao lưu đầu tiên từ dữ liệu hiện có…');
+      const ok=await seed();
+      route_keep();
+      el('dMsg2').innerHTML=`<span style="color:var(--accent)"><b>Đã bật sao lưu Google Drive.</b> ${ok?'Đã sao lưu toàn bộ dữ liệu hiện có.':'Chưa có hồ sơ của Khôi; bản đầu tiên sẽ được tạo khi Khôi cập nhật.'} Đợi 1–2 phút để GitHub Pages cập nhật; lần tới Khôi mở app có thể được hỏi lại mật khẩu một lần.</span>`;
+    }catch(e){fail(esc(e.message));}
+  }
+  function newKeys(){if(!confirm('Tạo khóa mới? Sau đó cần dán lại mã mới vào Apps Script và triển khai phiên bản mới.'))return;localStorage.setItem(PEND,JSON.stringify({khoi:'k'+rnd(18),mentor:'m'+rnd(18)}));route_keep();}
+  async function copyCode(){const t=el('dCode');try{await navigator.clipboard.writeText(t.value);toast('Đã sao chép mã Apps Script');}catch(e){t.focus();t.select();try{document.execCommand('copy');toast('Đã sao chép mã Apps Script');}catch(x){toast('Hãy nhấn Ctrl+C (hoặc Cmd+C) để sao chép');}}}
+  async function mentorAction(kind){
+    const box=el('dMsg2');const say=(t,bad)=>{if(box)box.innerHTML=`<span style="color:var(--${bad?'warn':'accent'})">${t}</span>`;};
+    try{
+      if(kind==='test'){const p=await call('ping');if(p.folderUrl)localStorage.setItem(FOLDER,p.folderUrl);say('Kết nối tốt.');}
+      else{say('Đang sao lưu…');const ok=await seed();say(ok?'Đã sao lưu bản mới nhất lên Google Drive.':'Chưa có hồ sơ của Khôi trên GitHub.');}
+    }catch(e){say(esc(e.message),true);}
+  }
+
+  /* ----- Ghi nhận của mentor ----- */
+  function notesView(){
+    if(!full())return `<h1>Ghi nhận của mentor</h1><div class="card">Cần bật <b>Sao lưu Google Drive</b> trước: vào mục <a href="#/setup">Kết nối</a>, phần Sao lưu Google Drive. Nếu đã bật trên máy khác, hãy đăng xuất và đăng nhập lại.</div>`;
+    setTimeout(()=>{paintFiles();if(notes===null&&!notesLoading)loadNotes();else paintNotes();},0);
+    let d={};try{d=JSON.parse(sessionStorage.getItem(DRAFT))||{};}catch(e){}
+    const folder=localStorage.getItem(FOLDER);
+    return `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><h1 style="margin-right:auto">Ghi nhận của mentor</h1>${folder?`<a class="btn" href="${esc(folder)}" target="_blank" rel="noopener">Mở thư mục Drive</a>`:''}<button data-dact="reload">Làm mới</button></div>
+    <p class="lead">Lưu quan sát, ảnh và tài liệu PDF về quá trình thực tập. Nội dung lưu riêng tư trên Google Drive của mentor và được đưa vào file backup data; Khôi không xem được.</p>
+    <div class="card">
+      <div class="field-row"><div><label>Ngày</label><input type="date" id="nDate" value="${esc(d.date||todayStr())}"></div><div><label>Người ghi</label><input type="text" id="nAuthor" value="${esc(d.author||localStorage.getItem(AUTHOR)||'')}" placeholder="Tên người ghi"></div></div>
+      <div class="field-row" style="margin-top:10px"><div><label>Loại ghi nhận</label><select id="nType">${TYPES.map(t=>`<option ${t===d.type?'selected':''}>${esc(t)}</option>`).join('')}</select></div><div><label>Gắn với</label><select id="nTopic">${topics().map(t=>`<option ${t===d.topic?'selected':''}>${esc(t)}</option>`).join('')}</select></div></div>
+      <div style="margin-top:10px"><label>Nội dung</label><textarea id="nText" rows="5" placeholder="Điều mentor quan sát, nhận xét, việc cần theo dõi…">${esc(d.text||'')}</textarea></div>
+      <div style="margin-top:10px"><label>Tệp đính kèm: ảnh, PDF (tối đa 15MB mỗi tệp; ảnh lớn được tự thu nhỏ)</label><input type="file" id="nFiles" multiple accept="image/*,application/pdf"><div id="nFileList" class="nfiles"></div></div>
+      <div class="row-actions" style="margin-top:12px"><button class="primary" data-dact="save" id="nSave">Lưu ghi nhận</button></div>
+      <div id="nMsg" style="margin-top:8px;font-size:14px"></div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:22px"><h2 style="margin:0 auto 0 0" id="nCount">Các ghi nhận</h2><input type="text" id="nSearch" placeholder="Tìm trong ghi nhận…" value="${esc(q)}" style="max-width:260px"></div>
+    <div id="nList"></div>`;
+  }
+  function msg(t,bad){const b=el('nMsg');if(b)b.innerHTML=`<span style="color:var(--${bad?'warn':'accent'})">${esc(t)}</span>`;}
+  function paintFiles(){const b=el('nFileList');if(!b)return;b.innerHTML=files.map((f,i)=>`<span class="nfile">${esc(f.name)} · ${fmtSize(f.size)} <button class="linkbtn" data-dnrm="${i}">Bỏ</button></span>`).join('');}
+  function saveDraft(){const v=id=>el(id)?el(id).value:'';try{sessionStorage.setItem(DRAFT,JSON.stringify({date:v('nDate'),author:v('nAuthor'),type:v('nType'),topic:v('nTopic'),text:v('nText')}));}catch(e){}}
+  const okThumb=t=>/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(t||'');
+  const okUrl=u=>/^https:\/\//.test(u||'');
+  function paintNotes(){
+    const box=el('nList');if(!box)return;
+    if(notesLoading&&!notes){box.innerHTML='<p class="muted">Đang tải từ Google Drive…</p>';return;}
+    if(notesErr){box.innerHTML=`<div class="merr">${esc(notesErr)}</div>`;return;}
+    const all=(notes||[]).slice().sort((a,b)=>String(b.date+b.createdAt).localeCompare(String(a.date+a.createdAt)));
+    const ql=q.trim().toLowerCase();
+    const list=all.filter(n=>!ql||[n.text,n.type,n.topic,n.author,n.date,(n.files||[]).map(f=>f.name).join(' ')].join(' ').toLowerCase().includes(ql));
+    el('nCount').textContent=`Các ghi nhận (${all.length})`;
+    if(!list.length){box.innerHTML=`<p class="muted">${all.length?'Không có ghi nhận phù hợp.':'Chưa có ghi nhận nào.'}</p>`;return;}
+    box.innerHTML=list.map(n=>`<div class="note"><div class="note-head"><b>${esc(n.date)}</b>${n.type?`<span class="chip">${esc(n.type)}</span>`:''}${n.topic&&n.topic!=='Chung'?`<span class="chip">${esc(n.topic)}</span>`:''}
+      <span class="muted" style="font-size:13px;margin-left:auto">${n.author?esc(n.author)+' · ':''}${n.createdAt?fmtDateTime(n.createdAt):''}</span><button class="linkbtn" data-dnote="${esc(n.id)}" style="color:var(--warn)">Xóa</button></div>
+      ${n.text?`<div class="note-text">${esc(n.text)}</div>`:''}
+      ${(n.files||[]).length?`<div class="nthumbs">${n.files.map(f=>okThumb(f.thumb)&&okUrl(f.url)?`<a href="${esc(f.url)}" target="_blank" rel="noopener" title="${esc(f.name)}"><img src="${f.thumb}" alt="${esc(f.name)}"></a>`:`<a class="nfile" href="${okUrl(f.url)?esc(f.url):'#'}" target="_blank" rel="noopener"><b>${/pdf/i.test(f.mimeType||f.name||'')?'PDF':'Tệp'}</b> ${esc(f.name)} · ${fmtSize(f.size)}</a>`).join('')}</div>`:''}</div>`).join('');
+  }
+  async function loadNotes(){notesLoading=true;notesErr='';paintNotes();try{const j=await call('listActivities');notes=j.items||[];if(j.folderUrl)localStorage.setItem(FOLDER,j.folderUrl);}catch(e){notesErr=e.message;}notesLoading=false;paintNotes();}
+  function loadImg(file){return new Promise(res=>{const u=URL.createObjectURL(file);const i=new Image();i.onload=()=>{res(i.naturalWidth?i:null);setTimeout(()=>URL.revokeObjectURL(u),1000);};i.onerror=()=>{URL.revokeObjectURL(u);res(null);};i.src=u;});}
+  function draw(img,max){const s=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(img.naturalWidth*s));c.height=Math.max(1,Math.round(img.naturalHeight*s));const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(img,0,0,c.width,c.height);return c;}
+  function toJpeg(img,max,qual){return new Promise(res=>draw(img,max).toBlob(b=>res(b),'image/jpeg',qual));}
+  function toB64(blob){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]||'');r.onerror=()=>rej(new Error('Không đọc được tệp'));r.readAsDataURL(blob);});}
+  async function prep(file){
+    if(file.size>15*1024*1024)throw new Error(`Tệp "${file.name}" lớn hơn 15MB.`);
+    let blob=file,name=file.name,type=file.type||'application/octet-stream',thumb='';
+    if(/^image\//.test(type)&&type!=='image/gif'){
+      const img=await loadImg(file);
+      if(img){
+        if(file.size>1.5*1024*1024||Math.max(img.naturalWidth,img.naturalHeight)>2000){const j=await toJpeg(img,2000,0.85);if(j){blob=j;name=name.replace(/\.[^.]+$/,'')+'.jpg';type='image/jpeg';}}
+        thumb=draw(img,240).toDataURL('image/jpeg',0.7);
+      }
+    }
+    return {size:blob.size,out:{name,mimeType:type,data:await toB64(blob),thumb}};
+  }
+  async function save(){
+    if(saving)return;
+    const text=el('nText').value.trim();
+    if(!text&&!files.length)return msg('Hãy nhập nội dung hoặc chọn tệp.',true);
+    saving=true;const b=el('nSave');b.disabled=true;
+    try{
+      const out=[];let total=0;
+      for(let i=0;i<files.length;i++){b.textContent=`Đang xử lý tệp ${i+1}/${files.length}…`;const p=await prep(files[i]);total+=p.size;out.push(p.out);}
+      if(total>30*1024*1024)throw new Error('Tổng dung lượng tệp vượt 30MB. Hãy chia thành nhiều lần lưu.');
+      b.textContent='Đang lưu lên Google Drive…';
+      const author=el('nAuthor').value.trim();try{localStorage.setItem(AUTHOR,author);}catch(e){}
+      const j=await call('addActivity',{entry:{date:el('nDate').value||todayStr(),type:el('nType').value,topic:el('nTopic').value,author,text},files:out});
+      notes=[j.item,...(notes||[])];files=[];
+      el('nText').value='';saveDraft();paintFiles();paintNotes();
+      msg('Đã lưu ghi nhận và cập nhật file backup data trên Google Drive.');
+    }catch(e){msg(e.message,true);}
+    finally{saving=false;b.disabled=false;b.textContent='Lưu ghi nhận';}
+  }
+  async function del(id){
+    if(!confirm('Xóa ghi nhận này? Tệp đính kèm sẽ được chuyển vào Thùng rác của Google Drive.'))return;
+    try{await call('deleteActivity',{id});notes=(notes||[]).filter(n=>n.id!==id);paintNotes();toast('Đã xóa ghi nhận');}catch(e){toast(e.message);}
+  }
+  async function backupNow(){const ok=await backup(buildMarkdown(),{force:true});toast(ok?'Đã sao lưu lên Google Drive':'Chưa sao lưu được: '+lastErr);route_keep();}
+
+  view.addEventListener('click',e=>{
+    const t=e.target.closest('[data-dact],[data-dnote],[data-dnrm]');if(!t)return;
+    if(t.dataset.dnote){del(t.dataset.dnote);return;}
+    if(t.dataset.dnrm!==undefined){files.splice(+t.dataset.dnrm,1);paintFiles();return;}
+    const a=t.dataset.dact;
+    if(a==='copy')copyCode();else if(a==='connect')connect();else if(a==='newkeys')newKeys();
+    else if(a==='seed'||a==='test')mentorAction(a);else if(a==='save')save();
+    else if(a==='reload'){notes=null;loadNotes();}else if(a==='backup')backupNow();
+  });
+  view.addEventListener('change',e=>{if(e.target.id==='nFiles'){files.push(...e.target.files);e.target.value='';paintFiles();}});
+  view.addEventListener('input',e=>{const id=e.target.id;if(id==='nSearch'){q=e.target.value;paintNotes();}else if(['nText','nDate','nAuthor','nType','nTopic'].includes(id))saveDraft();});
+  return {set,ready,schedule,flush,khoiStatus,setupHtml,notesView};
+})();
 
 Auth.start();
 </script>
