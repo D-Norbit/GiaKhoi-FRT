@@ -1,6 +1,6 @@
 # Hồ sơ thực tập FRT – Gia Khôi
 
-- Cập nhật lần cuối: 24/10/2026 09:10
+- Cập nhật lần cuối: 24/10/2026 09:11
 - Ngày bắt đầu thực tập: 2026-10-21 (đang ở tuần 1/12)
 - Case 1 – FPT Shop: 0/22 câu hỏi · 0/12 thuật ngữ
 - Case 2 – Long Châu: 0/18 câu hỏi · 0/8 thuật ngữ
@@ -33,7 +33,8 @@ _Thực tiễn tại nơi thực tập_
 **Tóm tắt tài liệu đọc thêm**
 
 rào cản : customer barrier, worries that cause customers to hesitate when thinking about making a purchase
-phá băng: breaking an invisible social barrier between you and the customer to make them feel more comfortable
+phá băng: breaking an invisible social barrier between you and the customer to make them feel more comfortable 
+điểm chung: finding something you and the customer have in common in order to speak to them as a "friend" when making a sale
 
 **1. [Q] Ba nhóm khách phổ biến nhất ở shop em là ai? Mỗi nhóm đến để giải quyết "việc" gì?**
 
@@ -543,4 +544,4 @@ _(chưa trả lời)_
 
 _File được tạo tự động từ Sổ thực tập FRT. Đoạn dữ liệu ẩn bên dưới dùng để khôi phục, vui lòng không sửa._
 
-<!-- KHOI-DATA eyJtZXRhIjp7InN0dWRlbnQiOiJHaWEgS2jDtGkiLCJzdGFydERhdGUiOiIyMDI2LTEwLTIxIiwidXBkYXRlZEF0IjoiMjAyNi0xMC0yNFQwMjoxMDowNC44MTZaIn0sImFuc3dlcnMiOnsiYzEuYjEucmVhZCI6InLDoG8gY+G6o24gOiBjdXN0b21lciBiYXJyaWVyLCB3b3JyaWVzIHRoYXQgY2F1c2UgY3VzdG9tZXJzIHRvIGhlc2l0YXRlIHdoZW4gdGhpbmtpbmcgYWJvdXQgbWFraW5nIGEgcHVyY2hhc2VcbnBow6EgYsSDbmc6IGJyZWFraW5nIGFuIGludmlzaWJsZSBzb2NpYWwgYmFycmllciBiZXR3ZWVuIHlvdSBhbmQgdGhlIGN1c3RvbWVyIHRvIG1ha2UgdGhlbSBmZWVsIG1vcmUgY29tZm9ydGFibGUgXG4ifSwidGFibGVzIjp7ImMxLmIzLmNoYW5uZWwiOlt7fSx7fSx7fSx7fSx7fSx7fSx7fV0sImMxLnNlbGYuc3RyZW5ndGhzIjpbe30se30se31dLCJjMS5zZWxmLmxlYXJuZWQiOlt7fSx7fSx7fV0sImMxLnNlbGYubG9zdCI6W3t9LHt9LHt9XSwiYzEudGVybXMiOlt7fV0sImMxLmxvZyI6W3t9XSwic3VtLm1hdHJpeCI6W3t9LHt9LHt9LHt9XX0sImNoZWNrcyI6e30sIndlZWtseSI6e30sImRhaWx5IjpbXX0= -->
+<!-- KHOI-DATA eyJtZXRhIjp7InN0dWRlbnQiOiJHaWEgS2jDtGkiLCJzdGFydERhdGUiOiIyMDI2LTEwLTIxIiwidXBkYXRlZEF0IjoiMjAyNi0xMC0yNFQwMjoxMToyNi4xMjdaIn0sImFuc3dlcnMiOnsiYzEuYjEucmVhZCI6InLDoG8gY+G6o24gOiBjdXN0b21lciBiYXJyaWVyLCB3b3JyaWVzIHRoYXQgY2F1c2UgY3VzdG9tZXJzIHRvIGhlc2l0YXRlIHdoZW4gdGhpbmtpbmcgYWJvdXQgbWFraW5nIGEgcHVyY2hhc2VcbnBow6EgYsSDbmc6IGJyZWFraW5nIGFuIGludmlzaWJsZSBzb2NpYWwgYmFycmllciBiZXR3ZWVuIHlvdSBhbmQgdGhlIGN1c3RvbWVyIHRvIG1ha2UgdGhlbSBmZWVsIG1vcmUgY29tZm9ydGFibGUgXG7EkWnhu4NtIGNodW5nOiBmaW5kaW5nIHNvbWV0aGluZyB5b3UgYW5kIHRoZSBjdXN0b21lciBoYXZlIGluIGNvbW1vbiBpbiBvcmRlciB0byBzcGVhayB0byB0aGVtIGFzIGEgXCJmcmllbmRcIiB3aGVuIG1ha2luZyBhIHNhbGVcbiJ9LCJ0YWJsZXMiOnsiYzEuYjMuY2hhbm5lbCI6W3t9LHt9LHt9LHt9LHt9LHt9LHt9XSwiYzEuc2VsZi5zdHJlbmd0aHMiOlt7fSx7fSx7fV0sImMxLnNlbGYubGVhcm5lZCI6W3t9LHt9LHt9XSwiYzEuc2VsZi5sb3N0Ijpbe30se30se31dLCJjMS50ZXJtcyI6W3t9XSwiYzEubG9nIjpbe31dLCJzdW0ubWF0cml4Ijpbe30se30se30se31dfSwiY2hlY2tzIjp7fSwid2Vla2x5Ijp7fSwiZGFpbHkiOltdfQ== -->
