@@ -1,6 +1,6 @@
 # Hồ sơ thực tập FRT – Gia Khôi
 
-- Cập nhật lần cuối: 21/10/2026 11:25
+- Cập nhật lần cuối: 24/10/2026 09:09
 - Ngày bắt đầu thực tập: 2026-10-21 (đang ở tuần 1/12)
 - Case 1 – FPT Shop: 0/22 câu hỏi · 0/12 thuật ngữ
 - Case 2 – Long Châu: 0/18 câu hỏi · 0/8 thuật ngữ
@@ -32,7 +32,7 @@ _Thực tiễn tại nơi thực tập_
 
 **Tóm tắt tài liệu đọc thêm**
 
-_(chưa trả lời)_
+rào cản : customer barrier, worries that cause customers to hesitate when thinking about making a purchase
 
 **1. [Q] Ba nhóm khách phổ biến nhất ở shop em là ai? Mỗi nhóm đến để giải quyết "việc" gì?**
 
@@ -480,7 +480,7 @@ _(chưa có)_
 - [ ] Ma trận đúc kết: 0/4 dòng có quy luật
 - [ ] Bài viết đúc kết cuối cùng: 0/4 câu
 - [ ] Slide trình bày (tối đa 10 slide, tập trung vào quy luật và đề xuất)
-- [ ] 4 bản tóm tắt tài liệu đọc thêm: 0/4
+- [ ] 4 bản tóm tắt tài liệu đọc thêm: 1/4
 
 ### Ma trận đúc kết 3 case
 
@@ -542,4 +542,4 @@ _(chưa trả lời)_
 
 _File được tạo tự động từ Sổ thực tập FRT. Đoạn dữ liệu ẩn bên dưới dùng để khôi phục, vui lòng không sửa._
 
-<!-- KHOI-DATA eyJtZXRhIjp7InN0dWRlbnQiOiJHaWEgS2jDtGkiLCJzdGFydERhdGUiOiIyMDI2LTEwLTIxIiwidXBkYXRlZEF0IjoiMjAyNi0xMC0yMVQwNDoyNTo1Mi45NDFaIn0sImFuc3dlcnMiOnsiYzEuYjEucmVhZCI6IiJ9LCJ0YWJsZXMiOnsiYzEuYjMuY2hhbm5lbCI6W3t9LHt9LHt9LHt9LHt9LHt9LHt9XSwiYzEuc2VsZi5zdHJlbmd0aHMiOlt7fSx7fSx7fV0sImMxLnNlbGYubGVhcm5lZCI6W3t9LHt9LHt9XSwiYzEuc2VsZi5sb3N0Ijpbe30se30se31dLCJjMS50ZXJtcyI6W3t9XSwiYzEubG9nIjpbe31dLCJzdW0ubWF0cml4Ijpbe30se30se30se31dfSwiY2hlY2tzIjp7fSwid2Vla2x5Ijp7fSwiZGFpbHkiOltdfQ== -->
+<!-- KHOI-DATA eyJtZXRhIjp7InN0dWRlbnQiOiJHaWEgS2jDtGkiLCJzdGFydERhdGUiOiIyMDI2LTEwLTIxIiwidXBkYXRlZEF0IjoiMjAyNi0xMC0yNFQwMjowOToxMC4zMTNaIn0sImFuc3dlcnMiOnsiYzEuYjEucmVhZCI6InLDoG8gY+G6o24gOiBjdXN0b21lciBiYXJyaWVyLCB3b3JyaWVzIHRoYXQgY2F1c2UgY3VzdG9tZXJzIHRvIGhlc2l0YXRlIHdoZW4gdGhpbmtpbmcgYWJvdXQgbWFraW5nIGEgcHVyY2hhc2VcbiJ9LCJ0YWJsZXMiOnsiYzEuYjMuY2hhbm5lbCI6W3t9LHt9LHt9LHt9LHt9LHt9LHt9XSwiYzEuc2VsZi5zdHJlbmd0aHMiOlt7fSx7fSx7fV0sImMxLnNlbGYubGVhcm5lZCI6W3t9LHt9LHt9XSwiYzEuc2VsZi5sb3N0Ijpbe30se30se31dLCJjMS50ZXJtcyI6W3t9XSwiYzEubG9nIjpbe31dLCJzdW0ubWF0cml4Ijpbe30se30se30se31dfSwiY2hlY2tzIjp7fSwid2Vla2x5Ijp7fSwiZGFpbHkiOltdfQ== -->
