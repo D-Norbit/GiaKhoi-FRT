@@ -1,6 +1,6 @@
 # Hồ sơ thực tập FRT – Gia Khôi
 
-- Cập nhật lần cuối: 24/10/2026 09:13
+- Cập nhật lần cuối: 24/10/2026 09:16
 - Ngày bắt đầu thực tập: 2026-10-21 (đang ở tuần 1/12)
 - Case 1 – FPT Shop: 0/22 câu hỏi · 0/12 thuật ngữ
 - Case 2 – Long Châu: 0/18 câu hỏi · 0/8 thuật ngữ
@@ -22,7 +22,31 @@ _(chưa có)_
 
 ## 2. Nhật ký tuần
 
-_(chưa có)_
+### Tuần 1
+
+**Kế hoạch tuần này là gì?**
+
+Kế hoạch tuần này là gặp anh Tùng vào đầu tuần, dành 2 ngày tham gia đào tạo bán hàng tại trung tâm, sau đó dành thời gian còn lại trong tuần để thực hiện = bán hàng nhân dịp ra mắt bộ đôi iPhone.
+
+**Thực tế diễn ra thế nào?**
+
+_(trống)_
+
+**Vì sao khác với kế hoạch?**
+
+_(trống)_
+
+**Tuần sau em làm gì khác?**
+
+_(trống)_
+
+**Tuần này em rút ra quy luật gì?**
+
+_(trống)_
+
+**Điều gì khiến em thấy có ý nghĩa?**
+
+_(trống)_
 
 ## 3. Case 1 – FPT Shop
 
@@ -546,4 +570,4 @@ _(chưa trả lời)_
 
 _File được tạo tự động từ Sổ thực tập FRT. Đoạn dữ liệu ẩn bên dưới dùng để khôi phục, vui lòng không sửa._
 
-<!-- KHOI-DATA eyJtZXRhIjp7InN0dWRlbnQiOiJHaWEgS2jDtGkiLCJzdGFydERhdGUiOiIyMDI2LTEwLTIxIiwidXBkYXRlZEF0IjoiMjAyNi0xMC0yNFQwMjoxMzoyMC4zMjZaIn0sImFuc3dlcnMiOnsiYzEuYjEucmVhZCI6InLDoG8gY+G6o24gOiBjdXN0b21lciBiYXJyaWVyLCB3b3JyaWVzIHRoYXQgY2F1c2UgY3VzdG9tZXJzIHRvIGhlc2l0YXRlIHdoZW4gdGhpbmtpbmcgYWJvdXQgbWFraW5nIGEgcHVyY2hhc2VcbnBow6EgYsSDbmc6IGJyZWFraW5nIGFuIGludmlzaWJsZSBzb2NpYWwgYmFycmllciBiZXR3ZWVuIHlvdSBhbmQgdGhlIGN1c3RvbWVyIHRvIG1ha2UgdGhlbSBmZWVsIG1vcmUgY29tZm9ydGFibGUgXG7EkWnhu4NtIGNodW5nOiBmaW5kaW5nIHNvbWV0aGluZyB5b3UgYW5kIHRoZSBjdXN0b21lciBoYXZlIGluIGNvbW1vbiBpbiBvcmRlciB0byBzcGVhayB0byB0aGVtIGFzIGEgXCJmcmllbmRcIiB3aGVuIG1ha2luZyBhIHNhbGVcblxuRm9yIGV4YW1wbGUgSSB3YXMgc2VsbGluZyB0byAyIGpld2lzaCBwZW9wbGUgYW5kIGtub3cgYSBsb3QgYWJvdXQgamV3aXNoIGN1bHR1cmUgc28gd2FzIGFibGUgZmluZCDEkWnhu4NtIGNodW5nIHRvIHNwZWFrIHRvIHRoZW0gYWJvdXQgYXMgYSBcImZyaWVuZFwiIGFuZCB0aGVuIHdhcyBhYmxlIHRvIHNlbGwgMSBBaXJQb2RzIGFuZCAxIGVhcnBvZC4gIn0sInRhYmxlcyI6eyJjMS5iMy5jaGFubmVsIjpbe30se30se30se30se30se30se31dLCJjMS5zZWxmLnN0cmVuZ3RocyI6W3t9LHt9LHt9XSwiYzEuc2VsZi5sZWFybmVkIjpbe30se30se31dLCJjMS5zZWxmLmxvc3QiOlt7fSx7fSx7fV0sImMxLnRlcm1zIjpbe31dLCJjMS5sb2ciOlt7fV0sInN1bS5tYXRyaXgiOlt7fSx7fSx7fSx7fV19LCJjaGVja3MiOnt9LCJ3ZWVrbHkiOnt9LCJkYWlseSI6W119 -->
+<!-- KHOI-DATA eyJtZXRhIjp7InN0dWRlbnQiOiJHaWEgS2jDtGkiLCJzdGFydERhdGUiOiIyMDI2LTEwLTIxIiwidXBkYXRlZEF0IjoiMjAyNi0xMC0yNFQwMjoxNjo0MC4zNjBaIn0sImFuc3dlcnMiOnsiYzEuYjEucmVhZCI6InLDoG8gY+G6o24gOiBjdXN0b21lciBiYXJyaWVyLCB3b3JyaWVzIHRoYXQgY2F1c2UgY3VzdG9tZXJzIHRvIGhlc2l0YXRlIHdoZW4gdGhpbmtpbmcgYWJvdXQgbWFraW5nIGEgcHVyY2hhc2VcbnBow6EgYsSDbmc6IGJyZWFraW5nIGFuIGludmlzaWJsZSBzb2NpYWwgYmFycmllciBiZXR3ZWVuIHlvdSBhbmQgdGhlIGN1c3RvbWVyIHRvIG1ha2UgdGhlbSBmZWVsIG1vcmUgY29tZm9ydGFibGUgXG7EkWnhu4NtIGNodW5nOiBmaW5kaW5nIHNvbWV0aGluZyB5b3UgYW5kIHRoZSBjdXN0b21lciBoYXZlIGluIGNvbW1vbiBpbiBvcmRlciB0byBzcGVhayB0byB0aGVtIGFzIGEgXCJmcmllbmRcIiB3aGVuIG1ha2luZyBhIHNhbGVcblxuRm9yIGV4YW1wbGUgSSB3YXMgc2VsbGluZyB0byAyIGpld2lzaCBwZW9wbGUgYW5kIGtub3cgYSBsb3QgYWJvdXQgamV3aXNoIGN1bHR1cmUgc28gd2FzIGFibGUgZmluZCDEkWnhu4NtIGNodW5nIHRvIHNwZWFrIHRvIHRoZW0gYWJvdXQgYXMgYSBcImZyaWVuZFwiIGFuZCB0aGVuIHdhcyBhYmxlIHRvIHNlbGwgMSBBaXJQb2RzIGFuZCAxIGVhcnBvZC4gIn0sInRhYmxlcyI6eyJjMS5iMy5jaGFubmVsIjpbe30se30se30se30se30se30se31dLCJjMS5zZWxmLnN0cmVuZ3RocyI6W3t9LHt9LHt9XSwiYzEuc2VsZi5sZWFybmVkIjpbe30se30se31dLCJjMS5zZWxmLmxvc3QiOlt7fSx7fSx7fV0sImMxLnRlcm1zIjpbe31dLCJjMS5sb2ciOlt7fV0sInN1bS5tYXRyaXgiOlt7fSx7fSx7fSx7fV19LCJjaGVja3MiOnt9LCJ3ZWVrbHkiOnsiMSI6eyJwbGFuIjoiS+G6vyBob+G6oWNoIHR14bqnbiBuw6B5IGzDoCBn4bq3cCBhbmggVMO5bmcgdsOgbyDEkeG6p3UgdHXhuqduLCBkw6BuaCAyIG5nw6B5IHRoYW0gZ2lhIMSRw6BvIHThuqFvIGLDoW4gaMOgbmcgdOG6oWkgdHJ1bmcgdMOibSwgc2F1IMSRw7MgZMOgbmggdGjhu51pIGdpYW4gY8OybiBs4bqhaSB0cm9uZyB0deG6p24gxJHhu4MgdGjhu7FjIGhp4buHbiA9IGLDoW4gaMOgbmcgbmjDom4gZOG7i3AgcmEgbeG6r3QgYuG7mSDEkcO0aSBpUGhvbmUuIn19LCJkYWlseSI6W119 -->
